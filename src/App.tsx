@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import WebApp from '@twa-dev/sdk'
 import './App.css';
 import Hamster from './icons/Hamster';
 import { binanceLogo, dailyCipher, dailyCombo, dailyReward, dollarCoin, hamsterCoin, mainCharacter } from './images';
@@ -22,6 +23,7 @@ const App: React.FC = () => {
     "Lord"       // From 1,000,000,000 coins to ∞
   ];
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const levelMinPoints = [
     0,        // Bronze
     5000,     // Silver
@@ -139,7 +141,7 @@ const App: React.FC = () => {
               <Hamster size={24} className="text-[#d4d4d4]" />
             </div>
             <div>
-              <p className="text-sm">Nikandr (CEO)</p>
+              <p className="text-sm">Player Name (CEO)</p>
             </div>
           </div>
           <div className="flex items-center justify-between space-x-4 mt-1">
@@ -159,7 +161,7 @@ const App: React.FC = () => {
             <div className="flex items-center w-2/3 border-2 border-[#43433b] rounded-full px-4 py-[2px] bg-[#43433b]/[0.6] max-w-64">
               <img src={binanceLogo} alt="Exchange" className="w-8 h-8" />
               <div className="h-[32px] w-[2px] bg-[#43433b] mx-2"></div>
-              <div className="flex-1 text-center">
+              <div className="flex-1 text-center" onClick={() => WebApp.showAlert(JSON.stringify(WebApp.initData))}>
                 <p className="text-xs text-[#85827d] font-medium">Profit per hour</p>
                 <div className="flex items-center justify-center space-x-1">
                   <img src={dollarCoin} alt="Dollar Coin" className="w-[18px] h-[18px]" />
@@ -205,11 +207,13 @@ const App: React.FC = () => {
 
             <div className="px-4 mt-4 flex justify-center">
               <div
-                className="w-80 h-80 p-4 rounded-full circle-outer"
+                className="w-60 h-60 p-4 rounded-full circle-outer"
                 onClick={handleCardClick}
               >
                 <div className="w-full h-full rounded-full circle-inner">
                   <img src={mainCharacter} alt="Main Character" className="w-full h-full" />
+                  {/* <img src="https://drive.google.com/thumbnail?id=188oXT8FnUj1byookWrvnw2_W0uswTT8d&sz=w1000" alt="None"/> */}
+                  {/* <img src="https://drive.google.com/file/d/188oXT8FnUj1byookWrvnw2_W0uswTT8d/view"/> */}
                 </div>
               </div>
             </div>
@@ -244,7 +248,7 @@ const App: React.FC = () => {
       {clicks.map((click) => (
         <div
           key={click.id}
-          className="absolute text-5xl font-bold opacity-0 text-white pointer-events-none"
+          className="absolute text-3xl font-bold opacity-0 text-white pointer-events-none"
           style={{
             top: `${click.y - 42}px`,
             left: `${click.x - 28}px`,
@@ -252,7 +256,7 @@ const App: React.FC = () => {
           }}
           onAnimationEnd={() => handleAnimationEnd(click.id)}
         >
-          {pointsToAdd}
+          +{pointsToAdd}
         </div>
       ))}
     </div>
