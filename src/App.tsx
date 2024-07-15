@@ -140,7 +140,7 @@ const App: React.FC = () => {
             <div className="p-1 rounded-lg bg-[#1d2025]">
               <Hamster size={24} className="text-[#d4d4d4]" />
             </div>
-            <div onClick={() => WebApp.showAlert(`Telegram ID: ${WebApp?.initDataUnsafe?.user?.id}, Username: ${WebApp?.initDataUnsafe?.user?.username}`)}>
+            <div onClick={() => WebApp.showAlert(`Telegram ID: ${WebApp?.initDataUnsafe?.user?.id}, Username: ${WebApp?.initDataUnsafe?.user?.username}, First Name: ${WebApp?.initDataUnsafe?.user?.first_name}, Last Name: ${WebApp?.initDataUnsafe?.user?.last_name}`)}>
               <p className="text-sm">{WebApp?.initDataUnsafe?.user?.username} (CEO)</p>
             </div>
           </div>
