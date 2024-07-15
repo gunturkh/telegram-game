@@ -141,7 +141,7 @@ const App: React.FC = () => {
               <Hamster size={24} className="text-[#d4d4d4]" />
             </div>
             <div onClick={() => WebApp.showAlert(`Telegram ID: ${WebApp?.initDataUnsafe?.user?.id}, Username: ${WebApp?.initDataUnsafe?.user?.username}`)}>
-              <p className="text-sm">Player Name (CEO)</p>
+              <p className="text-sm">{WebApp?.initDataUnsafe?.user?.username} (CEO)</p>
             </div>
           </div>
           <div className="flex items-center justify-between space-x-4 mt-1">
