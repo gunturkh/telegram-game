@@ -140,7 +140,7 @@ const App: React.FC = () => {
             <div className="p-1 rounded-lg bg-[#1d2025]">
               <Hamster size={24} className="text-[#d4d4d4]" />
             </div>
-            <div onClick={() => WebApp.showAlert(`Telegram ID: ${ WebApp?.initDataUnsafe?.user?.id }`)}>
+            <div onClick={() => WebApp.showAlert(`Telegram ID: ${WebApp?.initDataUnsafe?.user?.id}, Username: ${WebApp?.initDataUnsafe?.user?.username}`)}>
               <p className="text-sm">Player Name (CEO)</p>
             </div>
           </div>
@@ -161,8 +161,6 @@ const App: React.FC = () => {
             <div className="flex items-center w-2/3 border-2 border-[#43433b] rounded-full px-4 py-[2px] bg-[#43433b]/[0.6] max-w-64">
               <img src={binanceLogo} alt="Exchange" className="w-8 h-8" />
               <div className="h-[32px] w-[2px] bg-[#43433b] mx-2"></div>
-              {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-              {/* @ts-ignore */}
               <div className="flex-1 text-center">
                 <p className="text-xs text-[#85827d] font-medium">Profit per hour</p>
                 <div className="flex items-center justify-center space-x-1">
