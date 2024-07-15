@@ -163,7 +163,7 @@ const App: React.FC = () => {
               <div className="h-[32px] w-[2px] bg-[#43433b] mx-2"></div>
               {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
               {/* @ts-ignore */}
-              <div className="flex-1 text-center" onClick={() => WebApp.showAlert(WebApp?.initData?.user?.id)}>
+              <div className="flex-1 text-center" onClick={() => WebApp.showAlert('Hello world')}>
                 <p className="text-xs text-[#85827d] font-medium">Profit per hour</p>
                 <div className="flex items-center justify-center space-x-1">
                   <img src={dollarCoin} alt="Dollar Coin" className="w-[18px] h-[18px]" />
