@@ -86,11 +86,35 @@ const Home: React.FC = () => {
     console.log('e.touches.length', e?.touches.length)
     const card = e.currentTarget;
     const rect = card.getBoundingClientRect();
+    // const touches = [
+    //   {
+    //     clientX: 205,
+    //     clientY: 450,
+    //     pageX: 205,
+    //     pageY: 450,
+    //   },
+    //   {
+    //     clientX: 280,
+    //     clientY: 400,
+    //     pageX: 280,
+    //     pageY: 400,
+    //   },
+    //   {
+    //     clientX: 200,
+    //     clientY: 560,
+    //     pageX: 200,
+    //     pageY: 560,
+    //   },
+    // ]
     if (energy > 0) {
       for (let touch = 0; touch < e.touches.length; touch++) {
+      // for (let touch = 0; touch < touches.length; touch++) {
         setEnergy((prev) => (prev > 0 ? prev - pointsToAdd : 0));
-        console.log('now', parseInt(`${Date.now()}${touch}`))
-        const { clientX, clientY } = e.touches[touch];
+        // console.log('now', touch, parseInt(`${Date.now()}${touch}`))
+        const { clientX, clientY, pageX, pageY } = e.touches[touch];
+        // console.log('clientX, clientY', clientX, clientY)
+        // const { clientX, clientY } = touches[touch];
+        // console.log('pageX, pageY', pageX, pageY)
         const x = clientX - rect.left - rect.width / 2;
         const y = clientY - rect.top - rect.height / 2;
         card.style.transform = `perspective(1000px) rotateX(${-y / 10}deg) rotateY(${x / 10}deg)`;
@@ -99,7 +123,9 @@ const Home: React.FC = () => {
         }, 100);
 
         setPoints(points + pointsToAdd);
-        setClicks([...clicks, { id: parseInt(`${Date.now()}${touch}`), x: e.touches[touch].pageX, y: e.touches[touch].pageY }]);
+        setClicks((prev)=>[...prev, { id: parseInt(`${Date.now()}${touch}`), x: pageX, y: pageY }]);
+        // setClicks((prev)=> [...prev, { id: parseInt(`${Date.now()}${touch}`), x: touches[touch].pageX, y: touches[touch].pageY }]);
+        // console.log('clicks', [...clicks, { id: parseInt(`${Date.now()}${touch}`), x: touches[touch].pageX, y: touches[touch].pageY }])
       }
     }
   };
