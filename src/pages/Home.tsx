@@ -35,10 +35,13 @@ const Home: React.FC = () => {
     1000000000// Lord
   ];
 
+  const maxEnergy = 1000;
+
   const [levelIndex, setLevelIndex] = useState(6);
   const [points, setPoints] = useState(22749365);
   const [clicks, setClicks] = useState<{ id: number, x: number, y: number }[]>([]);
-  const pointsToAdd = 11;
+  const [energy, setEnergy] = useState(maxEnergy)
+  const pointsToAdd = 1;
   const profitPerHour = 126420;
 
   const [dailyRewardTimeLeft, setDailyRewardTimeLeft] = useState("");
@@ -83,18 +86,21 @@ const Home: React.FC = () => {
     console.log('e.touches.length', e?.touches.length)
     const card = e.currentTarget;
     const rect = card.getBoundingClientRect();
-    for (let touch = 0; touch < e.touches.length; touch++) {
-      console.log('now', parseInt(`${Date.now()}${touch}`))
-      const { clientX, clientY } = e.touches[touch];
-      const x = clientX - rect.left - rect.width / 2;
-      const y = clientY - rect.top - rect.height / 2;
-      card.style.transform = `perspective(1000px) rotateX(${-y / 10}deg) rotateY(${x / 10}deg)`;
-      setTimeout(() => {
-        card.style.transform = '';
-      }, 100);
+    if (energy > 0) {
+      for (let touch = 0; touch < e.touches.length; touch++) {
+        setEnergy((prev) => (prev > 0 ? prev - pointsToAdd : 0));
+        console.log('now', parseInt(`${Date.now()}${touch}`))
+        const { clientX, clientY } = e.touches[touch];
+        const x = clientX - rect.left - rect.width / 2;
+        const y = clientY - rect.top - rect.height / 2;
+        card.style.transform = `perspective(1000px) rotateX(${-y / 10}deg) rotateY(${x / 10}deg)`;
+        setTimeout(() => {
+          card.style.transform = '';
+        }, 100);
 
-      setPoints(points + pointsToAdd);
-      setClicks([...clicks, { id: parseInt(`${Date.now()}${touch}`), x: e.touches[touch].pageX, y: e.touches[touch].pageY }]);
+        setPoints(points + pointsToAdd);
+        setClicks([...clicks, { id: parseInt(`${Date.now()}${touch}`), x: e.touches[touch].pageX, y: e.touches[touch].pageY }]);
+      }
     }
   };
 
@@ -136,6 +142,20 @@ const Home: React.FC = () => {
     }, 1000);
     return () => clearInterval(interval);
   }, [profitPerHour]);
+
+  const energyPercentage = (energy / maxEnergy) * 100;
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setEnergy((prevEnergy) => {
+        if (prevEnergy < maxEnergy) {
+          return prevEnergy + 1;
+        }
+        return prevEnergy;
+      });
+    }, 1500);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="bg-black flex justify-center">
@@ -220,6 +240,20 @@ const Home: React.FC = () => {
                   {/* <img src="https://drive.google.com/thumbnail?id=188oXT8FnUj1byookWrvnw2_W0uswTT8d&sz=w1000" alt="None"/> */}
                   {/* <img src="https://drive.google.com/file/d/188oXT8FnUj1byookWrvnw2_W0uswTT8d/view"/> */}
                 </div>
+              </div>
+            </div>
+            <div className="px-4 w-full flex flex-col gap-2">
+              <div className="flex w-full items-center justify-between">
+                <span className="text-[15px]">Energy</span>
+                <span className="text-[15px] font-semibold">
+                  {energy} / {maxEnergy}
+                </span>
+              </div>
+              <div className="w-full relative rounded-full h-[16px] bg-[#012237] border border-[#073755]">
+                <div
+                  className="absolute left-0 h-full rounded-full bg-gradient-to-r from-[#dc7b0c] to-[#fff973]"
+                  style={{ width: `${energyPercentage}%` }}
+                ></div>
               </div>
             </div>
           </div>
