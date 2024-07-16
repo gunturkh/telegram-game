@@ -84,6 +84,7 @@ const Home: React.FC = () => {
     const card = e.currentTarget;
     const rect = card.getBoundingClientRect();
     for (let touch = 0; touch < e.touches.length; touch++) {
+      console.log('now', parseInt(`${Date.now()}${touch}`))
       const { clientX, clientY } = e.touches[touch];
       const x = clientX - rect.left - rect.width / 2;
       const y = clientY - rect.top - rect.height / 2;
@@ -93,7 +94,7 @@ const Home: React.FC = () => {
       }, 100);
 
       setPoints(points + pointsToAdd);
-      setClicks([...clicks, { id: Date.now(), x: e.touches[touch].pageX, y: e.touches[touch].pageY }]);
+      setClicks([...clicks, { id: parseInt(`${Date.now()}${touch}`), x: e.touches[touch].pageX, y: e.touches[touch].pageY }]);
     }
   };
 
