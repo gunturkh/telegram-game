@@ -108,7 +108,8 @@ const Home: React.FC = () => {
     // ]
     if (energy > 0) {
       for (let touch = 0; touch < e.touches.length; touch++) {
-      // for (let touch = 0; touch < touches.length; touch++) {
+        const touchId = parseInt(`${Date.now()}${touch}`)
+        // for (let touch = 0; touch < touches.length; touch++) {
         setEnergy((prev) => (prev > 0 ? prev - pointsToAdd : 0));
         // console.log('now', touch, parseInt(`${Date.now()}${touch}`))
         const { clientX, clientY, pageX, pageY } = e.touches[touch];
@@ -122,13 +123,20 @@ const Home: React.FC = () => {
           card.style.transform = '';
         }, 100);
 
-        setPoints(points + pointsToAdd);
-        setClicks((prev)=>[...prev, { id: parseInt(`${Date.now()}${touch}`), x: pageX, y: pageY }]);
+        setPoints((prev) => prev + pointsToAdd);
+        if (!clicks.some(item => item.id === touchId)) {
+          setClicks((prev)=>[...prev, { id: touchId, x: pageX, y: pageY }]);
+        }
         // setClicks((prev)=> [...prev, { id: parseInt(`${Date.now()}${touch}`), x: touches[touch].pageX, y: touches[touch].pageY }]);
         // console.log('clicks', [...clicks, { id: parseInt(`${Date.now()}${touch}`), x: touches[touch].pageX, y: touches[touch].pageY }])
       }
     }
   };
+
+  useEffect(() => {
+    console.log('clicks', clicks)
+  }, [clicks])
+
 
   const handleAnimationEnd = (id: number) => {
     setClicks((prevClicks) => prevClicks.filter(click => click.id !== id));
