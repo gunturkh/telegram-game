@@ -267,7 +267,7 @@ const Home: React.FC = () => {
             <div className="px-4 mt-4 flex justify-center">
               <div
                 className="w-60 h-60 p-4 rounded-full circle-outer"
-                onTouchEnd={handleCardClick}
+                onTouchStart={handleCardClick}
               >
                 <div className="w-full h-full rounded-full circle-inner">
                   <img src={mainCharacter} alt="Main Character" className="w-full h-full" />
