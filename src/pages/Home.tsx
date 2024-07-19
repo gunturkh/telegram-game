@@ -6,7 +6,9 @@ import { binanceLogo, dailyCipher, dailyCombo, dailyReward, dollarCoin, mainChar
 import Info from '../icons/Info';
 import Settings from '../icons/Settings';
 import BottomTab from '../components/BottomTab';
-
+// import { useAuthStore } from '../store/auth';
+// const API_URL = import.meta.env.VITE_API_URL
+// const __DEV__ = import.meta.env.DEV
 const Home: React.FC = () => {
   const levelNames = [
     "Bronze",    // From 0 to 4999 coins
@@ -37,6 +39,7 @@ const Home: React.FC = () => {
 
   const maxEnergy = 1000;
 
+  // const { setToken, setAuthData } = useAuthStore()
   const [levelIndex, setLevelIndex] = useState(6);
   const [points, setPoints] = useState(22749365);
   const [clicks, setClicks] = useState<{ id: number, x: number, y: number }[]>([]);
@@ -66,6 +69,8 @@ const Home: React.FC = () => {
 
     return `${paddedHours}:${paddedMinutes}`;
   };
+
+
 
   useEffect(() => {
     const updateCountdowns = () => {
@@ -125,7 +130,7 @@ const Home: React.FC = () => {
 
         setPoints((prev) => prev + pointsToAdd);
         if (!clicks.some(item => item.id === touchId)) {
-          setClicks((prev)=>[...prev, { id: touchId, x: pageX, y: pageY }]);
+          setClicks((prev) => [...prev, { id: touchId, x: pageX, y: pageY }]);
         }
         // setClicks((prev)=> [...prev, { id: parseInt(`${Date.now()}${touch}`), x: touches[touch].pageX, y: touches[touch].pageY }]);
         // console.log('clicks', [...clicks, { id: parseInt(`${Date.now()}${touch}`), x: touches[touch].pageX, y: touches[touch].pageY }])
