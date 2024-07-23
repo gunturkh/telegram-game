@@ -298,7 +298,7 @@ const MinePage: React.FC = () => {
                         <p className='text-xs font-thin'>Profit per hour</p>
                         <div className="flex items-center space-x-1">
                           <img src={dollarCoin} alt="Dollar Coin" className="w-3 h-3" />
-                          <p className="text-sm text-white">{formatCardsPriceInfo(1000)}</p>
+                          <p className="text-sm text-white">{formatCardsPriceInfo(c.current.profit_per_hour)}</p>
                         </div>
                       </div>
                     </div>
