@@ -5,11 +5,13 @@ import MinePage from './pages/Mine';
 import { useAuthStore } from './store/auth';
 import WebApp from '@twa-dev/sdk';
 import LoadingScreen from './components/LoadingScreen';
+import { usePlayerStore } from './store/player';
 
 const API_URL = import.meta.env.VITE_API_URL
 const __DEV__ = import.meta.env.DEV
 const App: React.FC = () => {
   const { token, setAuthToken } = useAuthStore()
+  const { setPlayerData } = usePlayerStore()
   const [loading, setLoading] = useState(false)
   console.log('env', import.meta.env.VITE_API_URL)
 
@@ -23,7 +25,7 @@ const App: React.FC = () => {
     const playerLogin = async () => {
       try {
         setLoading(true)
-        const response = await fetch(`${API_URL}/login`, {
+        const response = await fetch(`${API_URL}/auth/login`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -60,7 +62,7 @@ const App: React.FC = () => {
     const getPlayerData = async () => {
       try {
         setLoading(true)
-        const response = await fetch(`${API_URL}/whoami`, {
+        const response = await fetch(`${API_URL}/auth/whoami`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -72,7 +74,7 @@ const App: React.FC = () => {
         if (result.status) {
           setLoading(false)
           console.log('getPlayerData result', result.data)
-          setAuthToken(result?.data?.token)
+          setPlayerData(result.data)
         }
         if (!result.status) {
           setLoading(false)
@@ -84,7 +86,7 @@ const App: React.FC = () => {
       }
     }
     if (token) getPlayerData()
-  }, [setAuthToken, token])
+  }, [setPlayerData, token])
 
 
   if (loading) {

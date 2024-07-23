@@ -6,6 +6,7 @@ import { binanceLogo, dailyCipher, dailyCombo, dailyReward, dollarCoin, mainChar
 import Info from '../icons/Info';
 import Settings from '../icons/Settings';
 import BottomTab from '../components/BottomTab';
+import { usePlayerStore } from '../store/player';
 // import { useAuthStore } from '../store/auth';
 // const API_URL = import.meta.env.VITE_API_URL
 // const __DEV__ = import.meta.env.DEV
@@ -40,12 +41,14 @@ const Home: React.FC = () => {
   const maxEnergy = 1000;
 
   // const { setToken, setAuthData } = useAuthStore()
-  const [levelIndex, setLevelIndex] = useState(6);
-  const [points, setPoints] = useState(22749365);
+  const { playerData } = usePlayerStore()
+  console.log('playerData', playerData)
+  const [levelIndex, setLevelIndex] = useState(0);
+  const [points, setPoints] = useState(playerData?.point);
   const [clicks, setClicks] = useState<{ id: number, x: number, y: number }[]>([]);
   const [energy, setEnergy] = useState(maxEnergy)
   const pointsToAdd = 1;
-  const profitPerHour = 126420;
+  const profitPerHour = playerData?.profit_per_hour;
 
   const [dailyRewardTimeLeft, setDailyRewardTimeLeft] = useState("");
   const [dailyCipherTimeLeft, setDailyCipherTimeLeft] = useState("");
@@ -128,7 +131,7 @@ const Home: React.FC = () => {
           card.style.transform = '';
         }, 100);
 
-        setPoints((prev) => prev + pointsToAdd);
+        setPoints((prev: number) => prev + pointsToAdd);
         if (!clicks.some(item => item.id === touchId)) {
           setClicks((prev) => [...prev, { id: touchId, x: pageX, y: pageY }]);
         }
@@ -177,7 +180,7 @@ const Home: React.FC = () => {
   useEffect(() => {
     const pointsPerSecond = Math.floor(profitPerHour / 3600);
     const interval = setInterval(() => {
-      setPoints(prevPoints => prevPoints + pointsPerSecond);
+      setPoints((prevPoints: number) => prevPoints + pointsPerSecond);
     }, 1000);
     return () => clearInterval(interval);
   }, [profitPerHour]);
@@ -265,7 +268,7 @@ const Home: React.FC = () => {
             <div className="px-4 mt-4 flex justify-center">
               <div className="px-4 py-2 flex items-center space-x-2">
                 <img src={dollarCoin} alt="Dollar Coin" className="w-10 h-10" />
-                <p className="text-4xl text-white">{points.toLocaleString()}</p>
+                <p className="text-4xl text-white">{points?.toLocaleString()}</p>
               </div>
             </div>
 
