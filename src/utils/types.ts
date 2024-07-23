@@ -8,10 +8,15 @@ export interface ICardCategory {
   name: string;
 }
 
-export interface IUpgrade {
+export interface ICardUpgrade {
   level: number;
-  profit_per_hour: 2208;
-  upgrade_price: 11064;
+  profit_per_hour: number;
+  upgrade_price: number;
+}
+
+export interface ICardCurrent {
+  level: number;
+  profit_per_hour: number;
 }
 export interface ICard {
   category: ICardCategory;
@@ -19,5 +24,6 @@ export interface ICard {
   id: number;
   level: number;
   name: string;
-  upgrade: IUpgrade;
+  current: ICardCurrent;
+  upgrade: ICardUpgrade;
 }

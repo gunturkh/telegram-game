@@ -9,6 +9,7 @@ import BottomTab from '../components/BottomTab';
 import { useAuthStore } from '../store/auth';
 import { API_URL } from '../utils/constants';
 import { ICard } from '../utils/types';
+import Modal from 'react-responsive-modal';
 
 const MinePage: React.FC = () => {
   const levelNames = [
@@ -49,6 +50,10 @@ const MinePage: React.FC = () => {
   const profitPerHour = 126420;
 
   const [mineTab, setMineTab] = useState<number>(0)
+  const [open, setOpen] = useState(false);
+
+  const onOpenModal = () => setOpen(true);
+  const onCloseModal = () => setOpen(false);
 
   const [dailyRewardTimeLeft, setDailyRewardTimeLeft] = useState("");
   const [dailyCipherTimeLeft, setDailyCipherTimeLeft] = useState("");
@@ -177,6 +182,13 @@ const MinePage: React.FC = () => {
     return `+${profit}`;
   };
 
+  const formatCardsPriceInfo = (profit: number) => {
+    if (profit >= 1000000000) return `${(profit / 1000000000).toFixed(2)}B`;
+    if (profit >= 1000000) return `${(profit / 1000000).toFixed(2)}M`;
+    if (profit >= 1000) return `${(profit / 1000).toFixed(2)}K`;
+    return `+${profit}`;
+  };
+
   useEffect(() => {
     const pointsPerSecond = Math.floor(profitPerHour / 3600);
     const interval = setInterval(() => {
@@ -229,7 +241,7 @@ const MinePage: React.FC = () => {
         </div>
 
         <div className="flex-grow mt-4 bg-[#f3ba2f] rounded-t-[48px] relative top-glow z-0">
-          <div className="absolute top-[2px] left-0 right-0 bottom-0 bg-[#1d2025] rounded-t-[46px]">
+          <div className="absolute top-[2px] left-0 right-0 bottom-0 bg-[#1d2025] rounded-t-[46px] h-max">
             <div className="px-4 mt-6 flex justify-between gap-2">
               <div className="bg-[#272a2f] rounded-lg px-4 py-2 w-full relative">
                 <div className="dot"></div>
@@ -267,17 +279,34 @@ const MinePage: React.FC = () => {
                 )
               }) : <div className='w-full m-1 p-4 rounded-2xl'></div>}
             </div>
-            <div className='flex flex-wrap flex-row'>
+            <Modal open={open} onClose={onCloseModal} center>
+              <h2>Simple centered modal</h2>
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
+                pulvinar risus non risus hendrerit venenatis. Pellentesque sit amet
+                hendrerit risus, sed porttitor quam.
+              </p>
+            </Modal>
+            <div className='flex flex-wrap flex-row mt-6 mb-40'>
               {cards.filter(c => c.category.name === cardCategories[mineTab]).map((c, cIdx) => {
-                return <div key={`${cardCategories[mineTab]}-card-${cIdx}`} className='w-1/2  rounded-xl p-1'>
-                  <div className='flex flex-row bg-[#272a2f] p-4 rounded-2xl'>
-                    <img src={c.icon_url} className='mx-auto w-12 h-12' />
-                    <div className='flex flex-col gap-1 ml-4'>
-                      <p className='text-sm font-normal'>{c.name}</p>
-                      <p className='text-xs font-thin'>Profit per hour</p>
-                      <div className="py-1 flex items-center space-x-1">
-                        <img src={dollarCoin} alt="Dollar Coin" className="w-3 h-3" />
-                        <p className="text-sm text-white">{(100).toLocaleString()}</p>
+                return <div key={`${cardCategories[mineTab]}-card-${cIdx}`} className='w-1/2  rounded-xl p-1' onClick={onOpenModal}>
+                  <div className='flex flex-col bg-[#272a2f] rounded-2xl h-full'>
+                    <div className='flex flex-row items-center p-3'>
+                      <img src={c.icon_url} className='mx-auto w-12 h-12' />
+                      <div className='flex flex-col gap-1 ml-4'>
+                        <p className='text-xs font-normal flex-1'>{c.name}</p>
+                        <p className='text-xs font-thin'>Profit per hour</p>
+                        <div className="flex items-center space-x-1">
+                          <img src={dollarCoin} alt="Dollar Coin" className="w-3 h-3" />
+                          <p className="text-sm text-white">{formatCardsPriceInfo(1000)}</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className='flex flex-row w-full items-center border-t-[0.5px] border-gray-500'>
+                      <p className='text-xs font-semibold p-4 border-r-[0.5px] border-gray-500'>lvl {c.current.level}</p>
+                      <div className="flex items-center space-x-1 flex-1 p-4">
+                        <img src={dollarCoin} alt="Dollar Coin" className="w-4 h-4" />
+                        <p className="text-md text-white">{formatCardsPriceInfo(c.upgrade.upgrade_price)}</p>
                       </div>
                     </div>
                   </div>
