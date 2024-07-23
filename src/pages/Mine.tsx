@@ -259,14 +259,32 @@ const MinePage: React.FC = () => {
             </div>
 
             <div className="max-w-xl bg-[#272a2f] flex justify-around items-center z-50 rounded-3xl text-xs">
-              {cardCategories?.map((c, cIdx) => {
+              {cardCategories?.length > 0 ? cardCategories?.map((c, cIdx) => {
                 return (
                   <div className={`text-center text-[#85827d] w-1/5 ${mineTab === cIdx && 'bg-[#1c1f24] m-1 p-2 rounded-2xl'}`} onClick={() => setMineTab(cIdx)}>
-                    {/* <img src={binanceLogo} alt="Exchange" className="w-8 h-8 mx-auto" /> */}
                     <p className="mt-1">{c}</p>
                   </div>
                 )
-              })}
+              }) : <div className='w-full m-1 p-4 rounded-2xl'></div>}
+            </div>
+            <div className='flex flex-wrap flex-row'>
+              {cards.filter(c => c.category.name === cardCategories[mineTab]).map((c, cIdx) => {
+                return <div key={`${cardCategories[mineTab]}-card-${cIdx}`} className='w-1/2  rounded-xl p-1'>
+                  <div className='flex flex-row bg-[#272a2f] p-4 rounded-2xl'>
+                    <img src={c.icon_url} className='mx-auto w-12 h-12' />
+                    <div className='flex flex-col gap-1 ml-4'>
+                      <p className='text-sm font-normal'>{c.name}</p>
+                      <p className='text-xs font-thin'>Profit per hour</p>
+                      <div className="py-1 flex items-center space-x-1">
+                        <img src={dollarCoin} alt="Dollar Coin" className="w-3 h-3" />
+                        <p className="text-sm text-white">{(100).toLocaleString()}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              })
+
+              }
             </div>
             {/* <div className="px-4 mt-4 flex justify-center">
               <div
