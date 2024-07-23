@@ -6,6 +6,9 @@ import { binanceLogo, dailyCipher, dailyCombo, dailyReward, dollarCoin } from '.
 import Info from '../icons/Info';
 import Settings from '../icons/Settings';
 import BottomTab from '../components/BottomTab';
+import { useAuthStore } from '../store/auth';
+import { API_URL } from '../utils/constants';
+import { ICard } from '../utils/types';
 
 const MinePage: React.FC = () => {
   const levelNames = [
@@ -35,11 +38,17 @@ const MinePage: React.FC = () => {
     1000000000// Lord
   ];
 
+  const { token } = useAuthStore()
+  const [cards, setCards] = useState<ICard[]>([])
+  const [cardCategories, setCardCategories] = useState<string[]>([])
+
   const [levelIndex, setLevelIndex] = useState(6);
   const [points, setPoints] = useState(22749365);
   const [clicks, setClicks] = useState<{ id: number, x: number, y: number }[]>([]);
   const pointsToAdd = 11;
   const profitPerHour = 126420;
+
+  const [mineTab, setMineTab] = useState<number>(0)
 
   const [dailyRewardTimeLeft, setDailyRewardTimeLeft] = useState("");
   const [dailyCipherTimeLeft, setDailyCipherTimeLeft] = useState("");
@@ -63,6 +72,52 @@ const MinePage: React.FC = () => {
 
     return `${paddedHours}:${paddedMinutes}`;
   };
+
+  useEffect(() => {
+    const getPlayerCards = async () => {
+      try {
+        const response = await fetch(`${API_URL}/cards`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+        })
+        const result = await response.json()
+        console.log('result')
+        if (result.status) {
+          console.log('getPlayerCards result', result.data)
+          setCards(result.data)
+        }
+        if (!result.status) {
+          console.log('getPlayerCards error', result.message)
+        }
+      } catch (error) {
+        console.log('getPlayerCards error', error)
+      }
+    }
+    if (token) getPlayerCards()
+  }, [token])
+
+  useEffect(() => {
+    // const cardCategories = cards.reduce((acc, currentValue) => {
+    //   if (acc.includes(currentValue?.category?.name)) return acc
+    //   else {
+    //     acc.push(currentValue?.category?.name)
+    //     return acc
+    //   }
+    // }, [])
+    const categories = cards.reduce((acc, currentValue) => {
+      const categoryName = currentValue?.category?.name;
+      if (categoryName && !acc.includes(categoryName)) {
+        acc.push(categoryName);
+      }
+      return acc;
+    }, [] as string[]);
+    console.log('categories', categories)
+    setCardCategories(categories)
+  }, [cards])
+
 
   useEffect(() => {
     const updateCountdowns = () => {
@@ -203,6 +258,16 @@ const MinePage: React.FC = () => {
               </div>
             </div>
 
+            <div className="max-w-xl bg-[#272a2f] flex justify-around items-center z-50 rounded-3xl text-xs">
+              {cardCategories?.map((c, cIdx) => {
+                return (
+                  <div className={`text-center text-[#85827d] w-1/5 ${mineTab === cIdx && 'bg-[#1c1f24] m-1 p-2 rounded-2xl'}`} onClick={() => setMineTab(cIdx)}>
+                    {/* <img src={binanceLogo} alt="Exchange" className="w-8 h-8 mx-auto" /> */}
+                    <p className="mt-1">{c}</p>
+                  </div>
+                )
+              })}
+            </div>
             {/* <div className="px-4 mt-4 flex justify-center">
               <div
                 className="w-60 h-60 p-4 rounded-full circle-outer"

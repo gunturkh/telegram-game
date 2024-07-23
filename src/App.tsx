@@ -6,9 +6,8 @@ import { useAuthStore } from './store/auth';
 import WebApp from '@twa-dev/sdk';
 import LoadingScreen from './components/LoadingScreen';
 import { usePlayerStore } from './store/player';
+import { __DEV__, API_URL } from './utils/constants';
 
-const API_URL = import.meta.env.VITE_API_URL
-const __DEV__ = import.meta.env.DEV
 const App: React.FC = () => {
   const { token, setAuthToken } = useAuthStore()
   const { setPlayerData } = usePlayerStore()
