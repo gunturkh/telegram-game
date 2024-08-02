@@ -1,53 +1,64 @@
-import React, { useState, useEffect } from 'react';
-import WebApp from '@twa-dev/sdk'
-import '../App.css';
-import Hamster from '../icons/Hamster';
-import { binanceLogo, dailyCipher, dailyCombo, dailyReward, dollarCoin, mainCharacter } from '../images';
-import Info from '../icons/Info';
-import Settings from '../icons/Settings';
-import BottomTab from '../components/BottomTab';
-import { usePlayerStore } from '../store/player';
+import React, { useState, useEffect } from "react";
+import WebApp from "@twa-dev/sdk";
+import "../App.css";
+import Hamster from "../icons/Hamster";
+import {
+  binanceLogo,
+  dailyCipher,
+  dailyCombo,
+  dailyReward,
+  dollarCoin,
+  mainCharacter,
+} from "../images";
+import Info from "../icons/Info";
+import Settings from "../icons/Settings";
+import BottomTab from "../components/BottomTab";
+import { usePlayerStore } from "../store/player";
 // import { useAuthStore } from '../store/auth';
 // const API_URL = import.meta.env.VITE_API_URL
 // const __DEV__ = import.meta.env.DEV
 const Home: React.FC = () => {
   const levelNames = [
-    "Bronze",    // From 0 to 4999 coins
-    "Silver",    // From 5000 coins to 24,999 coins
-    "Gold",      // From 25,000 coins to 99,999 coins
-    "Platinum",  // From 100,000 coins to 999,999 coins
-    "Diamond",   // From 1,000,000 coins to 2,000,000 coins
-    "Epic",      // From 2,000,000 coins to 10,000,000 coins
-    "Legendary", // From 10,000,000 coins to 50,000,000 coins
-    "Master",    // From 50,000,000 coins to 100,000,000 coins
-    "GrandMaster", // From 100,000,000 coins to 1,000,000,000 coins
-    "Lord"       // From 1,000,000,000 coins to ∞
+    "Baby", // From 0 to 4999 coins
+    "Toddler", // From 5000 coins to 24,999 coins
+    "Teen", // From 25,000 coins to 99,999 coins
+    "Student", // From 100,000 coins to 999,999 coins
+    "Scholar", // From 1,000,000 coins to 2,000,000 coins
+    "Adult", // From 2,000,000 coins to 10,000,000 coins
+    "Employee", // From 10,000,000 coins to 50,000,000 coins
+    "Manager", // From 50,000,000 coins to 100,000,000 coins
+    "General Manager", // From 100,000,000 coins to 1,000,000,000 coins
+    "Businessman", // From 1,000,000,000 coins to 5,000,000,000
+    "Chairman", // From 5,000,000,000 coins to ∞
   ];
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const levelMinPoints = [
-    0,        // Bronze
-    5000,     // Silver
-    25000,    // Gold
-    100000,   // Platinum
-    1000000,  // Diamond
-    2000000,  // Epic
-    10000000, // Legendary
-    50000000, // Master
-    100000000,// GrandMaster
-    1000000000// Lord
+    0, // Baby
+    5000, // Toddler
+    25000, // Teen
+    100000, // Student
+    1000000, // Scholar
+    2000000, // Adult
+    10000000, // Employee
+    50000000, // Manager
+    100000000, // General Manager
+    1000000000, // Businessman
+    5000000000, // Chairman
   ];
 
   const maxEnergy = 1000;
 
   // const { setToken, setAuthData } = useAuthStore()
-  const { playerData } = usePlayerStore()
-  console.log('playerData', playerData)
+  const { playerData } = usePlayerStore();
+  console.log("playerData", playerData);
   const [levelIndex, setLevelIndex] = useState(0);
   const [points, setPoints] = useState(playerData?.point);
-  const [clicks, setClicks] = useState<{ id: number, x: number, y: number }[]>([]);
-  const [energy, setEnergy] = useState(maxEnergy)
-  const pointsToAdd = 1;
+  const [clicks, setClicks] = useState<{ id: number; x: number; y: number }[]>(
+    []
+  );
+  const [energy, setEnergy] = useState(maxEnergy);
+  const pointsToAdd = playerData?.points_per_click;
   const profitPerHour = playerData?.profit_per_hour;
 
   const [dailyRewardTimeLeft, setDailyRewardTimeLeft] = useState("");
@@ -67,13 +78,11 @@ const Home: React.FC = () => {
     const hours = Math.floor(diff / (1000 * 60 * 60));
     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
 
-    const paddedHours = hours.toString().padStart(2, '0');
-    const paddedMinutes = minutes.toString().padStart(2, '0');
+    const paddedHours = hours.toString().padStart(2, "0");
+    const paddedMinutes = minutes.toString().padStart(2, "0");
 
     return `${paddedHours}:${paddedMinutes}`;
   };
-
-
 
   useEffect(() => {
     const updateCountdowns = () => {
@@ -91,7 +100,7 @@ const Home: React.FC = () => {
   // const handleCardClick = (e: React.MouseEvent<HTMLDivElement>) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleCardClick = (e: any) => {
-    console.log('e.touches.length', e?.touches.length)
+    console.log("e.touches.length", e?.touches.length);
     const card = e.currentTarget;
     const rect = card.getBoundingClientRect();
     // const touches = [
@@ -116,7 +125,7 @@ const Home: React.FC = () => {
     // ]
     if (energy > 0) {
       for (let touch = 0; touch < e.touches.length; touch++) {
-        const touchId = parseInt(`${Date.now()}${touch}`)
+        const touchId = parseInt(`${Date.now()}${touch}`);
         // for (let touch = 0; touch < touches.length; touch++) {
         setEnergy((prev) => (prev > 0 ? prev - pointsToAdd : 0));
         // console.log('now', touch, parseInt(`${Date.now()}${touch}`))
@@ -126,13 +135,15 @@ const Home: React.FC = () => {
         // console.log('pageX, pageY', pageX, pageY)
         const x = clientX - rect.left - rect.width / 2;
         const y = clientY - rect.top - rect.height / 2;
-        card.style.transform = `perspective(1000px) rotateX(${-y / 10}deg) rotateY(${x / 10}deg)`;
+        card.style.transform = `perspective(1000px) rotateX(${
+          -y / 10
+        }deg) rotateY(${x / 10}deg)`;
         setTimeout(() => {
-          card.style.transform = '';
+          card.style.transform = "";
         }, 100);
 
         setPoints((prev: number) => prev + pointsToAdd);
-        if (!clicks.some(item => item.id === touchId)) {
+        if (!clicks.some((item) => item.id === touchId)) {
           setClicks((prev) => [...prev, { id: touchId, x: pageX, y: pageY }]);
         }
         // setClicks((prev)=> [...prev, { id: parseInt(`${Date.now()}${touch}`), x: touches[touch].pageX, y: touches[touch].pageY }]);
@@ -142,12 +153,11 @@ const Home: React.FC = () => {
   };
 
   useEffect(() => {
-    console.log('clicks', clicks)
-  }, [clicks])
-
+    console.log("clicks", clicks);
+  }, [clicks]);
 
   const handleAnimationEnd = (id: number) => {
-    setClicks((prevClicks) => prevClicks.filter(click => click.id !== id));
+    setClicks((prevClicks) => prevClicks.filter((click) => click.id !== id));
   };
 
   const calculateProgress = () => {
@@ -156,19 +166,20 @@ const Home: React.FC = () => {
     }
     const currentLevelMin = levelMinPoints[levelIndex];
     const nextLevelMin = levelMinPoints[levelIndex + 1];
-    const progress = ((points - currentLevelMin) / (nextLevelMin - currentLevelMin)) * 100;
+    const progress =
+      ((points - currentLevelMin) / (nextLevelMin - currentLevelMin)) * 100;
     return Math.min(progress, 100);
   };
 
-  useEffect(() => {
-    const currentLevelMin = levelMinPoints[levelIndex];
-    const nextLevelMin = levelMinPoints[levelIndex + 1];
-    if (points >= nextLevelMin && levelIndex < levelNames.length - 1) {
-      setLevelIndex(levelIndex + 1);
-    } else if (points < currentLevelMin && levelIndex > 0) {
-      setLevelIndex(levelIndex - 1);
-    }
-  }, [points, levelIndex, levelMinPoints, levelNames.length]);
+  // useEffect(() => {
+  //   const currentLevelMin = levelMinPoints[levelIndex];
+  //   const nextLevelMin = levelMinPoints[levelIndex + 1];
+  //   if (points >= nextLevelMin && levelIndex < levelNames.length - 1) {
+  //     setLevelIndex(levelIndex + 1);
+  //   } else if (points < currentLevelMin && levelIndex > 0) {
+  //     setLevelIndex(levelIndex - 1);
+  //   }
+  // }, [points, levelIndex, levelMinPoints, levelNames.length]);
 
   const formatProfitPerHour = (profit: number) => {
     if (profit >= 1000000000) return `+${(profit / 1000000000).toFixed(2)}B`;
@@ -207,20 +218,41 @@ const Home: React.FC = () => {
             <div className="p-1 rounded-lg bg-[#1d2025]">
               <Hamster size={24} className="text-[#d4d4d4]" />
             </div>
-            <div onClick={() => WebApp.showAlert(`Telegram ID: ${WebApp?.initDataUnsafe?.user?.id}, Username: ${WebApp?.initDataUnsafe?.user?.username}, First Name: ${WebApp?.initDataUnsafe?.user?.first_name}, Last Name: ${WebApp?.initDataUnsafe?.user?.last_name}`)}>
-              <p className="text-sm">{WebApp?.initDataUnsafe?.user?.username} (CEO)</p>
+            <div
+              onClick={() =>
+                WebApp.showAlert(
+                  `Telegram ID: ${WebApp?.initDataUnsafe?.user?.id}, Username: ${WebApp?.initDataUnsafe?.user?.username}, First Name: ${WebApp?.initDataUnsafe?.user?.first_name}, Last Name: ${WebApp?.initDataUnsafe?.user?.last_name}`
+                )
+              }
+            >
+              <p className="text-sm">
+                {WebApp?.initDataUnsafe?.user?.username} (CEO)
+              </p>
             </div>
           </div>
           <div className="flex items-center justify-between space-x-4 mt-1">
             <div className="flex items-center w-1/3">
               <div className="w-full">
                 <div className="flex justify-between">
-                  <p className="text-sm">{levelNames[levelIndex]}</p>
-                  <p className="text-sm">{levelIndex + 1} <span className="text-[#95908a]">/ {levelNames.length}</span></p>
+                  <p className="text-sm">
+                    {levelNames[playerData?.level?.current_level]}
+                  </p>
+                  <p className="text-sm">
+                    {playerData?.level?.current_level}{" "}
+                    <span className="text-[#95908a]">
+                      / {levelNames.length}
+                    </span>
+                  </p>
                 </div>
                 <div className="flex items-center mt-1 border-2 border-[#43433b] rounded-full">
                   <div className="w-full h-2 bg-[#43433b]/[0.6] rounded-full">
-                    <div className="progress-gradient h-2 rounded-full" style={{ width: `${calculateProgress()}%` }}></div>
+                    <div
+                      className="progress-gradient h-2 rounded-full"
+                      // style={{ width: `${calculateProgress()}%` }}
+                      style={{
+                        width: `${playerData?.level?.next_level_percentage}%`,
+                      }}
+                    ></div>
                   </div>
                 </div>
               </div>
@@ -229,10 +261,18 @@ const Home: React.FC = () => {
               <img src={binanceLogo} alt="Exchange" className="w-8 h-8" />
               <div className="h-[32px] w-[2px] bg-[#43433b] mx-2"></div>
               <div className="flex-1 text-center">
-                <p className="text-xs text-[#85827d] font-medium">Profit per hour</p>
+                <p className="text-xs text-[#85827d] font-medium">
+                  Hourly Profit
+                </p>
                 <div className="flex items-center justify-center space-x-1">
-                  <img src={dollarCoin} alt="Dollar Coin" className="w-[18px] h-[18px]" />
-                  <p className="text-sm">{formatProfitPerHour(profitPerHour)}</p>
+                  <img
+                    src={dollarCoin}
+                    alt="Dollar Coin"
+                    className="w-[18px] h-[18px]"
+                  />
+                  <p className="text-sm">
+                    {formatProfitPerHour(profitPerHour)}
+                  </p>
                   <Info size={20} className="text-[#43433b]" />
                 </div>
               </div>
@@ -247,28 +287,54 @@ const Home: React.FC = () => {
             <div className="px-4 mt-6 flex justify-between gap-2">
               <div className="bg-[#272a2f] rounded-lg px-4 py-2 w-full relative">
                 <div className="dot"></div>
-                <img src={dailyReward} alt="Daily Reward" className="mx-auto w-12 h-12" />
-                <p className="text-[10px] text-center text-white mt-1">Daily reward</p>
-                <p className="text-[10px] font-medium text-center text-gray-400 mt-2">{dailyRewardTimeLeft}</p>
+                <img
+                  src={dailyReward}
+                  alt="Daily Reward"
+                  className="mx-auto w-12 h-12"
+                />
+                <p className="text-[10px] text-center text-white mt-1">
+                  Daily reward
+                </p>
+                <p className="text-[10px] font-medium text-center text-gray-400 mt-2">
+                  {dailyRewardTimeLeft}
+                </p>
               </div>
               <div className="bg-[#272a2f] rounded-lg px-4 py-2 w-full relative">
                 <div className="dot"></div>
-                <img src={dailyCipher} alt="Daily Cipher" className="mx-auto w-12 h-12" />
-                <p className="text-[10px] text-center text-white mt-1">Daily cipher</p>
-                <p className="text-[10px] font-medium text-center text-gray-400 mt-2">{dailyCipherTimeLeft}</p>
+                {/* <img
+                  src={dailyCipher}
+                  alt="Daily Cipher"
+                  className="mx-auto w-12 h-12"
+                />
+                <p className="text-[10px] text-center text-white mt-1">
+                  Daily cipher
+                </p>
+                <p className="text-[10px] font-medium text-center text-gray-400 mt-2">
+                  {dailyCipherTimeLeft}
+                </p> */}
               </div>
               <div className="bg-[#272a2f] rounded-lg px-4 py-2 w-full relative">
                 <div className="dot"></div>
-                <img src={dailyCombo} alt="Daily Combo" className="mx-auto w-12 h-12" />
-                <p className="text-[10px] text-center text-white mt-1">Daily combo</p>
-                <p className="text-[10px] font-medium text-center text-gray-400 mt-2">{dailyComboTimeLeft}</p>
+                <img
+                  src={dailyCombo}
+                  alt="Daily Combo"
+                  className="mx-auto w-12 h-12"
+                />
+                <p className="text-[10px] text-center text-white mt-1">
+                  Daily combo
+                </p>
+                <p className="text-[10px] font-medium text-center text-gray-400 mt-2">
+                  {dailyComboTimeLeft}
+                </p>
               </div>
             </div>
 
             <div className="px-4 mt-4 flex justify-center">
               <div className="px-4 py-2 flex items-center space-x-2">
                 <img src={dollarCoin} alt="Dollar Coin" className="w-10 h-10" />
-                <p className="text-4xl text-white">{points?.toLocaleString()}</p>
+                <p className="text-4xl text-white">
+                  {points?.toLocaleString()}
+                </p>
               </div>
             </div>
 
@@ -278,7 +344,11 @@ const Home: React.FC = () => {
                 onTouchStart={handleCardClick}
               >
                 <div className="w-full h-full rounded-full circle-inner">
-                  <img src={mainCharacter} alt="Main Character" className="w-full h-full" />
+                  <img
+                    src={mainCharacter}
+                    alt="Main Character"
+                    className="w-full h-full"
+                  />
                   {/* <img src="https://drive.google.com/thumbnail?id=188oXT8FnUj1byookWrvnw2_W0uswTT8d&sz=w1000" alt="None"/> */}
                   {/* <img src="https://drive.google.com/file/d/188oXT8FnUj1byookWrvnw2_W0uswTT8d/view"/> */}
                 </div>
@@ -311,7 +381,7 @@ const Home: React.FC = () => {
           style={{
             top: `${click.y - 42}px`,
             left: `${click.x - 28}px`,
-            animation: `float 1s ease-out`
+            animation: `float 1s ease-out`,
           }}
           onAnimationEnd={() => handleAnimationEnd(click.id)}
         >

@@ -13,15 +13,15 @@ function BottomTab() {
         <div className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-[calc(100%-2rem)] max-w-xl bg-[#272a2f] flex justify-around items-center z-50 rounded-3xl text-xs">
             <div className={`text-center text-[#85827d] w-1/5 ${pathname === '/' && 'bg-[#1c1f24] m-1 p-2 rounded-2xl'}`} onClick={() => navigate('/')}>
                 <img src={binanceLogo} alt="Exchange" className="w-8 h-8 mx-auto" />
-                <p className="mt-1">Exchange</p>
+                <p className="mt-1">Food</p>
             </div>
             <div className={`text-center text-[#85827d] w-1/5 ${pathname === '/mine' && 'bg-[#1c1f24] m-1 p-2 rounded-2xl'}`} onClick={() => navigate('/mine')}>
                 <Mine className="w-8 h-8 mx-auto" />
-                <p className="mt-1">Mine</p>
+                <p className="mt-1">Race</p>
             </div>
             <div className="text-center text-[#85827d] w-1/5">
                 <Friends className="w-8 h-8 mx-auto" />
-                <p className="mt-1">Friends</p>
+                <p className="mt-1">Ecosystem</p>
             </div>
             <div className="text-center text-[#85827d] w-1/5">
                 <Coins className="w-8 h-8 mx-auto" />
@@ -29,7 +29,7 @@ function BottomTab() {
             </div>
             <div className="text-center text-[#85827d] w-1/5">
                 <img src={hamsterCoin} alt="Airdrop" className="w-8 h-8 mx-auto" />
-                <p className="mt-1">Airdrop</p>
+                <p className="mt-1">Shop</p>
             </div>
         </div>
     )
