@@ -1,62 +1,64 @@
-import React, { useState, useEffect } from 'react';
-import WebApp from '@twa-dev/sdk'
-import '../App.css';
-import Hamster from '../icons/Hamster';
-import { binanceLogo, dailyCipher, dailyCombo, dailyReward, dollarCoin } from '../images';
-import Info from '../icons/Info';
-import Settings from '../icons/Settings';
-import BottomTab from '../components/BottomTab';
-import { useAuthStore } from '../store/auth';
-import { API_URL } from '../utils/constants';
-import { ICard } from '../utils/types';
-import Modal from 'react-responsive-modal';
+import React, { useState, useEffect } from "react";
+import WebApp from "@twa-dev/sdk";
+import "../App.css";
+import Hamster from "../icons/Hamster";
+import { binanceLogo, dailyCombo, dailyReward, dollarCoin } from "../images";
+import Info from "../icons/Info";
+import Settings from "../icons/Settings";
+import BottomTab from "../components/BottomTab";
+import { useAuthStore } from "../store/auth";
+import { API_URL } from "../utils/constants";
+import { ICard } from "../utils/types";
+import Modal from "react-responsive-modal";
 
 const MinePage: React.FC = () => {
   const levelNames = [
-    "Bronze",    // From 0 to 4999 coins
-    "Silver",    // From 5000 coins to 24,999 coins
-    "Gold",      // From 25,000 coins to 99,999 coins
-    "Platinum",  // From 100,000 coins to 999,999 coins
-    "Diamond",   // From 1,000,000 coins to 2,000,000 coins
-    "Epic",      // From 2,000,000 coins to 10,000,000 coins
+    "Bronze", // From 0 to 4999 coins
+    "Silver", // From 5000 coins to 24,999 coins
+    "Gold", // From 25,000 coins to 99,999 coins
+    "Platinum", // From 100,000 coins to 999,999 coins
+    "Diamond", // From 1,000,000 coins to 2,000,000 coins
+    "Epic", // From 2,000,000 coins to 10,000,000 coins
     "Legendary", // From 10,000,000 coins to 50,000,000 coins
-    "Master",    // From 50,000,000 coins to 100,000,000 coins
+    "Master", // From 50,000,000 coins to 100,000,000 coins
     "GrandMaster", // From 100,000,000 coins to 1,000,000,000 coins
-    "Lord"       // From 1,000,000,000 coins to ∞
+    "Lord", // From 1,000,000,000 coins to ∞
   ];
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const levelMinPoints = [
-    0,        // Bronze
-    5000,     // Silver
-    25000,    // Gold
-    100000,   // Platinum
-    1000000,  // Diamond
-    2000000,  // Epic
+    0, // Bronze
+    5000, // Silver
+    25000, // Gold
+    100000, // Platinum
+    1000000, // Diamond
+    2000000, // Epic
     10000000, // Legendary
     50000000, // Master
-    100000000,// GrandMaster
-    1000000000// Lord
+    100000000, // GrandMaster
+    1000000000, // Lord
   ];
 
-  const { token } = useAuthStore()
-  const [cards, setCards] = useState<ICard[]>([])
-  const [cardCategories, setCardCategories] = useState<string[]>([])
+  const { token } = useAuthStore();
+  const [cards, setCards] = useState<ICard[]>([]);
+  const [cardCategories, setCardCategories] = useState<string[]>([]);
 
   const [levelIndex, setLevelIndex] = useState(6);
   const [points, setPoints] = useState(22749365);
-  const [clicks, setClicks] = useState<{ id: number, x: number, y: number }[]>([]);
+  const [clicks, setClicks] = useState<{ id: number; x: number; y: number }[]>(
+    []
+  );
   const pointsToAdd = 11;
   const profitPerHour = 126420;
 
-  const [mineTab, setMineTab] = useState<number>(0)
+  const [mineTab, setMineTab] = useState<number>(0);
   const [open, setOpen] = useState(false);
 
   const onOpenModal = () => setOpen(true);
   const onCloseModal = () => setOpen(false);
 
   const [dailyRewardTimeLeft, setDailyRewardTimeLeft] = useState("");
-  const [dailyCipherTimeLeft, setDailyCipherTimeLeft] = useState("");
+  const [, setDailyCipherTimeLeft] = useState("");
   const [dailyComboTimeLeft, setDailyComboTimeLeft] = useState("");
 
   const calculateTimeLeft = (targetHour: number) => {
@@ -72,8 +74,8 @@ const MinePage: React.FC = () => {
     const hours = Math.floor(diff / (1000 * 60 * 60));
     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
 
-    const paddedHours = hours.toString().padStart(2, '0');
-    const paddedMinutes = minutes.toString().padStart(2, '0');
+    const paddedHours = hours.toString().padStart(2, "0");
+    const paddedMinutes = minutes.toString().padStart(2, "0");
 
     return `${paddedHours}:${paddedMinutes}`;
   };
@@ -82,27 +84,27 @@ const MinePage: React.FC = () => {
     const getPlayerCards = async () => {
       try {
         const response = await fetch(`${API_URL}/cards`, {
-          method: 'GET',
+          method: "GET",
           headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
-        })
-        const result = await response.json()
-        console.log('result')
+        });
+        const result = await response.json();
+        console.log("result");
         if (result.status) {
-          console.log('getPlayerCards result', result.data)
-          setCards(result.data)
+          console.log("getPlayerCards result", result.data);
+          setCards(result.data);
         }
         if (!result.status) {
-          console.log('getPlayerCards error', result.message)
+          console.log("getPlayerCards error", result.message);
         }
       } catch (error) {
-        console.log('getPlayerCards error', error)
+        console.log("getPlayerCards error", error);
       }
-    }
-    if (token) getPlayerCards()
-  }, [token])
+    };
+    if (token) getPlayerCards();
+  }, [token]);
 
   useEffect(() => {
     // const cardCategories = cards.reduce((acc, currentValue) => {
@@ -119,10 +121,9 @@ const MinePage: React.FC = () => {
       }
       return acc;
     }, [] as string[]);
-    console.log('categories', categories)
-    setCardCategories(categories)
-  }, [cards])
-
+    console.log("categories", categories);
+    setCardCategories(categories);
+  }, [cards]);
 
   useEffect(() => {
     const updateCountdowns = () => {
@@ -152,7 +153,7 @@ const MinePage: React.FC = () => {
   // };
 
   const handleAnimationEnd = (id: number) => {
-    setClicks((prevClicks) => prevClicks.filter(click => click.id !== id));
+    setClicks((prevClicks) => prevClicks.filter((click) => click.id !== id));
   };
 
   const calculateProgress = () => {
@@ -161,7 +162,8 @@ const MinePage: React.FC = () => {
     }
     const currentLevelMin = levelMinPoints[levelIndex];
     const nextLevelMin = levelMinPoints[levelIndex + 1];
-    const progress = ((points - currentLevelMin) / (nextLevelMin - currentLevelMin)) * 100;
+    const progress =
+      ((points - currentLevelMin) / (nextLevelMin - currentLevelMin)) * 100;
     return Math.min(progress, 100);
   };
 
@@ -192,7 +194,7 @@ const MinePage: React.FC = () => {
   useEffect(() => {
     const pointsPerSecond = Math.floor(profitPerHour / 3600);
     const interval = setInterval(() => {
-      setPoints(prevPoints => prevPoints + pointsPerSecond);
+      setPoints((prevPoints) => prevPoints + pointsPerSecond);
     }, 1000);
     return () => clearInterval(interval);
   }, [profitPerHour]);
@@ -205,8 +207,16 @@ const MinePage: React.FC = () => {
             <div className="p-1 rounded-lg bg-[#1d2025]">
               <Hamster size={24} className="text-[#d4d4d4]" />
             </div>
-            <div onClick={() => WebApp.showAlert(`Telegram ID: ${WebApp?.initDataUnsafe?.user?.id}, Username: ${WebApp?.initDataUnsafe?.user?.username}, First Name: ${WebApp?.initDataUnsafe?.user?.first_name}, Last Name: ${WebApp?.initDataUnsafe?.user?.last_name}`)}>
-              <p className="text-sm">{WebApp?.initDataUnsafe?.user?.username} (CEO)</p>
+            <div
+              onClick={() =>
+                WebApp.showAlert(
+                  `Telegram ID: ${WebApp?.initDataUnsafe?.user?.id}, Username: ${WebApp?.initDataUnsafe?.user?.username}, First Name: ${WebApp?.initDataUnsafe?.user?.first_name}, Last Name: ${WebApp?.initDataUnsafe?.user?.last_name}`
+                )
+              }
+            >
+              <p className="text-sm">
+                {WebApp?.initDataUnsafe?.user?.username} (CEO)
+              </p>
             </div>
           </div>
           <div className="flex items-center justify-between space-x-4 mt-1">
@@ -214,11 +224,19 @@ const MinePage: React.FC = () => {
               <div className="w-full">
                 <div className="flex justify-between">
                   <p className="text-sm">{levelNames[levelIndex]}</p>
-                  <p className="text-sm">{levelIndex + 1} <span className="text-[#95908a]">/ {levelNames.length}</span></p>
+                  <p className="text-sm">
+                    {levelIndex + 1}{" "}
+                    <span className="text-[#95908a]">
+                      / {levelNames.length}
+                    </span>
+                  </p>
                 </div>
                 <div className="flex items-center mt-1 border-2 border-[#43433b] rounded-full">
                   <div className="w-full h-2 bg-[#43433b]/[0.6] rounded-full">
-                    <div className="progress-gradient h-2 rounded-full" style={{ width: `${calculateProgress()}%` }}></div>
+                    <div
+                      className="progress-gradient h-2 rounded-full"
+                      style={{ width: `${calculateProgress()}%` }}
+                    ></div>
                   </div>
                 </div>
               </div>
@@ -227,10 +245,18 @@ const MinePage: React.FC = () => {
               <img src={binanceLogo} alt="Exchange" className="w-8 h-8" />
               <div className="h-[32px] w-[2px] bg-[#43433b] mx-2"></div>
               <div className="flex-1 text-center">
-                <p className="text-xs text-[#85827d] font-medium">Profit per hour</p>
+                <p className="text-xs text-[#85827d] font-medium">
+                  Profit per hour
+                </p>
                 <div className="flex items-center justify-center space-x-1">
-                  <img src={dollarCoin} alt="Dollar Coin" className="w-[18px] h-[18px]" />
-                  <p className="text-sm">{formatProfitPerHour(profitPerHour)}</p>
+                  <img
+                    src={dollarCoin}
+                    alt="Dollar Coin"
+                    className="w-[18px] h-[18px]"
+                  />
+                  <p className="text-sm">
+                    {formatProfitPerHour(profitPerHour)}
+                  </p>
                   <Info size={20} className="text-[#43433b]" />
                 </div>
               </div>
@@ -245,9 +271,17 @@ const MinePage: React.FC = () => {
             <div className="px-4 mt-6 flex justify-between gap-2">
               <div className="bg-[#272a2f] rounded-lg px-4 py-2 w-full relative">
                 <div className="dot"></div>
-                <img src={dailyReward} alt="Daily Reward" className="mx-auto w-12 h-12" />
-                <p className="text-[10px] text-center text-white mt-1">Daily reward</p>
-                <p className="text-[10px] font-medium text-center text-gray-400 mt-2">{dailyRewardTimeLeft}</p>
+                <img
+                  src={dailyReward}
+                  alt="Daily Reward"
+                  className="mx-auto w-12 h-12"
+                />
+                <p className="text-[10px] text-center text-white mt-1">
+                  Daily reward
+                </p>
+                <p className="text-[10px] font-medium text-center text-gray-400 mt-2">
+                  {dailyRewardTimeLeft}
+                </p>
               </div>
               <div className="bg-[#272a2f] rounded-lg px-4 py-2 w-full relative">
                 <div className="dot"></div>
@@ -257,9 +291,17 @@ const MinePage: React.FC = () => {
               </div>
               <div className="bg-[#272a2f] rounded-lg px-4 py-2 w-full relative">
                 <div className="dot"></div>
-                <img src={dailyCombo} alt="Daily Combo" className="mx-auto w-12 h-12" />
-                <p className="text-[10px] text-center text-white mt-1">Daily combo</p>
-                <p className="text-[10px] font-medium text-center text-gray-400 mt-2">{dailyComboTimeLeft}</p>
+                <img
+                  src={dailyCombo}
+                  alt="Daily Combo"
+                  className="mx-auto w-12 h-12"
+                />
+                <p className="text-[10px] text-center text-white mt-1">
+                  Daily combo
+                </p>
+                <p className="text-[10px] font-medium text-center text-gray-400 mt-2">
+                  {dailyComboTimeLeft}
+                </p>
               </div>
             </div>
 
@@ -271,49 +313,82 @@ const MinePage: React.FC = () => {
             </div>
 
             <div className="max-w-xl bg-[#272a2f] flex justify-around items-center z-50 rounded-3xl text-xs">
-              {cardCategories?.length > 0 ? cardCategories?.map((c, cIdx) => {
-                return (
-                  <div className={`text-center text-[#85827d] w-1/5 ${mineTab === cIdx && 'bg-[#1c1f24] m-1 p-2 rounded-2xl'}`} onClick={() => setMineTab(cIdx)}>
-                    <p className="mt-1">{c}</p>
-                  </div>
-                )
-              }) : <div className='w-full m-1 p-4 rounded-2xl'></div>}
+              {cardCategories?.length > 0 ? (
+                cardCategories?.map((c, cIdx) => {
+                  return (
+                    <div
+                      className={`text-center text-[#85827d] w-1/5 ${
+                        mineTab === cIdx && "bg-[#1c1f24] m-1 p-2 rounded-2xl"
+                      }`}
+                      onClick={() => setMineTab(cIdx)}
+                    >
+                      <p className="mt-1">{c}</p>
+                    </div>
+                  );
+                })
+              ) : (
+                <div className="w-full m-1 p-4 rounded-2xl"></div>
+              )}
             </div>
             <Modal open={open} onClose={onCloseModal} center>
               <h2>Simple centered modal</h2>
               <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
-                pulvinar risus non risus hendrerit venenatis. Pellentesque sit amet
-                hendrerit risus, sed porttitor quam.
+                pulvinar risus non risus hendrerit venenatis. Pellentesque sit
+                amet hendrerit risus, sed porttitor quam.
               </p>
             </Modal>
-            <div className='flex flex-wrap flex-row mt-6 mb-40'>
-              {cards.filter(c => c.category.name === cardCategories[mineTab]).map((c, cIdx) => {
-                return <div key={`${cardCategories[mineTab]}-card-${cIdx}`} className='w-1/2  rounded-xl p-1' onClick={onOpenModal}>
-                  <div className='flex flex-col bg-[#272a2f] rounded-2xl h-full'>
-                    <div className='flex flex-row items-center p-3'>
-                      <img src={c.icon_url} className='mx-auto w-12 h-12' />
-                      <div className='flex flex-col gap-1 ml-4'>
-                        <p className='text-xs font-normal flex-1'>{c.name}</p>
-                        <p className='text-xs font-thin'>Profit per hour</p>
-                        <div className="flex items-center space-x-1">
-                          <img src={dollarCoin} alt="Dollar Coin" className="w-3 h-3" />
-                          <p className="text-sm text-white">{formatCardsPriceInfo(c.current.profit_per_hour)}</p>
+            <div className="flex flex-wrap flex-row mt-6 mb-40">
+              {cards
+                .filter((c) => c.category.name === cardCategories[mineTab])
+                .map((c, cIdx) => {
+                  return (
+                    <div
+                      key={`${cardCategories[mineTab]}-card-${cIdx}`}
+                      className="w-1/2  rounded-xl p-1"
+                      onClick={onOpenModal}
+                    >
+                      <div className="flex flex-col bg-[#272a2f] rounded-2xl h-full">
+                        <div className="flex flex-row items-center p-3">
+                          <img src={c.icon_url} className="mx-auto w-12 h-12" />
+                          <div className="flex flex-col gap-1 ml-4">
+                            <p className="text-xs font-normal flex-1">
+                              {c.name}
+                            </p>
+                            <p className="text-xs font-thin">Profit per hour</p>
+                            <div className="flex items-center space-x-1">
+                              <img
+                                src={dollarCoin}
+                                alt="Dollar Coin"
+                                className="w-3 h-3"
+                              />
+                              <p className="text-sm text-white">
+                                {formatCardsPriceInfo(
+                                  c.current.profit_per_hour
+                                )}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="flex flex-row w-full items-center border-t-[0.5px] border-gray-500">
+                          <p className="text-xs font-semibold p-4 border-r-[0.5px] border-gray-500">
+                            lvl {c.current.level}
+                          </p>
+                          <div className="flex items-center space-x-1 flex-1 p-4">
+                            <img
+                              src={dollarCoin}
+                              alt="Dollar Coin"
+                              className="w-4 h-4"
+                            />
+                            <p className="text-md text-white">
+                              {formatCardsPriceInfo(c.upgrade.upgrade_price)}
+                            </p>
+                          </div>
                         </div>
                       </div>
                     </div>
-                    <div className='flex flex-row w-full items-center border-t-[0.5px] border-gray-500'>
-                      <p className='text-xs font-semibold p-4 border-r-[0.5px] border-gray-500'>lvl {c.current.level}</p>
-                      <div className="flex items-center space-x-1 flex-1 p-4">
-                        <img src={dollarCoin} alt="Dollar Coin" className="w-4 h-4" />
-                        <p className="text-md text-white">{formatCardsPriceInfo(c.upgrade.upgrade_price)}</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              })
-
-              }
+                  );
+                })}
             </div>
             {/* <div className="px-4 mt-4 flex justify-center">
               <div
@@ -338,7 +413,7 @@ const MinePage: React.FC = () => {
           style={{
             top: `${click.y - 42}px`,
             left: `${click.x - 28}px`,
-            animation: `float 1s ease-out`
+            animation: `float 1s ease-out`,
           }}
           onAnimationEnd={() => handleAnimationEnd(click.id)}
         >
