@@ -4,7 +4,6 @@ import "../App.css";
 import Hamster from "../icons/Hamster";
 import {
   binanceLogo,
-  dailyCipher,
   dailyCombo,
   dailyReward,
   dollarCoin,
@@ -33,26 +32,26 @@ const Home: React.FC = () => {
   ];
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const levelMinPoints = [
-    0, // Baby
-    5000, // Toddler
-    25000, // Teen
-    100000, // Student
-    1000000, // Scholar
-    2000000, // Adult
-    10000000, // Employee
-    50000000, // Manager
-    100000000, // General Manager
-    1000000000, // Businessman
-    5000000000, // Chairman
-  ];
+  // const levelMinPoints = [
+  //   0, // Baby
+  //   5000, // Toddler
+  //   25000, // Teen
+  //   100000, // Student
+  //   1000000, // Scholar
+  //   2000000, // Adult
+  //   10000000, // Employee
+  //   50000000, // Manager
+  //   100000000, // General Manager
+  //   1000000000, // Businessman
+  //   5000000000, // Chairman
+  // ];
 
   const maxEnergy = 1000;
 
   // const { setToken, setAuthData } = useAuthStore()
   const { playerData } = usePlayerStore();
   console.log("playerData", playerData);
-  const [levelIndex, setLevelIndex] = useState(0);
+  // const [levelIndex] = useState(0);
   const [points, setPoints] = useState(playerData?.point);
   const [clicks, setClicks] = useState<{ id: number; x: number; y: number }[]>(
     []
@@ -62,7 +61,7 @@ const Home: React.FC = () => {
   const profitPerHour = playerData?.profit_per_hour;
 
   const [dailyRewardTimeLeft, setDailyRewardTimeLeft] = useState("");
-  const [dailyCipherTimeLeft, setDailyCipherTimeLeft] = useState("");
+  const [, setDailyCipherTimeLeft] = useState("");
   const [dailyComboTimeLeft, setDailyComboTimeLeft] = useState("");
 
   const calculateTimeLeft = (targetHour: number) => {
@@ -160,16 +159,16 @@ const Home: React.FC = () => {
     setClicks((prevClicks) => prevClicks.filter((click) => click.id !== id));
   };
 
-  const calculateProgress = () => {
-    if (levelIndex >= levelNames.length - 1) {
-      return 100;
-    }
-    const currentLevelMin = levelMinPoints[levelIndex];
-    const nextLevelMin = levelMinPoints[levelIndex + 1];
-    const progress =
-      ((points - currentLevelMin) / (nextLevelMin - currentLevelMin)) * 100;
-    return Math.min(progress, 100);
-  };
+  // const calculateProgress = () => {
+  //   if (levelIndex >= levelNames.length - 1) {
+  //     return 100;
+  //   }
+  //   const currentLevelMin = levelMinPoints[levelIndex];
+  //   const nextLevelMin = levelMinPoints[levelIndex + 1];
+  //   const progress =
+  //     ((points - currentLevelMin) / (nextLevelMin - currentLevelMin)) * 100;
+  //   return Math.min(progress, 100);
+  // };
 
   // useEffect(() => {
   //   const currentLevelMin = levelMinPoints[levelIndex];
