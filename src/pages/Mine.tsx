@@ -6,10 +6,11 @@ import { binanceLogo, dailyCombo, dailyReward, dollarCoin } from "../images";
 import Info from "../icons/Info";
 import Settings from "../icons/Settings";
 import BottomTab from "../components/BottomTab";
-import { useAuthStore } from "../store/auth";
-import { API_URL } from "../utils/constants";
-import { ICard } from "../utils/types";
+// import { useAuthStore } from "../store/auth";
+// import { API_URL } from "../utils/constants";
+// import { ICard } from "../utils/types";
 import Modal from "react-responsive-modal";
+import usePlayer from "../_hooks/usePlayer";
 
 const MinePage: React.FC = () => {
   const levelNames = [
@@ -39,8 +40,11 @@ const MinePage: React.FC = () => {
     1000000000, // Lord
   ];
 
-  const { token } = useAuthStore();
-  const [cards, setCards] = useState<ICard[]>([]);
+  // const { token } = useAuthStore();
+  // const [cards, setCards] = useState<ICard[]>([]);
+  const {
+    queryCards: { data: cards },
+  } = usePlayer();
   const [cardCategories, setCardCategories] = useState<string[]>([]);
 
   const [levelIndex, setLevelIndex] = useState(6);
@@ -81,32 +85,6 @@ const MinePage: React.FC = () => {
   };
 
   useEffect(() => {
-    const getPlayerCards = async () => {
-      try {
-        const response = await fetch(`${API_URL}/cards`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        const result = await response.json();
-        console.log("result");
-        if (result.status) {
-          console.log("getPlayerCards result", result.data);
-          setCards(result.data);
-        }
-        if (!result.status) {
-          console.log("getPlayerCards error", result.message);
-        }
-      } catch (error) {
-        console.log("getPlayerCards error", error);
-      }
-    };
-    if (token) getPlayerCards();
-  }, [token]);
-
-  useEffect(() => {
     // const cardCategories = cards.reduce((acc, currentValue) => {
     //   if (acc.includes(currentValue?.category?.name)) return acc
     //   else {
@@ -114,13 +92,17 @@ const MinePage: React.FC = () => {
     //     return acc
     //   }
     // }, [])
-    const categories = cards.reduce((acc, currentValue) => {
-      const categoryName = currentValue?.category?.name;
-      if (categoryName && !acc.includes(categoryName)) {
-        acc.push(categoryName);
-      }
-      return acc;
-    }, [] as string[]);
+    const categories = cards.reduce(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (acc: any[], currentValue: { category: { name: any } }) => {
+        const categoryName = currentValue?.category?.name;
+        if (categoryName && !acc.includes(categoryName)) {
+          acc.push(categoryName);
+        }
+        return acc;
+      },
+      [] as string[]
+    );
     console.log("categories", categories);
     setCardCategories(categories);
   }, [cards]);
@@ -340,8 +322,9 @@ const MinePage: React.FC = () => {
             </Modal>
             <div className="flex flex-wrap flex-row mt-6 mb-40">
               {cards
-                .filter((c) => c.category.name === cardCategories[mineTab])
-                .map((c, cIdx) => {
+                .filter((c: { category: { name: string; }; }) => c.category.name === cardCategories[mineTab])
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                .map((c: { icon_url: string | undefined; name: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; current: { profit_per_hour: number; level: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; }; upgrade: { upgrade_price: number; }; }, cIdx: any) => {
                   return (
                     <div
                       key={`${cardCategories[mineTab]}-card-${cIdx}`}

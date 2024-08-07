@@ -5,12 +5,18 @@ import MinePage from "./pages/Mine";
 import { useAuthStore } from "./store/auth";
 import WebApp from "@twa-dev/sdk";
 import LoadingScreen from "./components/LoadingScreen";
-import { usePlayerStore } from "./store/player";
 import { __DEV__, API_URL } from "./utils/constants";
+import usePlayer from "./_hooks/usePlayer";
+// import { useQuery } from "@tanstack/react-query";
+// import { serverAPI } from "./lib/axios";
 
 const App: React.FC = () => {
-  const { token, setAuthToken } = useAuthStore();
-  const { setPlayerData } = usePlayerStore();
+  const {
+    query: { data, isLoading },
+  } = usePlayer();
+
+  console.log("player data", data, isLoading);
+  const { setAuthToken } = useAuthStore();
   const [loading, setLoading] = useState(false);
   console.log("env", import.meta.env.VITE_API_URL);
 
@@ -58,35 +64,35 @@ const App: React.FC = () => {
     playerLogin();
   }, [setAuthToken]);
 
-  useEffect(() => {
-    const getPlayerData = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch(`${API_URL}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        const result = await response.json();
-        console.log("result");
-        if (result.status) {
-          setLoading(false);
-          console.log("getPlayerData result", result.data);
-          setPlayerData(result.data);
-        }
-        if (!result.status) {
-          setLoading(false);
-          console.log("getPlayerData error", result.message);
-        }
-      } catch (error) {
-        setLoading(false);
-        console.log("getPlayerData error", error);
-      }
-    };
-    if (token) getPlayerData();
-  }, [setPlayerData, token]);
+  // useEffect(() => {
+  //   const getPlayerData = async () => {
+  //     try {
+  //       setLoading(true);
+  //       const response = await fetch(`${API_URL}`, {
+  //         method: "GET",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       });
+  //       const result = await response.json();
+  //       console.log("result");
+  //       if (result.status) {
+  //         setLoading(false);
+  //         console.log("getPlayerData result", result.data);
+  //         setPlayerData(result.data);
+  //       }
+  //       if (!result.status) {
+  //         setLoading(false);
+  //         console.log("getPlayerData error", result.message);
+  //       }
+  //     } catch (error) {
+  //       setLoading(false);
+  //       console.log("getPlayerData error", error);
+  //     }
+  //   };
+  //   if (token) getPlayerData();
+  // }, [setPlayerData, token]);
 
   if (loading) {
     return <LoadingScreen />;

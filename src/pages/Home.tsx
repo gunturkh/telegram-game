@@ -52,7 +52,7 @@ const Home: React.FC = () => {
   const { playerData } = usePlayerStore();
   console.log("playerData", playerData);
   // const [levelIndex] = useState(0);
-  const [points, setPoints] = useState(playerData?.point);
+  const [points, setPoints] = useState(playerData.point);
   const [clicks, setClicks] = useState<{ id: number; x: number; y: number }[]>(
     []
   );
