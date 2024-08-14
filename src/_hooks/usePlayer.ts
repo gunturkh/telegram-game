@@ -12,7 +12,7 @@ const usePlayer = () => {
     queryKey: ["player"],
     queryFn: async () => {
       try {
-        const response = await http.get("");
+        const response = await http.get("/sync");
         if (response?.data?.data?.balance)
           setInitialPoints(response.data.data.balance);
         return response.data?.data;
@@ -75,10 +75,10 @@ const usePlayer = () => {
     },
   });
 
-  const mutationSync = useMutation({
+  const mutationTap = useMutation({
     mutationFn: async (data: { tap_count: number; timestamp: number }) => {
       try {
-        const response = await http.post("/sync", data);
+        const response = await http.post("/tap", data);
         return response.data?.data;
       } catch (error) {
         if (error instanceof AxiosError) {
@@ -119,7 +119,6 @@ const usePlayer = () => {
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["cards"] });
       toast.success("Success upgrade card", {
         style: {
           borderRadius: "10px",
@@ -127,6 +126,8 @@ const usePlayer = () => {
           color: "#fff",
         },
       });
+      queryClient.invalidateQueries({ queryKey: ["player"]});
+      queryClient.invalidateQueries({ queryKey: ["cards"]});
     },
     onError: (error, variables, context) => {
       console.log("error", error);
@@ -141,7 +142,7 @@ const usePlayer = () => {
     queryCards,
     // queryPointsPreview,
     // export all mutations
-    mutationSync,
+    mutationTap,
     mutationPointsUpdate,
     mutationCardUpgrade,
   };

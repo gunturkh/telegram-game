@@ -1,39 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { useDebounce } from "@uidotdev/usehooks";
-import WebApp from "@twa-dev/sdk";
 import "../App.css";
-import Hamster from "../icons/Hamster";
 import {
-  binanceLogo,
   dailyCombo,
   dailyReward,
-  dollarCoin,
   mainCharacter,
 } from "../images";
-import Info from "../icons/Info";
-import Settings from "../icons/Settings";
 import BottomTab from "../components/BottomTab";
 import { usePlayerStore } from "../store/player";
 import Points from "../components/Points";
 import usePlayer from "../_hooks/usePlayer";
+import Header from "../components/Header";
 // import { useAuthStore } from '../store/auth';
 // const API_URL = import.meta.env.VITE_API_URL
 // const __DEV__ = import.meta.env.DEV
 const Home: React.FC = () => {
-  const levelNames = [
-    "Baby", // From 0 to 4999 coins
-    "Toddler", // From 5000 coins to 24,999 coins
-    "Teen", // From 25,000 coins to 99,999 coins
-    "Student", // From 100,000 coins to 999,999 coins
-    "Scholar", // From 1,000,000 coins to 2,000,000 coins
-    "Adult", // From 2,000,000 coins to 10,000,000 coins
-    "Employee", // From 10,000,000 coins to 50,000,000 coins
-    "Manager", // From 50,000,000 coins to 100,000,000 coins
-    "General Manager", // From 100,000,000 coins to 1,000,000,000 coins
-    "Businessman", // From 1,000,000,000 coins to 5,000,000,000
-    "Chairman", // From 5,000,000,000 coins to ∞
-  ];
-
   // eslint-disable-next-line react-hooks/exhaustive-deps
   // const levelMinPoints = [
   //   0, // Baby
@@ -51,22 +32,22 @@ const Home: React.FC = () => {
 
   const maxEnergy = 1000;
 
-  // const { setToken, setAuthData } = useAuthStore()
   const {
     query: { data: playerData, isLoading },
-    mutationSync: { mutateAsync },
+    mutationTap: { mutateAsync },
   } = usePlayer();
   console.log("player data from react query", playerData);
   const { points, setPoints } = usePlayerStore();
   console.log("playerData", playerData);
   // const [levelIndex] = useState(0);
+  const [taps, setTaps] = useState(0);
   const [clicks, setClicks] = useState<{ id: number; x: number; y: number }[]>(
     []
   );
-  const debouncedClicks = useDebounce(clicks, 3000);
+  const debouncedClicks = useDebounce(clicks, 1000);
   const [energy, setEnergy] = useState(maxEnergy);
   const pointsToAdd = playerData?.tap_earnings?.per_tap;
-  const profitPerHour = playerData?.passive_earnings?.per_hour;
+  // const profitPerHour = playerData?.passive_earnings?.per_hour;
 
   const [dailyRewardTimeLeft, setDailyRewardTimeLeft] = useState("");
   const [, setDailyCipherTimeLeft] = useState("");
@@ -95,13 +76,14 @@ const Home: React.FC = () => {
     const sync = async () => {
       if (debouncedClicks) {
         const data = await mutateAsync({
-          tap_count: clicks.length,
+          tap_count: taps,
           timestamp: Math.floor(Date.now() / 1000),
         });
-        console.log('data', data)
+        console.log("tapsdata", data);
+        if (data) setTaps(0);
       }
     };
-    sync()
+    sync();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedClicks]);
 
@@ -165,6 +147,7 @@ const Home: React.FC = () => {
 
         console.log("setPoints ", points, pointsToAdd);
         setPoints(pointsToAdd);
+        setTaps((prev) => prev + 1);
         if (!clicks.some((item) => item.id === touchId)) {
           setClicks((prev) => [...prev, { id: touchId, x: pageX, y: pageY }]);
         }
@@ -175,8 +158,8 @@ const Home: React.FC = () => {
   };
 
   useEffect(() => {
-    console.log("clicks", clicks);
-  }, [clicks]);
+    console.log("taps", taps);
+  }, [taps]);
 
   // const handleAnimationEnd = (id: number) => {
   //   setClicks((prevClicks) => prevClicks.filter((click) => click.id !== id));
@@ -202,13 +185,6 @@ const Home: React.FC = () => {
   //     setLevelIndex(levelIndex - 1);
   //   }
   // }, [points, levelIndex, levelMinPoints, levelNames.length]);
-
-  const formatProfitPerHour = (profit: number) => {
-    if (profit >= 1000000000) return `+${(profit / 1000000000).toFixed(2)}B`;
-    if (profit >= 1000000) return `+${(profit / 1000000).toFixed(2)}M`;
-    if (profit >= 1000) return `+${(profit / 1000).toFixed(2)}K`;
-    return `+${profit}`;
-  };
 
   // const updatePoints = () => {
   //   mutate({ amount: points, timestamp: Math.floor(Date.now() / 1000) });
@@ -251,74 +227,7 @@ const Home: React.FC = () => {
       {!isLoading ? (
         <>
           <div className="w-full bg-black text-white h-screen font-bold flex flex-col max-w-xl">
-            <div className="px-4 z-10">
-              <div className="flex items-center space-x-2 pt-4">
-                <div className="p-1 rounded-lg bg-[#1d2025]">
-                  <Hamster size={24} className="text-[#d4d4d4]" />
-                </div>
-                <div
-                  onClick={() =>
-                    WebApp.showAlert(
-                      `Telegram ID: ${WebApp?.initDataUnsafe?.user?.id}, Username: ${WebApp?.initDataUnsafe?.user?.username}, First Name: ${WebApp?.initDataUnsafe?.user?.first_name}, Last Name: ${WebApp?.initDataUnsafe?.user?.last_name}`
-                    )
-                  }
-                >
-                  <p className="text-sm">
-                    {WebApp?.initDataUnsafe?.user?.username} (CEO)
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-center justify-between space-x-4 mt-1">
-                <div className="flex items-center w-1/3">
-                  <div className="w-full">
-                    <div className="flex justify-between">
-                      <p className="text-sm">
-                        {levelNames[playerData?.level?.current_level]}
-                      </p>
-                      <p className="text-sm">
-                        {playerData?.level?.current_level}{" "}
-                        <span className="text-[#95908a]">
-                          / {levelNames.length}
-                        </span>
-                      </p>
-                    </div>
-                    <div className="flex items-center mt-1 border-2 border-[#43433b] rounded-full">
-                      <div className="w-full h-2 bg-[#43433b]/[0.6] rounded-full">
-                        <div
-                          className="progress-gradient h-2 rounded-full"
-                          // style={{ width: `${calculateProgress()}%` }}
-                          style={{
-                            width: `${playerData?.level?.next_level_percentage}%`,
-                          }}
-                        ></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="flex items-center w-2/3 border-2 border-[#43433b] rounded-full px-4 py-[2px] bg-[#43433b]/[0.6] max-w-64">
-                  <img src={binanceLogo} alt="Exchange" className="w-8 h-8" />
-                  <div className="h-[32px] w-[2px] bg-[#43433b] mx-2"></div>
-                  <div className="flex-1 text-center">
-                    <p className="text-xs text-[#85827d] font-medium">
-                      Hourly Profit
-                    </p>
-                    <div className="flex items-center justify-center space-x-1">
-                      <img
-                        src={dollarCoin}
-                        alt="Dollar Coin"
-                        className="w-[18px] h-[18px]"
-                      />
-                      <p className="text-sm">
-                        {formatProfitPerHour(profitPerHour)}
-                      </p>
-                      <Info size={20} className="text-[#43433b]" />
-                    </div>
-                  </div>
-                  <div className="h-[32px] w-[2px] bg-[#43433b] mx-2"></div>
-                  <Settings className="text-white" />
-                </div>
-              </div>
-            </div>
+            <Header />
 
             <div className="flex-grow mt-4 bg-[#f3ba2f] rounded-t-[48px] relative top-glow z-0">
               <div className="absolute top-[2px] left-0 right-0 bottom-0 bg-[#1d2025] rounded-t-[46px]">

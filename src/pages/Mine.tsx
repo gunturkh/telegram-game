@@ -1,13 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useEffect } from "react";
-import WebApp from "@twa-dev/sdk";
 import { Sheet } from "react-modal-sheet";
 import toast, { Toaster } from "react-hot-toast";
 import "../App.css";
-import Hamster from "../icons/Hamster";
-import { binanceLogo, dailyCombo, dailyReward, dollarCoin } from "../images";
-import Info from "../icons/Info";
-import Settings from "../icons/Settings";
+import { dailyCombo, dailyReward, dollarCoin } from "../images";
 import BottomTab from "../components/BottomTab";
 // import { useAuthStore } from "../store/auth";
 // import { API_URL } from "../utils/constants";
@@ -15,6 +11,7 @@ import BottomTab from "../components/BottomTab";
 // import Modal from "react-responsive-modal";
 import usePlayer from "../_hooks/usePlayer";
 import Points from "../components/Points";
+import Header from "../components/Header";
 
 const MinePage: React.FC = () => {
   const levelNames = [
@@ -72,10 +69,6 @@ const MinePage: React.FC = () => {
 
   const [levelIndex, setLevelIndex] = useState(6);
   const [points, setPoints] = useState(22749365);
-  const [clicks, setClicks] = useState<{ id: number; x: number; y: number }[]>(
-    []
-  );
-  const pointsToAdd = 11;
   const profitPerHour = 126420;
 
   const [mineTab, setMineTab] = useState<number>(0);
@@ -115,7 +108,7 @@ const MinePage: React.FC = () => {
     //     return acc
     //   }
     // }, [])
-    const categories = cards.reduce(
+    const categories = cards?.reduce(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (acc: any[], currentValue: { category: { name: any } }) => {
         const categoryName = currentValue?.category?.name;
@@ -157,21 +150,6 @@ const MinePage: React.FC = () => {
   //   setClicks([...clicks, { id: Date.now(), x: e.pageX, y: e.pageY }]);
   // };
 
-  const handleAnimationEnd = (id: number) => {
-    setClicks((prevClicks) => prevClicks.filter((click) => click.id !== id));
-  };
-
-  const calculateProgress = () => {
-    if (levelIndex >= levelNames.length - 1) {
-      return 100;
-    }
-    const currentLevelMin = levelMinPoints[levelIndex];
-    const nextLevelMin = levelMinPoints[levelIndex + 1];
-    const progress =
-      ((points - currentLevelMin) / (nextLevelMin - currentLevelMin)) * 100;
-    return Math.min(progress, 100);
-  };
-
   useEffect(() => {
     const currentLevelMin = levelMinPoints[levelIndex];
     const nextLevelMin = levelMinPoints[levelIndex + 1];
@@ -181,13 +159,6 @@ const MinePage: React.FC = () => {
       setLevelIndex(levelIndex - 1);
     }
   }, [points, levelIndex, levelMinPoints, levelNames.length]);
-
-  const formatProfitPerHour = (profit: number) => {
-    if (profit >= 1000000000) return `+${(profit / 1000000000).toFixed(2)}B`;
-    if (profit >= 1000000) return `+${(profit / 1000000).toFixed(2)}M`;
-    if (profit >= 1000) return `+${(profit / 1000).toFixed(2)}K`;
-    return `+${profit}`;
-  };
 
   const formatCardsPriceInfo = (profit: number) => {
     if (profit >= 1000000000) return `${(profit / 1000000000).toFixed(2)}B`;
@@ -224,69 +195,7 @@ const MinePage: React.FC = () => {
   return (
     <div className="bg-black flex justify-center">
       <div className="w-full bg-black text-white h-screen font-bold flex flex-col max-w-xl">
-        <div className="px-4 z-10">
-          <div className="flex items-center space-x-2 pt-4">
-            <div className="p-1 rounded-lg bg-[#1d2025]">
-              <Hamster size={24} className="text-[#d4d4d4]" />
-            </div>
-            <div
-              onClick={() =>
-                WebApp.showAlert(
-                  `Telegram ID: ${WebApp?.initDataUnsafe?.user?.id}, Username: ${WebApp?.initDataUnsafe?.user?.username}, First Name: ${WebApp?.initDataUnsafe?.user?.first_name}, Last Name: ${WebApp?.initDataUnsafe?.user?.last_name}`
-                )
-              }
-            >
-              <p className="text-sm">
-                {WebApp?.initDataUnsafe?.user?.username} (CEO)
-              </p>
-            </div>
-          </div>
-          <div className="flex items-center justify-between space-x-4 mt-1">
-            <div className="flex items-center w-1/3">
-              <div className="w-full">
-                <div className="flex justify-between">
-                  <p className="text-sm">{levelNames[levelIndex]}</p>
-                  <p className="text-sm">
-                    {levelIndex + 1}{" "}
-                    <span className="text-[#95908a]">
-                      / {levelNames.length}
-                    </span>
-                  </p>
-                </div>
-                <div className="flex items-center mt-1 border-2 border-[#43433b] rounded-full">
-                  <div className="w-full h-2 bg-[#43433b]/[0.6] rounded-full">
-                    <div
-                      className="progress-gradient h-2 rounded-full"
-                      style={{ width: `${calculateProgress()}%` }}
-                    ></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="flex items-center w-2/3 border-2 border-[#43433b] rounded-full px-4 py-[2px] bg-[#43433b]/[0.6] max-w-64">
-              <img src={binanceLogo} alt="Exchange" className="w-8 h-8" />
-              <div className="h-[32px] w-[2px] bg-[#43433b] mx-2"></div>
-              <div className="flex-1 text-center">
-                <p className="text-xs text-[#85827d] font-medium">
-                  Profit per hour
-                </p>
-                <div className="flex items-center justify-center space-x-1">
-                  <img
-                    src={dollarCoin}
-                    alt="Dollar Coin"
-                    className="w-[18px] h-[18px]"
-                  />
-                  <p className="text-sm">
-                    {formatProfitPerHour(profitPerHour)}
-                  </p>
-                  <Info size={20} className="text-[#43433b]" />
-                </div>
-              </div>
-              <div className="h-[32px] w-[2px] bg-[#43433b] mx-2"></div>
-              <Settings className="text-white" />
-            </div>
-          </div>
-        </div>
+        <Header />
 
         <div className="flex-grow mt-4 bg-[#f3ba2f] rounded-t-[48px] relative top-glow z-0">
           <div className="absolute top-[2px] left-0 right-0 bottom-0 bg-[#1d2025] rounded-t-[46px] h-max">
@@ -364,9 +273,9 @@ const MinePage: React.FC = () => {
             </Modal> */}
             <div className="flex flex-wrap flex-row mt-6 mb-40">
               {cards
-                .filter(
+                ?.filter(
                   (c: { category: { name: string } }) =>
-                    c.category.name === cardCategories[mineTab]
+                    c.category.name === cardCategories?.[mineTab]
                 )
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 .map((c: Card, cIdx: any) => {
@@ -378,15 +287,14 @@ const MinePage: React.FC = () => {
                         if (c.upgrade) {
                           setOpen(true);
                           setBuyCardData(c);
-                        } else toast.error("Card not upgradable",
-                          {
+                        } else
+                          toast.error("Card not upgradable", {
                             style: {
-                              borderRadius: '10px',
-                              background: '#333',
-                              color: '#fff',
+                              borderRadius: "10px",
+                              background: "#333",
+                              color: "#fff",
                             },
-                          }
-                        );
+                          });
                       }}
                     >
                       <div className="flex flex-col bg-[#272a2f] rounded-2xl h-full">
@@ -506,21 +414,6 @@ const MinePage: React.FC = () => {
 
       <BottomTab />
       <Toaster position="top-left" />
-
-      {clicks.map((click) => (
-        <div
-          key={click.id}
-          className="absolute text-3xl font-bold opacity-0 text-white pointer-events-none"
-          style={{
-            top: `${click.y - 42}px`,
-            left: `${click.x - 28}px`,
-            animation: `float 1s ease-out`,
-          }}
-          onAnimationEnd={() => handleAnimationEnd(click.id)}
-        >
-          +{pointsToAdd}
-        </div>
-      ))}
     </div>
   );
 };
