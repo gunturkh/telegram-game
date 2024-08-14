@@ -1,5 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useEffect } from "react";
 import WebApp from "@twa-dev/sdk";
+import { Sheet } from "react-modal-sheet";
+import toast, { Toaster } from "react-hot-toast";
 import "../App.css";
 import Hamster from "../icons/Hamster";
 import { binanceLogo, dailyCombo, dailyReward, dollarCoin } from "../images";
@@ -9,8 +12,9 @@ import BottomTab from "../components/BottomTab";
 // import { useAuthStore } from "../store/auth";
 // import { API_URL } from "../utils/constants";
 // import { ICard } from "../utils/types";
-import Modal from "react-responsive-modal";
+// import Modal from "react-responsive-modal";
 import usePlayer from "../_hooks/usePlayer";
+import Points from "../components/Points";
 
 const MinePage: React.FC = () => {
   const levelNames = [
@@ -40,12 +44,31 @@ const MinePage: React.FC = () => {
     1000000000, // Lord
   ];
 
+  type Card = {
+    id: number;
+    icon_url: string | undefined;
+    name: string;
+    current: {
+      profit_per_hour: number;
+      level: number;
+    };
+    upgrade: { upgrade_price: number };
+  };
+
   // const { token } = useAuthStore();
   // const [cards, setCards] = useState<ICard[]>([]);
   const {
     queryCards: { data: cards },
+    mutationCardUpgrade: { mutate },
   } = usePlayer();
   const [cardCategories, setCardCategories] = useState<string[]>([]);
+  const [buyCardData, setBuyCardData] = useState<Card>({
+    id: 0,
+    icon_url: "",
+    name: "",
+    upgrade: { upgrade_price: 0 },
+    current: { profit_per_hour: 0, level: 0 },
+  });
 
   const [levelIndex, setLevelIndex] = useState(6);
   const [points, setPoints] = useState(22749365);
@@ -58,8 +81,8 @@ const MinePage: React.FC = () => {
   const [mineTab, setMineTab] = useState<number>(0);
   const [open, setOpen] = useState(false);
 
-  const onOpenModal = () => setOpen(true);
-  const onCloseModal = () => setOpen(false);
+  // const onOpenModal = () => setOpen(true);
+  // const onCloseModal = () => setOpen(false);
 
   const [dailyRewardTimeLeft, setDailyRewardTimeLeft] = useState("");
   const [, setDailyCipherTimeLeft] = useState("");
@@ -181,6 +204,23 @@ const MinePage: React.FC = () => {
     return () => clearInterval(interval);
   }, [profitPerHour]);
 
+  const handleUpgradeCard = async (cardId: number) => {
+    try {
+      mutate({ card_id: cardId });
+
+      setOpen(false);
+      // toast.success(`Success: Buy ${cardId} `, {
+      //   style: {
+      //     borderRadius: "10px",
+      //     background: "#333",
+      //     color: "#fff",
+      //   },
+      // });
+    } catch ({ error }: any) {
+      console.log("error", error);
+    }
+  };
+
   return (
     <div className="bg-black flex justify-center">
       <div className="w-full bg-black text-white h-screen font-bold flex flex-col max-w-xl">
@@ -287,12 +327,14 @@ const MinePage: React.FC = () => {
               </div>
             </div>
 
-            <div className="px-4 mt-4 flex justify-center">
+            <Points />
+
+            {/* <div className="px-4 mt-4 flex justify-center">
               <div className="px-4 py-2 flex items-center space-x-2">
                 <img src={dollarCoin} alt="Dollar Coin" className="w-10 h-10" />
                 <p className="text-4xl text-white">{points.toLocaleString()}</p>
               </div>
-            </div>
+            </div> */}
 
             <div className="max-w-xl bg-[#272a2f] flex justify-around items-center z-50 rounded-3xl text-xs">
               {cardCategories?.length > 0 ? (
@@ -312,24 +354,40 @@ const MinePage: React.FC = () => {
                 <div className="w-full m-1 p-4 rounded-2xl"></div>
               )}
             </div>
-            <Modal open={open} onClose={onCloseModal} center>
+            {/* <Modal open={open} onClose={onCloseModal} center>
               <h2>Simple centered modal</h2>
               <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
                 pulvinar risus non risus hendrerit venenatis. Pellentesque sit
                 amet hendrerit risus, sed porttitor quam.
               </p>
-            </Modal>
+            </Modal> */}
             <div className="flex flex-wrap flex-row mt-6 mb-40">
               {cards
-                .filter((c: { category: { name: string; }; }) => c.category.name === cardCategories[mineTab])
+                .filter(
+                  (c: { category: { name: string } }) =>
+                    c.category.name === cardCategories[mineTab]
+                )
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                .map((c: { icon_url: string | undefined; name: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; current: { profit_per_hour: number; level: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | null | undefined; }; upgrade: { upgrade_price: number; }; }, cIdx: any) => {
+                .map((c: Card, cIdx: any) => {
                   return (
                     <div
                       key={`${cardCategories[mineTab]}-card-${cIdx}`}
                       className="w-1/2  rounded-xl p-1"
-                      onClick={onOpenModal}
+                      onClick={() => {
+                        if (c.upgrade) {
+                          setOpen(true);
+                          setBuyCardData(c);
+                        } else toast.error("Card not upgradable",
+                          {
+                            style: {
+                              borderRadius: '10px',
+                              background: '#333',
+                              color: '#fff',
+                            },
+                          }
+                        );
+                      }}
                     >
                       <div className="flex flex-col bg-[#272a2f] rounded-2xl h-full">
                         <div className="flex flex-row items-center p-3">
@@ -364,7 +422,11 @@ const MinePage: React.FC = () => {
                               className="w-4 h-4"
                             />
                             <p className="text-md text-white">
-                              {formatCardsPriceInfo(c.upgrade.upgrade_price)}
+                              {c?.upgrade?.upgrade_price
+                                ? formatCardsPriceInfo(
+                                    c?.upgrade?.upgrade_price
+                                  )
+                                : ""}
                             </p>
                           </div>
                         </div>
@@ -383,11 +445,67 @@ const MinePage: React.FC = () => {
                 </div>
               </div>
             </div> */}
+            <Sheet
+              isOpen={open}
+              snapPoints={[0.5]}
+              initialSnap={0}
+              disableDrag={false}
+              onClose={() => setOpen(false)}
+            >
+              <Sheet.Container>
+                <Sheet.Header className="bg-[#1d2025]" />
+                <Sheet.Content className="bg-[#1d2025] text-white">
+                  {/* Your sheet content goes here */}
+                  <div className="flex p-4 flex-col w-full justify-center items-center gap-5">
+                    <img
+                      src={buyCardData.icon_url}
+                      className="mx-auto w-12 h-12"
+                    />
+                    <h1>{buyCardData?.name ?? "-"}</h1>
+                    <div className="flex items-center space-x-1">
+                      <img
+                        src={dollarCoin}
+                        alt="Dollar Coin"
+                        className="w-3 h-3"
+                      />
+                      <p className="text-sm text-white">
+                        {formatCardsPriceInfo(
+                          buyCardData.current.profit_per_hour
+                        )}
+                      </p>
+                    </div>
+                    <div className="flex items-center space-x-1">
+                      <img
+                        src={dollarCoin}
+                        alt="Dollar Coin"
+                        className="w-6 h-6"
+                      />
+                      <p className="text-sm text-white">
+                        {buyCardData?.upgrade?.upgrade_price
+                          ? formatCardsPriceInfo(
+                              buyCardData?.upgrade?.upgrade_price
+                            )
+                          : ""}
+                      </p>
+                    </div>
+                    <button
+                      className="flex-1 w-full bg-blue-500 rounded-lg px-4 py-2"
+                      onClick={() => handleUpgradeCard(buyCardData.id)}
+                    >
+                      {" "}
+                      Buy{" "}
+                    </button>
+                  </div>
+                </Sheet.Content>
+              </Sheet.Container>
+              <Sheet.Backdrop onTap={() => setOpen(false)} />
+            </Sheet>
           </div>
         </div>
       </div>
 
       <BottomTab />
+      <Toaster position="top-left" />
 
       {clicks.map((click) => (
         <div
