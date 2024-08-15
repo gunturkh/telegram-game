@@ -6,7 +6,7 @@ import dailyCipher from "./daily-cipher.png";
 import dailyCombo from "./daily-combo.png";
 import mainCharacter from "./main-character.png";
 import hamsterCoin from "./hamster-coin.png";
-import loadingImage from "./loading.png";
+import loadingImage from "./loading2.png";
 
 export {
     hamsterExchange,
