@@ -42,7 +42,7 @@ const Home: React.FC = () => {
   );
   const debouncedClicks = useDebounce(clicks, 1000);
   const [energy, setEnergy] = useState(
-    playerData?.tap_earnings?.available_taps as number || 0
+    playerData?.tap_earnings?.available_taps as number
   );
   const pointsToAdd = playerData?.tap_earnings?.per_tap;
   // const profitPerHour = playerData?.passive_earnings?.per_hour;
@@ -124,7 +124,7 @@ const Home: React.FC = () => {
     //     pageY: 560,
     //   },
     // ]
-    if (energy > 0 && energy > playerData?.tap_earnings?.per_tap) {
+    if (energy > 0 && energy >= playerData?.tap_earnings?.per_tap) {
       for (let touch = 0; touch < e.touches.length; touch++) {
         const touchId = parseInt(`${Date.now()}${touch}`);
         // for (let touch = 0; touch < touches.length; touch++) {
