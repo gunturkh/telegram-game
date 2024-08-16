@@ -26,7 +26,7 @@ const Home: React.FC = () => {
   //   5000000000, // Chairman
   // ];
 
-  const maxEnergy = 1000;
+  // const maxEnergy = 1000;
 
   const {
     query: { data: playerData, isLoading },
@@ -42,7 +42,7 @@ const Home: React.FC = () => {
   );
   const debouncedClicks = useDebounce(clicks, 1000);
   const [energy, setEnergy] = useState(
-    (playerData?.tap_earnings?.max_taps as number) || maxEnergy
+    playerData?.tap_earnings?.available_taps as number || 0
   );
   const pointsToAdd = playerData?.tap_earnings?.per_tap;
   // const profitPerHour = playerData?.passive_earnings?.per_hour;
@@ -220,7 +220,10 @@ const Home: React.FC = () => {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [playerData?.tap_earnings?.max_taps, playerData?.tap_earnings?.recovery_per_seconds]);
+  }, [
+    playerData?.tap_earnings?.max_taps,
+    playerData?.tap_earnings?.recovery_per_seconds,
+  ]);
 
   return (
     <div className="bg-black flex justify-center">
