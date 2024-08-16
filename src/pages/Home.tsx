@@ -33,7 +33,7 @@ const Home: React.FC = () => {
     mutationTap: { mutateAsync },
   } = usePlayer();
   console.log("player data from react query", playerData);
-  const { points, setPoints } = usePlayerStore();
+  const { points, setPoints, energy: initialEnergy } = usePlayerStore();
   console.log("playerData", playerData);
   // const [levelIndex] = useState(0);
   const [taps, setTaps] = useState(0);
@@ -41,9 +41,8 @@ const Home: React.FC = () => {
     []
   );
   const debouncedClicks = useDebounce(clicks, 1000);
-  const [energy, setEnergy] = useState(
-    playerData?.tap_earnings?.available_taps as number
-  );
+  const [energy, setEnergy] = useState(initialEnergy);
+  console.log("energy", energy);
   const pointsToAdd = playerData?.tap_earnings?.per_tap;
   // const profitPerHour = playerData?.passive_earnings?.per_hour;
 
@@ -128,7 +127,7 @@ const Home: React.FC = () => {
       for (let touch = 0; touch < e.touches.length; touch++) {
         const touchId = parseInt(`${Date.now()}${touch}`);
         // for (let touch = 0; touch < touches.length; touch++) {
-        setEnergy((prev) => (prev > 0 ? prev - pointsToAdd : 0));
+        setEnergy((prev: number) => (prev > 0 ? prev - pointsToAdd : 0));
         // console.log('now', touch, parseInt(`${Date.now()}${touch}`))
         const { clientX, clientY, pageX, pageY } = e.touches[touch];
         // console.log('clientX, clientY', clientX, clientY)
@@ -209,7 +208,7 @@ const Home: React.FC = () => {
   const energyPercentage = (energy / playerData?.tap_earnings?.max_taps) * 100;
   useEffect(() => {
     const interval = setInterval(() => {
-      setEnergy((prevEnergy) => {
+      setEnergy((prevEnergy: number) => {
         if (prevEnergy < playerData?.tap_earnings?.max_taps) {
           return (
             prevEnergy + (playerData?.tap_earnings?.recovery_per_seconds || 3)
@@ -225,33 +224,33 @@ const Home: React.FC = () => {
     playerData?.tap_earnings?.recovery_per_seconds,
   ]);
 
+  if (isLoading) return null;
   return (
     <div className="bg-black flex justify-center">
-      {!isLoading ? (
-        <>
-          <div className="w-full bg-black text-white h-screen font-bold flex flex-col max-w-xl">
-            <Header />
+      <>
+        <div className="w-full bg-black text-white h-screen font-bold flex flex-col max-w-xl">
+          <Header />
 
-            <div className="flex-grow mt-4 bg-[#f3ba2f] rounded-t-[48px] relative top-glow z-0">
-              <div className="absolute top-[2px] left-0 right-0 bottom-0 bg-[#1d2025] rounded-t-[46px]">
-                <div className="px-4 mt-6 flex justify-between gap-2">
-                  <div className="bg-[#272a2f] rounded-lg px-4 py-2 w-full relative">
-                    <div className="dot"></div>
-                    <img
-                      src={dailyReward}
-                      alt="Daily Reward"
-                      className="mx-auto w-12 h-12"
-                    />
-                    <p className="text-[10px] text-center text-white mt-1">
-                      Daily reward
-                    </p>
-                    <p className="text-[10px] font-medium text-center text-gray-400 mt-2">
-                      {dailyRewardTimeLeft}
-                    </p>
-                  </div>
-                  <div className="bg-[#272a2f] rounded-lg px-4 py-2 w-full relative">
-                    <div className="dot"></div>
-                    {/* <img
+          <div className="flex-grow mt-4 bg-[#f3ba2f] rounded-t-[48px] relative top-glow z-0">
+            <div className="absolute top-[2px] left-0 right-0 bottom-0 bg-[#1d2025] rounded-t-[46px]">
+              <div className="px-4 mt-6 flex justify-between gap-2">
+                <div className="bg-[#272a2f] rounded-lg px-4 py-2 w-full relative">
+                  <div className="dot"></div>
+                  <img
+                    src={dailyReward}
+                    alt="Daily Reward"
+                    className="mx-auto w-12 h-12"
+                  />
+                  <p className="text-[10px] text-center text-white mt-1">
+                    Daily reward
+                  </p>
+                  <p className="text-[10px] font-medium text-center text-gray-400 mt-2">
+                    {dailyRewardTimeLeft}
+                  </p>
+                </div>
+                <div className="bg-[#272a2f] rounded-lg px-4 py-2 w-full relative">
+                  <div className="dot"></div>
+                  {/* <img
                   src={dailyCipher}
                   alt="Daily Cipher"
                   className="mx-auto w-12 h-12"
@@ -262,25 +261,25 @@ const Home: React.FC = () => {
                 <p className="text-[10px] font-medium text-center text-gray-400 mt-2">
                   {dailyCipherTimeLeft}
                 </p> */}
-                  </div>
-                  <div className="bg-[#272a2f] rounded-lg px-4 py-2 w-full relative">
-                    <div className="dot"></div>
-                    <img
-                      src={dailyCombo}
-                      alt="Daily Combo"
-                      className="mx-auto w-12 h-12"
-                    />
-                    <p className="text-[10px] text-center text-white mt-1">
-                      Daily combo
-                    </p>
-                    <p className="text-[10px] font-medium text-center text-gray-400 mt-2">
-                      {dailyComboTimeLeft}
-                    </p>
-                  </div>
                 </div>
+                <div className="bg-[#272a2f] rounded-lg px-4 py-2 w-full relative">
+                  <div className="dot"></div>
+                  <img
+                    src={dailyCombo}
+                    alt="Daily Combo"
+                    className="mx-auto w-12 h-12"
+                  />
+                  <p className="text-[10px] text-center text-white mt-1">
+                    Daily combo
+                  </p>
+                  <p className="text-[10px] font-medium text-center text-gray-400 mt-2">
+                    {dailyComboTimeLeft}
+                  </p>
+                </div>
+              </div>
 
-                <Points />
-                {/* <div className="px-4 mt-4 flex justify-center">
+              <Points />
+              {/* <div className="px-4 mt-4 flex justify-center">
               <div className="px-4 py-2 flex items-center space-x-2">
                 <img src={dollarCoin} alt="Dollar Coin" className="w-10 h-10" />
                 <p className="text-4xl text-white">
@@ -289,58 +288,57 @@ const Home: React.FC = () => {
               </div>
             </div> */}
 
-                <div className="px-4 mt-4 flex justify-center">
-                  <div
-                    className="w-60 h-60 p-4 rounded-full circle-outer"
-                    onTouchStart={handleCardClick}
-                  >
-                    <div className="w-full h-full rounded-full circle-inner">
-                      <img
-                        src={mainCharacter}
-                        alt="Main Character"
-                        className="w-full h-full"
-                      />
-                      {/* <img src="https://drive.google.com/thumbnail?id=188oXT8FnUj1byookWrvnw2_W0uswTT8d&sz=w1000" alt="None"/> */}
-                      {/* <img src="https://drive.google.com/file/d/188oXT8FnUj1byookWrvnw2_W0uswTT8d/view"/> */}
-                    </div>
+              <div className="px-4 mt-4 flex justify-center">
+                <div
+                  className="w-60 h-60 p-4 rounded-full circle-outer"
+                  onTouchStart={handleCardClick}
+                >
+                  <div className="w-full h-full rounded-full circle-inner">
+                    <img
+                      src={mainCharacter}
+                      alt="Main Character"
+                      className="w-full h-full"
+                    />
+                    {/* <img src="https://drive.google.com/thumbnail?id=188oXT8FnUj1byookWrvnw2_W0uswTT8d&sz=w1000" alt="None"/> */}
+                    {/* <img src="https://drive.google.com/file/d/188oXT8FnUj1byookWrvnw2_W0uswTT8d/view"/> */}
                   </div>
                 </div>
-                <div className="px-4 w-full flex flex-col gap-2">
-                  <div className="flex w-full items-center justify-between">
-                    <span className="text-[15px]">Energy</span>
-                    <span className="text-[15px] font-semibold">
-                      {energy} / {playerData?.tap_earnings?.max_taps}
-                    </span>
-                  </div>
-                  <div className="w-full relative rounded-full h-[16px] bg-[#012237] border border-[#073755]">
-                    <div
-                      className="absolute left-0 h-full rounded-full bg-gradient-to-r from-[#dc7b0c] to-[#fff973]"
-                      style={{ width: `${energyPercentage}%` }}
-                    ></div>
-                  </div>
+              </div>
+              <div className="px-4 w-full flex flex-col gap-2">
+                <div className="flex w-full items-center justify-between">
+                  <span className="text-[15px]">Energy</span>
+                  <span className="text-[15px] font-semibold">
+                    {energy} / {playerData?.tap_earnings?.max_taps}
+                  </span>
+                </div>
+                <div className="w-full relative rounded-full h-[16px] bg-[#012237] border border-[#073755]">
+                  <div
+                    className="absolute left-0 h-full rounded-full bg-gradient-to-r from-[#dc7b0c] to-[#fff973]"
+                    style={{ width: `${energyPercentage}%` }}
+                  ></div>
                 </div>
               </div>
             </div>
           </div>
+        </div>
 
-          <BottomTab />
+        <BottomTab />
 
-          {clicks.map((click) => (
-            <div
-              key={click.id}
-              className="absolute text-3xl font-bold opacity-0 text-white pointer-events-none"
-              style={{
-                top: `${click.y - 42}px`,
-                left: `${click.x - 28}px`,
-                animation: `float 1s ease-out`,
-              }}
-              // onAnimationEnd={() => handleAnimationEnd(click.id)}
-            >
-              +{pointsToAdd}
-            </div>
-          ))}
-        </>
-      ) : null}
+        {clicks.map((click) => (
+          <div
+            key={click.id}
+            className="absolute text-3xl font-bold opacity-0 text-white pointer-events-none"
+            style={{
+              top: `${click.y - 42}px`,
+              left: `${click.x - 28}px`,
+              animation: `float 1s ease-out`,
+            }}
+            // onAnimationEnd={() => handleAnimationEnd(click.id)}
+          >
+            +{pointsToAdd}
+          </div>
+        ))}
+      </>
     </div>
   );
 };

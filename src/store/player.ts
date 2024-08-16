@@ -27,6 +27,8 @@ export const usePlayerStore = create<any, any>(
             points: state.points + point,
           };
         }),
+      energy: 0,
+      setInitialEnergy: (energy: number) => set(() => ({ energy: energy })),
     }),
     {
       name: "player-storage", // name of the item in the storage (must be unique)

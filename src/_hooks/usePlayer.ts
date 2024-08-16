@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 const usePlayer = () => {
   const queryClient = useQueryClient();
   const setInitialPoints = usePlayerStore.getState().setInitialPoints;
+  const setInitialEnergy = usePlayerStore.getState().setInitialEnergy;
   // queries
   const query = useQuery({
     queryKey: ["player"],
@@ -15,6 +16,8 @@ const usePlayer = () => {
         const response = await http.get("/sync");
         if (response?.data?.data?.balance)
           setInitialPoints(response.data.data.balance);
+        if (response?.data?.data?.tap_earnings && response?.data?.data?.tap_earnings?.available_taps)
+          setInitialEnergy(response?.data?.data?.tap_earnings?.available_taps);
         return response.data?.data;
       } catch (error) {
         if (error instanceof AxiosError) {
@@ -89,7 +92,7 @@ const usePlayer = () => {
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["player"] });
+      // queryClient.invalidateQueries({ queryKey: ["player"] });
     },
     onError: (error, variables, context) => {
       console.log("error", error);
@@ -112,7 +115,7 @@ const usePlayer = () => {
         return response.data?.data;
       } catch (error) {
         if (error instanceof AxiosError) {
-          throw new Error("Axios Error");
+          throw new Error(error.message);
         }
 
         throw new Error("Unknown Error");
