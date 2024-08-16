@@ -49,7 +49,7 @@ const MinePage: React.FC = () => {
       profit_per_hour: number;
       level: number;
     };
-    upgrade: { upgrade_price: number };
+    upgrade: { upgrade_price: number; level: number; profit_per_hour: number };
   };
 
   // const { token } = useAuthStore();
@@ -63,7 +63,7 @@ const MinePage: React.FC = () => {
     id: 0,
     icon_url: "",
     name: "",
-    upgrade: { upgrade_price: 0 },
+    upgrade: { upgrade_price: 0, level: 0, profit_per_hour: 0 },
     current: { profit_per_hour: 0, level: 0 },
   });
 
@@ -361,7 +361,11 @@ const MinePage: React.FC = () => {
               onClose={() => setOpen(false)}
             >
               <Sheet.Container>
-                <Sheet.Header className="bg-[#1d2025]" />
+                <Sheet.Header className="bg-[#1d2025]">
+                  <div className="w-full flex justify-end px-4">
+                    <button className="text-white text-lg font-bold" onClick={() => setOpen(false)}>x</button>
+                  </div>
+                </Sheet.Header>
                 <Sheet.Content className="bg-[#1d2025] text-white">
                   {/* Your sheet content goes here */}
                   <div className="flex p-4 flex-col w-full justify-center items-center gap-5">
@@ -369,29 +373,34 @@ const MinePage: React.FC = () => {
                       src={buyCardData.icon_url}
                       className="mx-auto w-12 h-12"
                     />
-                    <h1>{buyCardData?.name ?? "-"}</h1>
-                    <div className="flex items-center space-x-1">
-                      <img
-                        src={dollarCoin}
-                        alt="Dollar Coin"
-                        className="w-3 h-3"
-                      />
-                      <p className="text-sm text-white">
-                        {formatCardsPriceInfo(
-                          buyCardData.current.profit_per_hour
-                        )}
-                      </p>
+                    <h1 className="text-lg font-bold">
+                      {buyCardData?.name ?? "-"}
+                    </h1>
+                    <div className="flex flex-col justify-center gap-1 items-center">
+                      <p className="text-xs font-thin">Profit per hour</p>
+                      <div className="flex items-center space-x-1">
+                        <img
+                          src={dollarCoin}
+                          alt="Dollar Coin"
+                          className="w-3 h-3"
+                        />
+                        <p className="text-xs text-white">
+                          {formatCardsPriceInfo(
+                            buyCardData.current.profit_per_hour
+                          )}
+                        </p>
+                      </div>
                     </div>
-                    <div className="flex items-center space-x-1">
+                    <div className="flex items-center space-x-2">
                       <img
                         src={dollarCoin}
                         alt="Dollar Coin"
                         className="w-6 h-6"
                       />
-                      <p className="text-sm text-white">
-                        {buyCardData?.upgrade?.upgrade_price
+                      <p className="text-md font-bold text-white">
+                        {buyCardData?.upgrade?.profit_per_hour
                           ? formatCardsPriceInfo(
-                              buyCardData?.upgrade?.upgrade_price
+                              buyCardData?.upgrade?.profit_per_hour
                             )
                           : ""}
                       </p>

@@ -1,11 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDebounce } from "@uidotdev/usehooks";
 import "../App.css";
-import {
-  dailyCombo,
-  dailyReward,
-  mainCharacter,
-} from "../images";
+import { dailyCombo, dailyReward, mainCharacter } from "../images";
 import BottomTab from "../components/BottomTab";
 import { usePlayerStore } from "../store/player";
 import Points from "../components/Points";
@@ -45,7 +41,9 @@ const Home: React.FC = () => {
     []
   );
   const debouncedClicks = useDebounce(clicks, 1000);
-  const [energy, setEnergy] = useState(maxEnergy);
+  const [energy, setEnergy] = useState(
+    (playerData?.tap_earnings?.max_taps as number) || maxEnergy
+  );
   const pointsToAdd = playerData?.tap_earnings?.per_tap;
   // const profitPerHour = playerData?.passive_earnings?.per_hour;
 
@@ -126,7 +124,7 @@ const Home: React.FC = () => {
     //     pageY: 560,
     //   },
     // ]
-    if (energy > 0) {
+    if (energy > 0 && energy > playerData?.tap_earnings?.per_tap) {
       for (let touch = 0; touch < e.touches.length; touch++) {
         const touchId = parseInt(`${Date.now()}${touch}`);
         // for (let touch = 0; touch < touches.length; touch++) {
@@ -208,19 +206,21 @@ const Home: React.FC = () => {
   //   };
   // }, []);
 
-  const energyPercentage = (energy / maxEnergy) * 100;
+  const energyPercentage = (energy / playerData?.tap_earnings?.max_taps) * 100;
   useEffect(() => {
     const interval = setInterval(() => {
       setEnergy((prevEnergy) => {
-        if (prevEnergy < maxEnergy) {
-          return prevEnergy + 1;
+        if (prevEnergy < playerData?.tap_earnings?.max_taps) {
+          return (
+            prevEnergy + (playerData?.tap_earnings?.recovery_per_seconds || 3)
+          );
         }
         return prevEnergy;
       });
-    }, 1500);
+    }, 1000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [playerData?.tap_earnings?.max_taps, playerData?.tap_earnings?.recovery_per_seconds]);
 
   return (
     <div className="bg-black flex justify-center">
@@ -306,7 +306,7 @@ const Home: React.FC = () => {
                   <div className="flex w-full items-center justify-between">
                     <span className="text-[15px]">Energy</span>
                     <span className="text-[15px] font-semibold">
-                      {energy} / {maxEnergy}
+                      {energy} / {playerData?.tap_earnings?.max_taps}
                     </span>
                   </div>
                   <div className="w-full relative rounded-full h-[16px] bg-[#012237] border border-[#073755]">
