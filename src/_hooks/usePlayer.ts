@@ -16,7 +16,10 @@ const usePlayer = () => {
         const response = await http.get("/sync");
         if (response?.data?.data?.balance)
           setInitialPoints(response.data.data.balance);
-        if (response?.data?.data?.tap_earnings && response?.data?.data?.tap_earnings?.available_taps)
+        if (
+          response?.data?.data?.tap_earnings &&
+          response?.data?.data?.tap_earnings?.available_taps
+        )
           setInitialEnergy(response?.data?.data?.tap_earnings?.available_taps);
         return response.data?.data;
       } catch (error) {
@@ -129,14 +132,20 @@ const usePlayer = () => {
           color: "#fff",
         },
       });
-      queryClient.invalidateQueries({ queryKey: ["player"]});
-      queryClient.invalidateQueries({ queryKey: ["cards"]});
+      queryClient.invalidateQueries({ queryKey: ["player"] });
+      queryClient.invalidateQueries({ queryKey: ["cards"] });
     },
     onError: (error, variables, context) => {
       console.log("error", error);
       console.log("variables", variables);
       console.log("context", context);
-      toast.error(error.message);
+      toast.error('Failed to buy/upgrade card', {
+        style: {
+          borderRadius: "10px",
+          background: "#333",
+          color: "#fff",
+        },
+      });
     },
   });
   return {
