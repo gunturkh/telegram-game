@@ -371,7 +371,7 @@ const MinePage: React.FC = () => {
                                 </p>
                               ) : null}
                               {!c?.upgrade?.is_available && (
-                                <p className="text-sm text-white">
+                                <p className="text-sm text-neutral-500">
                                   {formatCardsPriceInfo(
                                     c.upgrade?.profit_per_hour_delta
                                   )}
