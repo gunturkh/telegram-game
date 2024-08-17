@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDebounce } from "@uidotdev/usehooks";
 import "../App.css";
-import { dailyCombo, dailyReward, mainCharacter } from "../images";
+import { dailyCombo, dailyReward } from "../images";
 import BottomTab from "../components/BottomTab";
 import { usePlayerStore } from "../store/player";
 import Points from "../components/Points";
@@ -295,8 +295,8 @@ const Home: React.FC = () => {
                 >
                   <div className="w-full h-full rounded-full circle-inner">
                     <img
-                      src={mainCharacter}
-                      alt="Main Character"
+                      src={playerData?.level?.current_level_image_url || ""}
+                      alt={playerData?.level?.current_level_name || "Chipmunk"}
                       className="w-full h-full"
                     />
                     {/* <img src="https://drive.google.com/thumbnail?id=188oXT8FnUj1byookWrvnw2_W0uswTT8d&sz=w1000" alt="None"/> */}
