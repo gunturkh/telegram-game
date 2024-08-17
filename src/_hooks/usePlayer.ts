@@ -32,7 +32,7 @@ const usePlayer = () => {
     queryKey: ["cards"],
     queryFn: async () => {
       try {
-        const response = await http.get("/cards");
+        const response = await http.get("/cards-v2");
         return response.data?.data;
       } catch (error) {
         if (error instanceof AxiosError) {

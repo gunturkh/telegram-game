@@ -12,6 +12,7 @@ import BottomTab from "../components/BottomTab";
 import usePlayer from "../_hooks/usePlayer";
 import Points from "../components/Points";
 import Header from "../components/Header";
+import Lock from "../icons/Lock";
 
 const MinePage: React.FC = () => {
   const levelNames = [
@@ -43,28 +44,53 @@ const MinePage: React.FC = () => {
 
   type Card = {
     id: number;
-    icon_url: string | undefined;
     name: string;
-    current: {
-      profit_per_hour: number;
+    icon_url: string | undefined;
+    level: number;
+    category_id: number;
+    profit_per_hour: number;
+    upgrade: {
       level: number;
+      price: number;
+      profit_per_hour: number;
+      profit_per_hour_delta: number;
+      is_available: boolean;
+      condition: { id: number; level: number; name: string } | null;
     };
-    upgrade: { upgrade_price: number; level: number; profit_per_hour: number };
   };
 
   // const { token } = useAuthStore();
   // const [cards, setCards] = useState<ICard[]>([]);
   const {
-    queryCards: { data: cards },
+    queryCards: { data: cardsData },
     mutationCardUpgrade: { mutate },
   } = usePlayer();
-  const [cardCategories, setCardCategories] = useState<string[]>([]);
+  console.log("cardsData", cardsData);
+  const { cards, categories } = cardsData;
+  console.log("cards", cards);
+  console.log("categories", categories);
+  // console.log('data', data)
+  // const { data: cardsData } = data || {};
+  // console.log("cardsData", cardsData);
+  // const { cards, categories } = cardsData;
+  // console.log("cards", cards);
+  // console.log("categories", categories);
+  // const [cardCategories, setCardCategories] = useState<string[]>([]);
   const [buyCardData, setBuyCardData] = useState<Card>({
     id: 0,
-    icon_url: "",
     name: "",
-    upgrade: { upgrade_price: 0, level: 0, profit_per_hour: 0 },
-    current: { profit_per_hour: 0, level: 0 },
+    icon_url: "",
+    level: 0,
+    category_id: 0,
+    profit_per_hour: 0,
+    upgrade: {
+      price: 0,
+      level: 0,
+      profit_per_hour: 0,
+      profit_per_hour_delta: 0,
+      is_available: false,
+      condition: null,
+    },
   });
 
   const [levelIndex, setLevelIndex] = useState(6);
@@ -100,28 +126,28 @@ const MinePage: React.FC = () => {
     return `${paddedHours}:${paddedMinutes}`;
   };
 
-  useEffect(() => {
-    // const cardCategories = cards.reduce((acc, currentValue) => {
-    //   if (acc.includes(currentValue?.category?.name)) return acc
-    //   else {
-    //     acc.push(currentValue?.category?.name)
-    //     return acc
-    //   }
-    // }, [])
-    const categories = cards?.reduce(
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (acc: any[], currentValue: { category: { name: any } }) => {
-        const categoryName = currentValue?.category?.name;
-        if (categoryName && !acc.includes(categoryName)) {
-          acc.push(categoryName);
-        }
-        return acc;
-      },
-      [] as string[]
-    );
-    console.log("categories", categories);
-    setCardCategories(categories);
-  }, [cards]);
+  // useEffect(() => {
+  //   // const cardCategories = cards.reduce((acc, currentValue) => {
+  //   //   if (acc.includes(currentValue?.category?.name)) return acc
+  //   //   else {
+  //   //     acc.push(currentValue?.category?.name)
+  //   //     return acc
+  //   //   }
+  //   // }, [])
+  //   // const categories = cards?.reduce(
+  //   //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  //   //   (acc: any[], currentValue: { category: { name: any } }) => {
+  //   //     const categoryName = currentValue?.category?.name;
+  //   //     if (categoryName && !acc.includes(categoryName)) {
+  //   //       acc.push(categoryName);
+  //   //     }
+  //   //     return acc;
+  //   //   },
+  //   //   [] as string[]
+  //   // );
+  //   const mappedCategories =
+  //   setCardCategories();
+  // }, [categories]);
 
   useEffect(() => {
     const updateCountdowns = () => {
@@ -164,7 +190,7 @@ const MinePage: React.FC = () => {
     if (profit >= 1000000000) return `${(profit / 1000000000).toFixed(2)}B`;
     if (profit >= 1000000) return `${(profit / 1000000).toFixed(2)}M`;
     if (profit >= 1000) return `${(profit / 1000).toFixed(2)}K`;
-    return `+${profit}`;
+    return `${profit}`;
   };
 
   useEffect(() => {
@@ -246,8 +272,8 @@ const MinePage: React.FC = () => {
             </div> */}
 
             <div className="max-w-xl bg-[#272a2f] flex justify-around items-center z-50 rounded-3xl text-xs">
-              {cardCategories?.length > 0 ? (
-                cardCategories?.map((c, cIdx) => {
+              {categories?.length > 0 ? (
+                categories?.map((c: any, cIdx: number) => {
                   return (
                     <div
                       className={`text-center text-[#85827d] w-1/5 ${
@@ -255,7 +281,7 @@ const MinePage: React.FC = () => {
                       }`}
                       onClick={() => setMineTab(cIdx)}
                     >
-                      <p className="mt-1">{c}</p>
+                      <p className="mt-1">{c.name}</p>
                     </div>
                   );
                 })
@@ -274,14 +300,14 @@ const MinePage: React.FC = () => {
             <div className="flex flex-wrap flex-row mt-6 mb-40">
               {cards
                 ?.filter(
-                  (c: { category: { name: string } }) =>
-                    c.category.name === cardCategories?.[mineTab]
+                  (c: { category_id: number }) =>
+                    c.category_id === categories?.[mineTab]?.id
                 )
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 .map((c: Card, cIdx: any) => {
                   return (
                     <div
-                      key={`${cardCategories[mineTab]}-card-${cIdx}`}
+                      key={`${categories[mineTab]?.name}-card-${cIdx}`}
                       className="w-1/2  rounded-xl p-1"
                       onClick={() => {
                         if (c.upgrade) {
@@ -299,29 +325,68 @@ const MinePage: React.FC = () => {
                     >
                       <div className="flex flex-col bg-[#272a2f] rounded-2xl h-full">
                         <div className="flex flex-row items-center p-3">
-                          <img src={c.icon_url} className="mx-auto w-12 h-12" />
+                          {!c?.upgrade?.is_available && (
+                            <div className="w-16 h-16">
+                              <div className="flex items-center justify-center rounded-xl bg-neutral-500/30 w-16 h-16">
+                                <img
+                                  src={c.icon_url}
+                                  className="absolute mx-auto w-10 h-10"
+                                />
+                                <Lock
+                                  size={24}
+                                  className="absolute text-[#43433b]"
+                                  containerClassName="flex h-full justify-center items-center"
+                                />
+                              </div>
+                            </div>
+                          )}
+                          {c?.upgrade?.is_available && (
+                            <img
+                              src={c.icon_url}
+                              className=" mx-auto w-12 h-12"
+                            />
+                          )}
                           <div className="flex flex-col gap-1 ml-4">
                             <p className="text-xs font-normal flex-1">
                               {c.name}
                             </p>
-                            <p className="text-xs font-thin">Profit per hour</p>
+                            <p className="text-xs text-neutral-400 font-thin">
+                              Profit per hour
+                            </p>
                             <div className="flex items-center space-x-1">
                               <img
                                 src={dollarCoin}
                                 alt="Dollar Coin"
                                 className="w-3 h-3"
                               />
-                              <p className="text-sm text-white">
-                                {formatCardsPriceInfo(
-                                  c.current.profit_per_hour
-                                )}
-                              </p>
+                              {c?.upgrade?.is_available && c?.level > 0 ? (
+                                <p className="text-sm text-white">
+                                  {formatCardsPriceInfo(c.profit_per_hour)}
+                                </p>
+                              ) : c?.upgrade?.is_available && c?.level === 0 ? (
+                                <p className="text-sm text-neutral-500">
+                                  +{formatCardsPriceInfo(
+                                    c.upgrade?.profit_per_hour
+                                  )}
+                                </p>
+                              ) : null}
+                              {!c?.upgrade?.is_available && (
+                                <p className="text-sm text-white">
+                                  {formatCardsPriceInfo(
+                                    c.upgrade?.profit_per_hour_delta
+                                  )}
+                                </p>
+                              )}
                             </div>
                           </div>
                         </div>
                         <div className="flex flex-row w-full items-center border-t-[0.5px] border-gray-500">
-                          <p className="text-xs font-semibold p-4 border-r-[0.5px] border-gray-500">
-                            lvl {c.current.level}
+                          <p
+                            className={`text-xs font-semibold p-4 border-r-[0.5px] border-gray-500 ${
+                              c?.level > 0 ? "text-white" : "text-neutral-500"
+                            }`}
+                          >
+                            lvl {c.level}
                           </p>
                           <div className="flex items-center space-x-1 flex-1 p-4">
                             <img
@@ -330,11 +395,16 @@ const MinePage: React.FC = () => {
                               className="w-4 h-4"
                             />
                             <p className="text-md text-white">
-                              {c?.upgrade?.upgrade_price
-                                ? formatCardsPriceInfo(
-                                    c?.upgrade?.upgrade_price
-                                  )
-                                : ""}
+                              {c.upgrade?.is_available && c?.upgrade?.price ? (
+                                formatCardsPriceInfo(c?.upgrade?.price)
+                              ) : (
+                                <span className="text-xs font-thin">
+                                  <p className="font-semibold">
+                                    {c?.upgrade?.condition?.name}
+                                  </p>{" "}
+                                  lvl {c?.upgrade?.condition?.level}
+                                </span>
+                              )}
                             </p>
                           </div>
                         </div>
@@ -363,7 +433,12 @@ const MinePage: React.FC = () => {
               <Sheet.Container>
                 <Sheet.Header className="bg-[#1d2025]">
                   <div className="w-full flex justify-end px-4">
-                    <button className="text-white text-lg font-bold" onClick={() => setOpen(false)}>x</button>
+                    <button
+                      className="text-white text-lg font-bold"
+                      onClick={() => setOpen(false)}
+                    >
+                      x
+                    </button>
                   </div>
                 </Sheet.Header>
                 <Sheet.Content className="bg-[#1d2025] text-white">
@@ -384,9 +459,10 @@ const MinePage: React.FC = () => {
                           alt="Dollar Coin"
                           className="w-3 h-3"
                         />
-                        <p className="text-xs text-white">
+                        <p className="text-xs text-white font-semibold">
+                          +{" "}
                           {formatCardsPriceInfo(
-                            buyCardData.current.profit_per_hour
+                            buyCardData?.upgrade?.profit_per_hour_delta
                           )}
                         </p>
                       </div>

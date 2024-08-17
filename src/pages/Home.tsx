@@ -288,9 +288,9 @@ const Home: React.FC = () => {
               </div>
             </div> */}
 
-              <div className="px-4 mt-4 flex justify-center">
+              <div className="px-2 w-50 mt-auto flex flex-col items-center justify-center">
                 <div
-                  className="w-60 h-60 p-4 rounded-full circle-outer"
+                  className="w-[14rem] h-[14rem] p-4 rounded-full circle-outer"
                   onTouchStart={handleCardClick}
                 >
                   <div className="w-full h-full rounded-full circle-inner">
@@ -303,19 +303,19 @@ const Home: React.FC = () => {
                     {/* <img src="https://drive.google.com/file/d/188oXT8FnUj1byookWrvnw2_W0uswTT8d/view"/> */}
                   </div>
                 </div>
-              </div>
-              <div className="px-4 w-full flex flex-col gap-2">
-                <div className="flex w-full items-center justify-between">
-                  <span className="text-[15px]">Energy</span>
-                  <span className="text-[15px] font-semibold">
-                    {energy} / {playerData?.tap_earnings?.max_taps}
-                  </span>
-                </div>
-                <div className="w-full relative rounded-full h-[16px] bg-[#012237] border border-[#073755]">
-                  <div
-                    className="absolute left-0 h-full rounded-full bg-gradient-to-r from-[#dc7b0c] to-[#fff973]"
-                    style={{ width: `${energyPercentage}%` }}
-                  ></div>
+                <div className="px-4 w-full flex flex-col gap-2">
+                  <div className="flex w-full items-center justify-between">
+                    <span className="text-[15px]">Energy</span>
+                    <span className="text-[15px] font-semibold">
+                      {energy} / {playerData?.tap_earnings?.max_taps}
+                    </span>
+                  </div>
+                  <div className="w-full relative rounded-full h-[16px] bg-[#012237] border border-[#073755]">
+                    <div
+                      className="absolute left-0 h-full rounded-full bg-gradient-to-r from-[#dc7b0c] to-[#fff973]"
+                      style={{ width: `${energyPercentage}%` }}
+                    ></div>
+                  </div>
                 </div>
               </div>
             </div>
