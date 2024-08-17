@@ -66,7 +66,7 @@ const MinePage: React.FC = () => {
     mutationCardUpgrade: { mutate },
   } = usePlayer();
   console.log("cardsData", cardsData);
-  const { cards, categories } = cardsData;
+  const { cards = [], categories = [] } = cardsData || {};
   console.log("cards", cards);
   console.log("categories", categories);
   // console.log('data', data)
@@ -365,7 +365,8 @@ const MinePage: React.FC = () => {
                                 </p>
                               ) : c?.upgrade?.is_available && c?.level === 0 ? (
                                 <p className="text-sm text-neutral-500">
-                                  +{formatCardsPriceInfo(
+                                  +
+                                  {formatCardsPriceInfo(
                                     c.upgrade?.profit_per_hour
                                   )}
                                 </p>
