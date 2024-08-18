@@ -19,8 +19,6 @@ const App: React.FC = () => {
   const { setAuthToken } = useAuthStore();
   const [loading, setLoading] = useState(false);
   console.log("env", import.meta.env.VITE_API_URL);
-  console.log('WebApp startapp', WebApp?.initDataUnsafe?.start_param)
-
   useEffect(() => {
     const telegramData = __DEV__
       ? {

@@ -19,6 +19,10 @@ const levelNames = [
   "Chairman", // From 5,000,000,000 coins to ∞
 ];
 function Header() {
+  const search = window.location.search;
+  const params = new URLSearchParams(search);
+  const foo = params.get("tgWebAppStartParam");
+  console.log("foo", foo);
   const {
     query: { data: playerData },
   } = usePlayer();
@@ -38,7 +42,7 @@ function Header() {
         <div
           onClick={() =>
             WebApp.showAlert(
-              `WebApp: query_id: ${WebApp?.initDataUnsafe?.query_id}, Referral: ${WebApp?.initDataUnsafe?.start_param}, Telegram ID: ${WebApp?.initDataUnsafe?.user?.id}, Username: ${WebApp?.initDataUnsafe?.user?.username}, First Name: ${WebApp?.initDataUnsafe?.user?.first_name}, Last Name: ${WebApp?.initDataUnsafe?.user?.last_name}`
+              `WebApp: Referral: ${foo}, Telegram ID: ${WebApp?.initDataUnsafe?.user?.id}, Username: ${WebApp?.initDataUnsafe?.user?.username}, First Name: ${WebApp?.initDataUnsafe?.user?.first_name}, Last Name: ${WebApp?.initDataUnsafe?.user?.last_name}`
             )
           }
         >
