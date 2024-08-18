@@ -18,6 +18,7 @@ const App: React.FC = () => {
   console.log("player data", data, isLoading);
   const { setAuthToken } = useAuthStore();
   const [loading, setLoading] = useState(false);
+  const search = window.location.search;
   console.log("env", import.meta.env.VITE_API_URL);
   useEffect(() => {
     const telegramData = __DEV__
@@ -101,6 +102,7 @@ const App: React.FC = () => {
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path={`/${search}`} element={<Home />} />
         <Route path="/mine" element={<MinePage />} />
       </Routes>
     </Router>
