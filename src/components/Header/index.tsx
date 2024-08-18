@@ -38,7 +38,7 @@ function Header() {
         <div
           onClick={() =>
             WebApp.showAlert(
-              `Referral: ${WebApp?.initDataUnsafe?.start_param}, Telegram ID: ${WebApp?.initDataUnsafe?.user?.id}, Username: ${WebApp?.initDataUnsafe?.user?.username}, First Name: ${WebApp?.initDataUnsafe?.user?.first_name}, Last Name: ${WebApp?.initDataUnsafe?.user?.last_name}`
+              `WebApp: query_id: ${WebApp?.initDataUnsafe?.query_id}, Referral: ${WebApp?.initDataUnsafe?.start_param}, Telegram ID: ${WebApp?.initDataUnsafe?.user?.id}, Username: ${WebApp?.initDataUnsafe?.user?.username}, First Name: ${WebApp?.initDataUnsafe?.user?.first_name}, Last Name: ${WebApp?.initDataUnsafe?.user?.last_name}`
             )
           }
         >
