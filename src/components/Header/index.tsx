@@ -4,6 +4,7 @@ import usePlayer from "../../_hooks/usePlayer";
 import { dollarCoin } from "../../images";
 import Info from "../../icons/Info";
 import Settings from "../../icons/Settings";
+import { useSearchParams } from "react-router-dom";
 
 const levelNames = [
   "Baby", // From 0 to 4999 coins
@@ -19,11 +20,15 @@ const levelNames = [
   "Chairman", // From 5,000,000,000 coins to ∞
 ];
 function Header() {
+  const [searchParams] = useSearchParams();
+  const tgWebAppStartParamData = searchParams.get("tgWebAppStartParam");
   const search = window.location.search;
   const params = new URLSearchParams(search);
   const foo = params.get("tgWebAppStartParam");
   console.log("foo", foo);
-  console.log('search', search)
+  console.log("search", search);
+  console.log("searchParams", searchParams);
+  console.log("tgWebAppStartParamData", tgWebAppStartParamData);
   const {
     query: { data: playerData },
   } = usePlayer();
@@ -43,7 +48,7 @@ function Header() {
         <div
           onClick={() =>
             WebApp.showAlert(
-              `WebApp: Search: ${search}, Referral: ${foo}, Telegram ID: ${WebApp?.initDataUnsafe?.user?.id}, Username: ${WebApp?.initDataUnsafe?.user?.username}, First Name: ${WebApp?.initDataUnsafe?.user?.first_name}, Last Name: ${WebApp?.initDataUnsafe?.user?.last_name}`
+              `WebApp: tgWebAppStartParamData: ${tgWebAppStartParamData}, Search: ${search}, Referral: ${foo}, Telegram ID: ${WebApp?.initDataUnsafe?.user?.id}, Username: ${WebApp?.initDataUnsafe?.user?.username}, First Name: ${WebApp?.initDataUnsafe?.user?.first_name}, Last Name: ${WebApp?.initDataUnsafe?.user?.last_name}`
             )
           }
         >
