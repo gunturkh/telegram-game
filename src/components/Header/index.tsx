@@ -47,9 +47,7 @@ function Header() {
         </div>
         <div
           onClick={() =>
-            WebApp.showAlert(
-              `WebApp: url: ${window.location.href} tgWebAppStartParamData: ${tgWebAppStartParamData}, Search: ${search}, Referral: ${foo}, Telegram ID: ${WebApp?.initDataUnsafe?.user?.id}, Username: ${WebApp?.initDataUnsafe?.user?.username}, First Name: ${WebApp?.initDataUnsafe?.user?.first_name}, Last Name: ${WebApp?.initDataUnsafe?.user?.last_name}`
-            )
+            WebApp.showAlert(`WebApp: url: ${window.location.href}`)
           }
         >
           <p className="text-sm">
