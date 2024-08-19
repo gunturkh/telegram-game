@@ -5,6 +5,7 @@ import { dollarCoin } from "../../images";
 import Info from "../../icons/Info";
 import Settings from "../../icons/Settings";
 import { useSearchParams } from "react-router-dom";
+import { useState } from "react";
 
 const levelNames = [
   "Baby", // From 0 to 4999 coins
@@ -20,6 +21,7 @@ const levelNames = [
   "Chairman", // From 5,000,000,000 coins to ∞
 ];
 function Header() {
+  const [msg, showMsg] = useState(false);
   const [searchParams] = useSearchParams();
   const tgWebAppStartParamData = searchParams.get("tgWebAppStartParam");
   const search = window.location.search;
@@ -46,8 +48,9 @@ function Header() {
           <Hamster size={24} className="text-[#d4d4d4]" />
         </div>
         <div
-          onClick={() =>
-            WebApp.showAlert(`WebApp: url: ${window.location.href}`)
+          onClick={
+            () => showMsg(!msg)
+            // WebApp.showAlert(`WebApp: url: ${window.location.href}`)
           }
         >
           <p className="text-sm">
@@ -55,6 +58,11 @@ function Header() {
           </p>
         </div>
       </div>
+      {msg && (
+        <div className="">
+          <p className="text-sm  text-wrap break-words">{window.location.href}</p>
+        </div>
+      )}
       <div className="flex items-center justify-between space-x-4 mt-1">
         <div className="flex items-center w-1/3">
           <div className="w-full">
