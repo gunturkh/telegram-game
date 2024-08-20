@@ -6,20 +6,11 @@ import { useAuthStore } from "./store/auth";
 import WebApp from "@twa-dev/sdk";
 import LoadingScreen from "./components/LoadingScreen";
 import { __DEV__, API_URL } from "./utils/constants";
-import usePlayer from "./_hooks/usePlayer";
-// import { useQuery } from "@tanstack/react-query";
-// import { serverAPI } from "./lib/axios";
+import FriendsPage from "./pages/Friends";
 
 const App: React.FC = () => {
-  const {
-    query: { data, isLoading },
-  } = usePlayer();
-
-  console.log("player data", data, isLoading);
   const { setAuthToken } = useAuthStore();
   const [loading, setLoading] = useState(false);
-  const search = window.location.search;
-  console.log("env", import.meta.env.VITE_API_URL);
   useEffect(() => {
     const telegramData = __DEV__
       ? {
@@ -45,54 +36,24 @@ const App: React.FC = () => {
           }),
         });
         const result = await response.json();
-        console.log("result");
+        // console.log("result");
         if (result.status) {
           setLoading(false);
-          console.log("login result", result.data);
+          // console.log("login result", result.data);
           setAuthToken(result?.data?.token);
         }
         if (!result.status) {
           setLoading(false);
-          console.log("login error", result.message);
+          // console.log("login error", result.message);
         }
       } catch (error) {
         setLoading(false);
-        console.log("login error", error);
+        // console.log("login error", error);
       }
     };
 
     playerLogin();
   }, [setAuthToken]);
-
-  // useEffect(() => {
-  //   const getPlayerData = async () => {
-  //     try {
-  //       setLoading(true);
-  //       const response = await fetch(`${API_URL}`, {
-  //         method: "GET",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       });
-  //       const result = await response.json();
-  //       console.log("result");
-  //       if (result.status) {
-  //         setLoading(false);
-  //         console.log("getPlayerData result", result.data);
-  //         setPlayerData(result.data);
-  //       }
-  //       if (!result.status) {
-  //         setLoading(false);
-  //         console.log("getPlayerData error", result.message);
-  //       }
-  //     } catch (error) {
-  //       setLoading(false);
-  //       console.log("getPlayerData error", error);
-  //     }
-  //   };
-  //   if (token) getPlayerData();
-  // }, [setPlayerData, token]);
 
   if (loading) {
     return <LoadingScreen />;
@@ -102,8 +63,8 @@ const App: React.FC = () => {
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path={`/${search}`} element={<Home />} />
         <Route path="/mine" element={<MinePage />} />
+        <Route path="/friends" element={<FriendsPage />} />
       </Routes>
     </Router>
   );

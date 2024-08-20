@@ -9,11 +9,11 @@ function Points() {
     query: { data: playerData, isLoading },
   } = usePlayer();
   const profitPerHour = playerData?.passive_earnings?.per_hour;
-  console.log("points", points);
-  console.log("playerData inside points", playerData);
+  // console.log("points", points);
+  // console.log("playerData inside points", playerData);
   useEffect(() => {
     const pointsPerSecond = profitPerHour / 3600;
-    console.log("pointsPerSecond", pointsPerSecond);
+    // console.log("pointsPerSecond", pointsPerSecond);
     const interval = setInterval(() => {
       setPoints(pointsPerSecond);
     }, 1000);
@@ -21,12 +21,6 @@ function Points() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [playerData]);
 
-  //   useEffect(() => {
-  //     const interval = setInterval(() => {
-  //       mutate({ amount: points, timestamp: Math.floor(Date.now() / 1000) });
-  //     }, 3000);
-  //     return () => clearInterval(interval);
-  //   }, []);
 
   return (
     <div className="px-4 mt-4 flex justify-center">

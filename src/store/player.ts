@@ -22,7 +22,6 @@ export const usePlayerStore = create<any, any>(
       setInitialPoints: (point: number) => set(() => ({ points: point })),
       setPoints: (point: number) =>
         set((state: { points: number }) => {
-          console.log("point added", point, state.points);
           return {
             points: state.points + point,
           };

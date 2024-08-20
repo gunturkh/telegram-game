@@ -4,33 +4,22 @@ import usePlayer from "../../_hooks/usePlayer";
 import { dollarCoin } from "../../images";
 import Info from "../../icons/Info";
 import Settings from "../../icons/Settings";
-import { useSearchParams } from "react-router-dom";
 import { useState } from "react";
 
 const levelNames = [
-  "Baby", // From 0 to 4999 coins
-  "Toddler", // From 5000 coins to 24,999 coins
-  "Teen", // From 25,000 coins to 99,999 coins
-  "Student", // From 100,000 coins to 999,999 coins
-  "Scholar", // From 1,000,000 coins to 2,000,000 coins
-  "Adult", // From 2,000,000 coins to 10,000,000 coins
-  "Employee", // From 10,000,000 coins to 50,000,000 coins
-  "Manager", // From 50,000,000 coins to 100,000,000 coins
-  "General Manager", // From 100,000,000 coins to 1,000,000,000 coins
-  "Businessman", // From 1,000,000,000 coins to 5,000,000,000
-  "Chairman", // From 5,000,000,000 coins to ∞
+  "Baby",
+  "Toddler",
+  "Student",
+  "Scholar",
+  "Adult",
+  "Employee",
+  "Manager",
+  "General Manager",
+  "Businessman",
+  "Chairman",
 ];
 function Header() {
-  const [msg, showMsg] = useState(false);
-  const [searchParams] = useSearchParams();
-  const tgWebAppStartParamData = searchParams.get("tgWebAppStartParam");
-  const search = window.location.search;
-  const params = new URLSearchParams(search);
-  const foo = params.get("tgWebAppStartParam");
-  console.log("foo", foo);
-  console.log("search", search);
-  console.log("searchParams", searchParams);
-  console.log("tgWebAppStartParamData", tgWebAppStartParamData);
+  const [msg] = useState(false);
   const {
     query: { data: playerData },
   } = usePlayer();
@@ -48,10 +37,10 @@ function Header() {
           <Hamster size={24} className="text-[#d4d4d4]" />
         </div>
         <div
-          onClick={
-            () => showMsg(!msg)
-            // WebApp.showAlert(`WebApp: url: ${window.location.href}`)
-          }
+        // onClick={
+        //   () => showMsg(!msg)
+        //   // WebApp.showAlert(`WebApp: url: ${window.location.href}`)
+        // }
         >
           <p className="text-sm">
             {WebApp?.initDataUnsafe?.user?.username} (CEO)
@@ -60,16 +49,16 @@ function Header() {
       </div>
       {msg && (
         <div className="">
-          <p className="text-sm  text-wrap break-words">{window.location.href}</p>
+          <p className="text-sm  text-wrap break-words">
+            {window.location.href}
+          </p>
         </div>
       )}
       <div className="flex items-center justify-between space-x-4 mt-1">
         <div className="flex items-center w-1/3">
           <div className="w-full">
             <div className="flex justify-between">
-              <p className="text-sm">
-                {levelNames[playerData?.level?.current_level]}
-              </p>
+              <p className="text-sm">{playerData?.level?.current_level_name}</p>
               <p className="text-sm">
                 {playerData?.level?.current_level}{" "}
                 <span className="text-[#95908a]">/ {levelNames.length}</span>

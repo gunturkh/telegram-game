@@ -7,34 +7,15 @@ import { usePlayerStore } from "../store/player";
 import Points from "../components/Points";
 import usePlayer from "../_hooks/usePlayer";
 import Header from "../components/Header";
-// import { useAuthStore } from '../store/auth';
-// const API_URL = import.meta.env.VITE_API_URL
-// const __DEV__ = import.meta.env.DEV
+
 const Home: React.FC = () => {
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  // const levelMinPoints = [
-  //   0, // Baby
-  //   5000, // Toddler
-  //   25000, // Teen
-  //   100000, // Student
-  //   1000000, // Scholar
-  //   2000000, // Adult
-  //   10000000, // Employee
-  //   50000000, // Manager
-  //   100000000, // General Manager
-  //   1000000000, // Businessman
-  //   5000000000, // Chairman
-  // ];
-
-  // const maxEnergy = 1000;
-
   const {
     query: { data: playerData, isLoading },
     mutationTap: { mutateAsync },
   } = usePlayer();
-  console.log("player data from react query", playerData);
-  const { points, setPoints, energy: initialEnergy } = usePlayerStore();
-  console.log("playerData", playerData);
+  // console.log("player data from react query", playerData);
+  const { setPoints, energy: initialEnergy } = usePlayerStore();
+  // console.log("playerData", playerData);
   // const [levelIndex] = useState(0);
   const [taps, setTaps] = useState(0);
   const [clicks, setClicks] = useState<{ id: number; x: number; y: number }[]>(
@@ -42,7 +23,7 @@ const Home: React.FC = () => {
   );
   const debouncedClicks = useDebounce(clicks, 1000);
   const [energy, setEnergy] = useState(initialEnergy);
-  console.log("energy", energy);
+  // console.log("energy", energy);
   const pointsToAdd = playerData?.tap_earnings?.per_tap;
   // const profitPerHour = playerData?.passive_earnings?.per_hour;
 
@@ -76,7 +57,7 @@ const Home: React.FC = () => {
           tap_count: taps,
           timestamp: Math.floor(Date.now() / 1000),
         });
-        console.log("tapsdata", data);
+        // console.log("tapsdata", data);
         if (data) setTaps(0);
       }
     };
@@ -97,7 +78,6 @@ const Home: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // const handleCardClick = (e: React.MouseEvent<HTMLDivElement>) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleCardClick = (e: any) => {
     console.log("e.touches.length", e?.touches.length);
@@ -142,68 +122,15 @@ const Home: React.FC = () => {
           card.style.transform = "";
         }, 100);
 
-        console.log("setPoints ", points, pointsToAdd);
+        // console.log("setPoints ", points, pointsToAdd);
         setPoints(pointsToAdd);
         setTaps((prev) => prev + 1);
         if (!clicks.some((item) => item.id === touchId)) {
           setClicks((prev) => [...prev, { id: touchId, x: pageX, y: pageY }]);
         }
-        // setClicks((prev)=> [...prev, { id: parseInt(`${Date.now()}${touch}`), x: touches[touch].pageX, y: touches[touch].pageY }]);
-        // console.log('clicks', [...clicks, { id: parseInt(`${Date.now()}${touch}`), x: touches[touch].pageX, y: touches[touch].pageY }])
       }
     }
   };
-
-  useEffect(() => {
-    console.log("taps", taps);
-  }, [taps]);
-
-  // const handleAnimationEnd = (id: number) => {
-  //   setClicks((prevClicks) => prevClicks.filter((click) => click.id !== id));
-  // };
-
-  // const calculateProgress = () => {
-  //   if (levelIndex >= levelNames.length - 1) {
-  //     return 100;
-  //   }
-  //   const currentLevelMin = levelMinPoints[levelIndex];
-  //   const nextLevelMin = levelMinPoints[levelIndex + 1];
-  //   const progress =
-  //     ((points - currentLevelMin) / (nextLevelMin - currentLevelMin)) * 100;
-  //   return Math.min(progress, 100);
-  // };
-
-  // useEffect(() => {
-  //   const currentLevelMin = levelMinPoints[levelIndex];
-  //   const nextLevelMin = levelMinPoints[levelIndex + 1];
-  //   if (points >= nextLevelMin && levelIndex < levelNames.length - 1) {
-  //     setLevelIndex(levelIndex + 1);
-  //   } else if (points < currentLevelMin && levelIndex > 0) {
-  //     setLevelIndex(levelIndex - 1);
-  //   }
-  // }, [points, levelIndex, levelMinPoints, levelNames.length]);
-
-  // const updatePoints = () => {
-  //   mutate({ amount: points, timestamp: Math.floor(Date.now() / 1000) });
-  // };
-  // // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  // const alertUser = (event: any) => {
-  //   event.preventDefault();
-  //   event.returnValue = "";
-  // };
-  // useEffect(() => {
-  //   window.addEventListener("beforeunload", alertUser);
-  //   window.addEventListener("unload", updatePoints);
-  //   return () => {
-  //     window.removeEventListener("beforeunload", alertUser);
-  //     window.removeEventListener("unload", updatePoints);
-  //   };
-  // });
-  // useEffect(() => {
-  //   return () => {
-  //     console.log("update point");
-  //   };
-  // }, []);
 
   const energyPercentage = (energy / playerData?.tap_earnings?.max_taps) * 100;
   useEffect(() => {
@@ -279,14 +206,6 @@ const Home: React.FC = () => {
               </div>
 
               <Points />
-              {/* <div className="px-4 mt-4 flex justify-center">
-              <div className="px-4 py-2 flex items-center space-x-2">
-                <img src={dollarCoin} alt="Dollar Coin" className="w-10 h-10" />
-                <p className="text-4xl text-white">
-                  {points?.toLocaleString()}
-                </p>
-              </div>
-            </div> */}
 
               <div className="px-2 w-50 mt-auto flex flex-col items-center justify-center">
                 <div
