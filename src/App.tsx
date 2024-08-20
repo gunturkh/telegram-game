@@ -33,6 +33,9 @@ const App: React.FC = () => {
             username: telegramData?.username,
             first_name: telegramData?.first_name,
             last_name: telegramData?.last_name,
+            ...(WebApp?.initDataUnsafe?.start_param && {
+              referral_code: WebApp?.initDataUnsafe?.start_param,
+            }),
           }),
         });
         const result = await response.json();
