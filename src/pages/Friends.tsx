@@ -1,3 +1,4 @@
+import { Toaster } from "react-hot-toast";
 import BottomTab from "../components/BottomTab";
 import Share from "../components/Share";
 import { dollarCoin, gift } from "../images";
@@ -32,6 +33,7 @@ const FriendsPage = () => {
       </div>
       <Share />
       <BottomTab />
+      <Toaster position="top-left" />
     </div>
   );
 };

@@ -37,10 +37,9 @@ function Header() {
           <Hamster size={24} className="text-[#d4d4d4]" />
         </div>
         <div
-        // onClick={
-        //   () => showMsg(!msg)
-        //   // WebApp.showAlert(`WebApp: url: ${window.location.href}`)
-        // }
+          onClick={() =>
+            WebApp.showAlert(`referral: ${WebApp.initDataUnsafe.start_param}`)
+          }
         >
           <p className="text-sm">
             {WebApp?.initDataUnsafe?.user?.username} (CEO)

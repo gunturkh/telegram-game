@@ -31,6 +31,21 @@ const usePlayer = () => {
       }
     },
   });
+  const queryInfo = useQuery({
+    queryKey: ["info"],
+    queryFn: async () => {
+      try {
+        const response = await http.get("/auth/whoami");
+        return response.data?.data;
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          throw new Error("Axios Error");
+        }
+
+        throw new Error("Unknown Error");
+      }
+    },
+  });
   const queryCards = useQuery({
     queryKey: ["cards"],
     queryFn: async () => {
@@ -139,7 +154,7 @@ const usePlayer = () => {
       console.log("error", error);
       console.log("variables", variables);
       console.log("context", context);
-      toast.error('Failed to buy/upgrade card', {
+      toast.error("Failed to buy/upgrade card", {
         style: {
           borderRadius: "10px",
           background: "#333",
@@ -151,6 +166,7 @@ const usePlayer = () => {
   return {
     // export all queries
     query,
+    queryInfo,
     queryCards,
     // queryPointsPreview,
     // export all mutations
