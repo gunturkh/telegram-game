@@ -14,7 +14,7 @@ function Share() {
         onClick={() => {
           const url = `https://t.me/chipmunk_kombat_bot/chipmunk?startapp=${data?.referral_code}`;
           if (WebApp) {
-            WebApp.openLink(`https://t.me/share/url?url=${url}`);
+            WebApp.openTelegramLink(`https://t.me/share/url?url=${url}`);
           }
         }}
       >
