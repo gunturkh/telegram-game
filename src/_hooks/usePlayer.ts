@@ -8,6 +8,8 @@ const usePlayer = () => {
   const queryClient = useQueryClient();
   const setInitialPoints = usePlayerStore.getState().setInitialPoints;
   const setInitialEnergy = usePlayerStore.getState().setInitialEnergy;
+  const dailyCombo = usePlayerStore.getState().dailyCombo;
+  const setDailyCombo = usePlayerStore.getState().setDailyCombo;
   // queries
   const query = useQuery({
     queryKey: ["player"],
@@ -139,7 +141,11 @@ const usePlayer = () => {
         throw new Error("Unknown Error");
       }
     },
-    onSuccess: () => {
+    onSuccess: (_, variables) => {
+      console.log("card upgrade success variables", variables);
+      if (dailyCombo) {
+        setDailyCombo(variables?.card_id);
+      }
       toast.success("Success upgrade card", {
         style: {
           borderRadius: "10px",

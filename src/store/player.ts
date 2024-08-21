@@ -16,6 +16,11 @@ interface IPlayerData {
 export const usePlayerStore = create<any, any>(
   persist(
     (set) => ({
+      dailyCombo: [],
+      setDailyCombo: (data: number) =>
+        set((state: { dailyCombo: number[] }) => ({
+          dailyCombo: [...state.dailyCombo, data],
+        })),
       playerData: null,
       setPlayerData: (data: IPlayerData) => set(() => ({ playerData: data })),
       points: 0,

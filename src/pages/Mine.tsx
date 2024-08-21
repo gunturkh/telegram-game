@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Sheet } from "react-modal-sheet";
 import toast, { Toaster } from "react-hot-toast";
 import "../App.css";
-import { dailyCombo, dailyReward, dollarCoin } from "../images";
+import { dollarCoin, questionMark } from "../images";
 import BottomTab from "../components/BottomTab";
 import usePlayer from "../_hooks/usePlayer";
 import Points from "../components/Points";
@@ -11,7 +11,6 @@ import Header from "../components/Header";
 import Lock from "../icons/Lock";
 
 const MinePage: React.FC = () => {
-
   type Card = {
     id: number;
     name: string;
@@ -63,13 +62,12 @@ const MinePage: React.FC = () => {
     },
   });
 
-
   const [mineTab, setMineTab] = useState<number>(0);
   const [open, setOpen] = useState(false);
 
-  const [dailyRewardTimeLeft, setDailyRewardTimeLeft] = useState("");
+  // const [setDailyRewardTimeLeft] = useState("");
   const [, setDailyCipherTimeLeft] = useState("");
-  const [dailyComboTimeLeft, setDailyComboTimeLeft] = useState("");
+  // const [setDailyComboTimeLeft] = useState("");
 
   const calculateTimeLeft = (targetHour: number) => {
     const now = new Date();
@@ -115,9 +113,9 @@ const MinePage: React.FC = () => {
 
   useEffect(() => {
     const updateCountdowns = () => {
-      setDailyRewardTimeLeft(calculateTimeLeft(0));
+      // setDailyRewardTimeLeft(calculateTimeLeft(0));
       setDailyCipherTimeLeft(calculateTimeLeft(19));
-      setDailyComboTimeLeft(calculateTimeLeft(12));
+      // setDailyComboTimeLeft(calculateTimeLeft(12));
     };
 
     updateCountdowns();
@@ -141,6 +139,7 @@ const MinePage: React.FC = () => {
       console.log("error", error);
     }
   };
+  console.log("open", open);
 
   return (
     <div className="bg-black flex justify-center">
@@ -151,38 +150,25 @@ const MinePage: React.FC = () => {
           <div className="absolute top-[2px] left-0 right-0 bottom-0 bg-[#1d2025] rounded-t-[46px] h-max">
             <div className="px-4 mt-6 flex justify-between gap-2">
               <div className="bg-[#272a2f] rounded-lg px-4 py-2 w-full relative">
-                <div className="dot"></div>
                 <img
-                  src={dailyReward}
-                  alt="Daily Reward"
-                  className="mx-auto w-12 h-12"
-                />
-                <p className="text-[10px] text-center text-white mt-1">
-                  Daily reward
-                </p>
-                <p className="text-[10px] font-medium text-center text-gray-400 mt-2">
-                  {dailyRewardTimeLeft}
-                </p>
-              </div>
-              <div className="bg-[#272a2f] rounded-lg px-4 py-2 w-full relative">
-                <div className="dot"></div>
-                {/* <img src={dailyCipher} alt="Daily Cipher" className="mx-auto w-12 h-12" />
-                <p className="text-[10px] text-center text-white mt-1">Daily cipher</p>
-                <p className="text-[10px] font-medium text-center text-gray-400 mt-2">{dailyCipherTimeLeft}</p> */}
-              </div>
-              <div className="bg-[#272a2f] rounded-lg px-4 py-2 w-full relative">
-                <div className="dot"></div>
-                <img
-                  src={dailyCombo}
+                  src={questionMark}
                   alt="Daily Combo"
                   className="mx-auto w-12 h-12"
                 />
-                <p className="text-[10px] text-center text-white mt-1">
-                  Daily combo
-                </p>
-                <p className="text-[10px] font-medium text-center text-gray-400 mt-2">
-                  {dailyComboTimeLeft}
-                </p>
+              </div>
+              <div className="bg-[#272a2f] rounded-lg px-4 py-2 w-full relative">
+                <img
+                  src={questionMark}
+                  alt="Daily Combo"
+                  className="mx-auto w-12 h-12"
+                />
+              </div>
+              <div className="bg-[#272a2f] rounded-lg px-4 py-2 w-full relative">
+                <img
+                  src={questionMark}
+                  alt="Daily Combo"
+                  className="mx-auto w-12 h-12"
+                />
               </div>
             </div>
 
@@ -197,6 +183,7 @@ const MinePage: React.FC = () => {
                         mineTab === cIdx && "bg-[#1c1f24] m-1 p-2 rounded-2xl"
                       }`}
                       onClick={() => setMineTab(cIdx)}
+                      key={c.name}
                     >
                       <p className="mt-1">{c.name}</p>
                     </div>
@@ -218,8 +205,9 @@ const MinePage: React.FC = () => {
                     <div
                       key={`${categories[mineTab]?.name}-card-${cIdx}`}
                       className="w-1/2  rounded-xl p-1"
-                      onClick={() => {
-                        if (c.upgrade) {
+                      onClick={async () => {
+                        if (c?.upgrade) {
+                          console.log("card upgrade modal opened", c);
                           setOpen(true);
                           setBuyCardData(c);
                         } else
@@ -304,7 +292,7 @@ const MinePage: React.FC = () => {
                               alt="Dollar Coin"
                               className="w-4 h-4"
                             />
-                            <p className="text-md text-white">
+                            <div className="text-md text-white">
                               {c.upgrade?.is_available && c?.upgrade?.price ? (
                                 formatCardsPriceInfo(c?.upgrade?.price)
                               ) : (
@@ -315,7 +303,7 @@ const MinePage: React.FC = () => {
                                   lvl {c?.upgrade?.condition?.level}
                                 </span>
                               )}
-                            </p>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -339,6 +327,10 @@ const MinePage: React.FC = () => {
               initialSnap={0}
               disableDrag={false}
               onClose={() => setOpen(false)}
+              style={{
+                zIndex: open ? "9999999" : "-1",
+                visibility: open ? "visible" : "hidden",
+              }}
             >
               <Sheet.Container>
                 <Sheet.Header className="bg-[#1d2025]">
