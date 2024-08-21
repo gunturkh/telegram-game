@@ -9,6 +9,7 @@ import hamsterCoin from "./hamster-coin.png";
 import loadingImage from "./loading2.png";
 import gift from "./gift.png";
 import questionMark from "./question-mark.png";
+import calendar from "./calendar.png";
 
 export {
   hamsterExchange,
@@ -21,5 +22,6 @@ export {
   hamsterCoin,
   loadingImage,
   gift,
-  questionMark
+  questionMark,
+  calendar,
 };

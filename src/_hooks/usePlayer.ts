@@ -3,7 +3,21 @@ import http from "../lib/axios";
 import { AxiosError } from "axios";
 import { usePlayerStore } from "../store/player";
 import toast from "react-hot-toast";
-
+type TaskRewardByDay = {
+  day_count: number;
+  reward_coins: number;
+};
+type Task = {
+  id: string;
+  name: string;
+  description: string | null;
+  total_reward_coins: number;
+  rewards_by_day?: TaskRewardByDay[];
+  reward_coins: number;
+  remain_seconds: number;
+  days: number;
+  is_completed: boolean;
+};
 const usePlayer = () => {
   const queryClient = useQueryClient();
   const setInitialPoints = usePlayerStore.getState().setInitialPoints;
@@ -53,6 +67,21 @@ const usePlayer = () => {
     queryFn: async () => {
       try {
         const response = await http.get("/cards-v2");
+        return response.data?.data;
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          throw new Error("Axios Error");
+        }
+
+        throw new Error("Unknown Error");
+      }
+    },
+  });
+  const queryTasks = useQuery<Task[]>({
+    queryKey: ["tasks"],
+    queryFn: async () => {
+      try {
+        const response = await http.get("/tasks");
         return response.data?.data;
       } catch (error) {
         if (error instanceof AxiosError) {
@@ -169,16 +198,53 @@ const usePlayer = () => {
       });
     },
   });
+
+  const mutationCheckTask = useMutation({
+    mutationFn: async (data: { task_id: string }) => {
+      try {
+        const response = await http.post("/check-task", data);
+        return response.data?.data;
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          throw new Error(error.message);
+        }
+
+        throw new Error("Unknown Error");
+      }
+    },
+    onSuccess: (_, variables) => {
+      console.log("task update success variables", variables);
+      toast.success("Success", {
+        style: {
+          borderRadius: "10px",
+          background: "#333",
+          color: "#fff",
+        },
+      });
+      queryClient.invalidateQueries({ queryKey: ["tasks"] });
+    },
+    onError: () => {
+      toast.error("Failed to complete task", {
+        style: {
+          borderRadius: "10px",
+          background: "#333",
+          color: "#fff",
+        },
+      });
+    },
+  });
   return {
     // export all queries
     query,
     queryInfo,
     queryCards,
+    queryTasks,
     // queryPointsPreview,
     // export all mutations
     mutationTap,
     mutationPointsUpdate,
     mutationCardUpgrade,
+    mutationCheckTask
   };
 };
 export default usePlayer;

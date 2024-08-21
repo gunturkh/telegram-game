@@ -7,6 +7,7 @@ import WebApp from "@twa-dev/sdk";
 import LoadingScreen from "./components/LoadingScreen";
 import { __DEV__, API_URL } from "./utils/constants";
 import FriendsPage from "./pages/Friends";
+import EarnPage from "./pages/Earn";
 
 const App: React.FC = () => {
   const { setAuthToken } = useAuthStore();
@@ -68,6 +69,7 @@ const App: React.FC = () => {
         <Route path="/" element={<Home />} />
         <Route path="/mine" element={<MinePage />} />
         <Route path="/friends" element={<FriendsPage />} />
+        <Route path="/earn" element={<EarnPage />} />
       </Routes>
     </Router>
   );

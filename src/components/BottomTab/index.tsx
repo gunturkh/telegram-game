@@ -41,7 +41,12 @@ function BottomTab() {
         <Friends className="w-8 h-8 mx-auto" />
         <p className="mt-1">Friends</p>
       </div>
-      <div className="text-center text-[#85827d] w-1/5">
+      <div
+        className={`text-center text-[#85827d] w-1/5 ${
+          pathname === "/earn" && "bg-[#1c1f24] m-1 p-2 rounded-2xl"
+        }`}
+        onClick={() => navigate("/earn")}
+      >
         <Coins className="w-8 h-8 mx-auto" />
         <p className="mt-1">Earn</p>
       </div>
