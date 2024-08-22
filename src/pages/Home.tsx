@@ -271,7 +271,7 @@ const Home: React.FC = () => {
               <div className="w-full flex justify-end px-4">
                 <button
                   className="text-white text-lg font-bold"
-                  onClick={() => passiveEarnModal(false)}
+                  onClick={() => setPassiveEarnModal(false)}
                 >
                   x
                 </button>
