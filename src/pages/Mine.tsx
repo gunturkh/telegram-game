@@ -14,7 +14,7 @@ const MinePage: React.FC = () => {
   type Card = {
     id: number;
     name: string;
-    icon_url: string | undefined;
+    image: string | undefined;
     level: number;
     category_id: number;
     profit_per_hour: number;
@@ -48,7 +48,7 @@ const MinePage: React.FC = () => {
   const [buyCardData, setBuyCardData] = useState<Card>({
     id: 0,
     name: "",
-    icon_url: "",
+    image: "",
     level: 0,
     category_id: 0,
     profit_per_hour: 0,
@@ -226,7 +226,7 @@ const MinePage: React.FC = () => {
                             <div className="w-16 h-16">
                               <div className="flex items-center justify-center rounded-xl bg-neutral-500/30 w-16 h-16">
                                 <img
-                                  src={c.icon_url}
+                                  src={c.image}
                                   className="absolute mx-auto w-10 h-10"
                                 />
                                 <Lock
@@ -238,10 +238,7 @@ const MinePage: React.FC = () => {
                             </div>
                           )}
                           {c?.upgrade?.is_available && (
-                            <img
-                              src={c.icon_url}
-                              className=" mx-auto w-12 h-12"
-                            />
+                            <img src={c.image} className=" mx-auto w-12 h-12" />
                           )}
                           <div className="flex flex-col gap-1 ml-4">
                             <p className="text-xs font-normal flex-1">
@@ -347,7 +344,7 @@ const MinePage: React.FC = () => {
                   {/* Your sheet content goes here */}
                   <div className="flex p-4 flex-col w-full justify-center items-center gap-5">
                     <img
-                      src={buyCardData.icon_url}
+                      src={buyCardData.image}
                       className="mx-auto w-12 h-12"
                     />
                     <h1 className="text-lg font-bold">
