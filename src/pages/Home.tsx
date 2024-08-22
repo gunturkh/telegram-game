@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useDebounce } from "@uidotdev/usehooks";
 import "../App.css";
-import { dailyCombo, dailyReward } from "../images";
+import { dailyCombo, dailyReward, dollarCoin } from "../images";
 import BottomTab from "../components/BottomTab";
 import { usePlayerStore } from "../store/player";
 import Points from "../components/Points";
 import usePlayer from "../_hooks/usePlayer";
 import Header from "../components/Header";
+import { Sheet } from "react-modal-sheet";
 
 const Home: React.FC = () => {
   const {
@@ -14,7 +15,13 @@ const Home: React.FC = () => {
     mutationTap: { mutateAsync },
   } = usePlayer();
   // console.log("player data from react query", playerData);
-  const { setPoints, energy: initialEnergy } = usePlayerStore();
+  const {
+    setPoints,
+    energy: initialEnergy,
+    passiveEarnModal,
+    setPassiveEarnModal,
+    passiveEarning,
+  } = usePlayerStore();
   // console.log("playerData", playerData);
   // const [levelIndex] = useState(0);
   const [taps, setTaps] = useState(0);
@@ -151,6 +158,13 @@ const Home: React.FC = () => {
     playerData?.tap_earnings?.recovery_per_seconds,
   ]);
 
+  const formatCardsPriceInfo = (profit: number) => {
+    if (profit >= 1000000000) return `${(profit / 1000000000).toFixed(2)}B`;
+    if (profit >= 1000000) return `${(profit / 1000000).toFixed(2)}M`;
+    if (profit >= 1000) return `${(profit / 1000).toFixed(2)}K`;
+    return `${profit}`;
+  };
+
   if (isLoading) return null;
   return (
     <div className="bg-black flex justify-center">
@@ -241,6 +255,55 @@ const Home: React.FC = () => {
           </div>
         </div>
 
+        <Sheet
+          isOpen={passiveEarnModal}
+          snapPoints={[0.5]}
+          initialSnap={0}
+          disableDrag={false}
+          onClose={() => passiveEarnModal(false)}
+          style={{
+            zIndex: passiveEarnModal ? "9999999" : "-1",
+            visibility: passiveEarnModal ? "visible" : "hidden",
+          }}
+        >
+          <Sheet.Container>
+            <Sheet.Header className="bg-[#1d2025]">
+              <div className="w-full flex justify-end px-4">
+                <button
+                  className="text-white text-lg font-bold"
+                  onClick={() => passiveEarnModal(false)}
+                >
+                  x
+                </button>
+              </div>
+            </Sheet.Header>
+            <Sheet.Content className="bg-[#1d2025] text-white">
+              {/* Your sheet content goes here */}
+              <div className="flex flex-1 p-4 flex-col w-full justify-center items-center gap-5">
+                <div className="flex flex-1 flex-col justify-center gap-1 items-center">
+                  <p className="text-3xl font-bold">Passive Profit</p>
+                  <div className="flex flex-1 items-center space-x-4">
+                    <img
+                      src={dollarCoin}
+                      alt="Dollar Coin"
+                      className="w-16 h-16"
+                    />
+                    <p className="text-3xl text-white font-semibold">
+                      +{formatCardsPriceInfo(passiveEarning)}
+                    </p>
+                  </div>
+                </div>
+                <button
+                  className="h-20 w-full bg-blue-500 rounded-lg px-4 py-2"
+                  onClick={() => setPassiveEarnModal(false)}
+                >
+                  Thank you, Chipmunk
+                </button>
+              </div>
+            </Sheet.Content>
+          </Sheet.Container>
+          <Sheet.Backdrop onTap={() => setPassiveEarnModal(false)} />
+        </Sheet>
         <BottomTab />
 
         {clicks.map((click) => (

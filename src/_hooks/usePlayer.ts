@@ -28,6 +28,7 @@ const usePlayer = () => {
   const setInitialEnergy = usePlayerStore.getState().setInitialEnergy;
   const dailyCombo = usePlayerStore.getState().dailyCombo;
   const setDailyCombo = usePlayerStore.getState().setDailyCombo;
+  const setPassiveEarning = usePlayerStore.getState().setPassiveEarning;
   // queries
   const query = useQuery({
     queryKey: ["player"],
@@ -36,6 +37,7 @@ const usePlayer = () => {
         const response = await http.get("/sync");
         if (response?.data?.data?.balance)
           setInitialPoints(response.data.data.balance);
+        setPassiveEarning(response.data.data.passive_earnings.last_earned);
         if (
           response?.data?.data?.tap_earnings &&
           response?.data?.data?.tap_earnings?.available_taps

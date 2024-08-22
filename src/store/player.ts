@@ -16,6 +16,12 @@ interface IPlayerData {
 export const usePlayerStore = create<any, any>(
   persist(
     (set) => ({
+      passiveEarning: 0,
+      setPassiveEarning: (data: number) =>
+        set(() => ({ passiveEarning: data })),
+      passiveEarnModal: false,
+      setPassiveEarnModal: (data: boolean) =>
+        set(() => ({ passiveEarnModal: data })),
       dailyCombo: [],
       setDailyCombo: (data: number) =>
         set((state: { dailyCombo: number[] }) => ({

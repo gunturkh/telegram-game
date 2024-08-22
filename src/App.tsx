@@ -8,9 +8,11 @@ import LoadingScreen from "./components/LoadingScreen";
 import { __DEV__, API_URL } from "./utils/constants";
 import FriendsPage from "./pages/Friends";
 import EarnPage from "./pages/Earn";
+import { usePlayerStore } from "./store/player";
 
 const App: React.FC = () => {
   const { setAuthToken } = useAuthStore();
+  const { setPassiveEarnModal } = usePlayerStore();
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     const telegramData = __DEV__
@@ -45,6 +47,7 @@ const App: React.FC = () => {
           setLoading(false);
           // console.log("login result", result.data);
           setAuthToken(result?.data?.token);
+          setPassiveEarnModal(true);
         }
         if (!result.status) {
           setLoading(false);
