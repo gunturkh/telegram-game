@@ -7,8 +7,9 @@ type TaskRewardByDay = {
   day_count: number;
   reward_coins: number;
 };
-type Task = {
+export type Task = {
   id: string;
+  image: string;
   name: string;
   description: string | null;
   total_reward_coins: number;
@@ -17,6 +18,9 @@ type Task = {
   remain_seconds: number;
   days: number;
   is_completed: boolean;
+  reward_delay_seconds?: number;
+  type?: string;
+  link?: string;
 };
 const usePlayer = () => {
   const queryClient = useQueryClient();
@@ -244,7 +248,7 @@ const usePlayer = () => {
     mutationTap,
     mutationPointsUpdate,
     mutationCardUpgrade,
-    mutationCheckTask
+    mutationCheckTask,
   };
 };
 export default usePlayer;

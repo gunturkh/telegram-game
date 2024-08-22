@@ -221,7 +221,7 @@ const MinePage: React.FC = () => {
                       }}
                     >
                       <div className="flex flex-col bg-[#272a2f] rounded-2xl h-full">
-                        <div className="flex flex-row items-center p-3">
+                        <div className="flex flex-row items-center p-3 flex-1">
                           {!c?.upgrade?.is_available && (
                             <div className="w-16 h-16">
                               <div className="flex items-center justify-center rounded-xl bg-neutral-500/30 w-16 h-16">
