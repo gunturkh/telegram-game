@@ -31,7 +31,7 @@ const usePlayer = () => {
   const setPassiveEarning = usePlayerStore.getState().setPassiveEarning;
   // queries
   const query = useQuery({
-    staleTime: 10000,
+    staleTime: 60000,
     queryKey: ["player"],
     queryFn: async () => {
       try {

@@ -8,12 +8,14 @@ import Points from "../components/Points";
 import usePlayer from "../_hooks/usePlayer";
 import Header from "../components/Header";
 import { Sheet } from "react-modal-sheet";
+import { useNavigate } from "react-router-dom";
 
 const Home: React.FC = () => {
   const {
     query: { data: playerData, isLoading },
     mutationTap: { mutateAsync },
   } = usePlayer();
+  const navigate = useNavigate()
   // console.log("player data from react query", playerData);
   const {
     setPoints,
@@ -74,9 +76,9 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     const updateCountdowns = () => {
-      setDailyRewardTimeLeft(calculateTimeLeft(0));
+      setDailyRewardTimeLeft(calculateTimeLeft(17));
       setDailyCipherTimeLeft(calculateTimeLeft(19));
-      setDailyComboTimeLeft(calculateTimeLeft(12));
+      setDailyComboTimeLeft(calculateTimeLeft(17));
     };
 
     updateCountdowns();
@@ -175,7 +177,7 @@ const Home: React.FC = () => {
           <div className="flex-grow mt-4 bg-[#f3ba2f] rounded-t-[48px] relative top-glow z-0">
             <div className="absolute top-[2px] left-0 right-0 bottom-0 bg-[#1d2025] rounded-t-[46px]">
               <div className="px-4 mt-6 flex justify-between gap-2">
-                <div className="bg-[#272a2f] rounded-lg px-4 py-2 w-full relative">
+                <div onClick={()=> navigate('/earn')} className="bg-[#272a2f] rounded-lg px-4 py-2 w-full relative">
                   <div className="dot"></div>
                   <img
                     src={dailyReward}
@@ -189,9 +191,9 @@ const Home: React.FC = () => {
                     {dailyRewardTimeLeft}
                   </p>
                 </div>
-                <div className="bg-[#272a2f] rounded-lg px-4 py-2 w-full relative">
+                {/* <div className="bg-[#272a2f] rounded-lg px-4 py-2 w-full relative">
                   <div className="dot"></div>
-                  {/* <img
+                  <img
                   src={dailyCipher}
                   alt="Daily Cipher"
                   className="mx-auto w-12 h-12"
@@ -201,9 +203,9 @@ const Home: React.FC = () => {
                 </p>
                 <p className="text-[10px] font-medium text-center text-gray-400 mt-2">
                   {dailyCipherTimeLeft}
-                </p> */}
-                </div>
-                <div className="bg-[#272a2f] rounded-lg px-4 py-2 w-full relative">
+                </p>
+                </div> */}
+                <div onClick={()=> navigate('/mine')} className="bg-[#272a2f] rounded-lg px-4 py-2 w-full relative">
                   <div className="dot"></div>
                   <img
                     src={dailyCombo}
