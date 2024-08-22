@@ -5,6 +5,7 @@ import { dollarCoin } from "../../images";
 import Info from "../../icons/Info";
 import Settings from "../../icons/Settings";
 import { useState } from "react";
+import { usePlayerStore } from "../../store/player";
 
 const levelNames = [
   "Baby",
@@ -23,6 +24,7 @@ function Header() {
   const {
     query: { data: playerData },
   } = usePlayer();
+  const { resetDailyCombo } = usePlayerStore();
   const profitPerHour = playerData?.passive_earnings?.per_hour;
   const formatProfitPerHour = (profit: number) => {
     if (profit >= 1000000000) return `+${(profit / 1000000000).toFixed(2)}B`;
@@ -96,7 +98,9 @@ function Header() {
             </div>
           </div>
           <div className="h-[32px] w-[2px] bg-[#43433b] mx-2"></div>
-          <Settings className="text-white" />
+          <div onClick={()=> resetDailyCombo()}>
+            <Settings className="text-white" />
+          </div>
         </div>
       </div>
     </div>

@@ -22,11 +22,51 @@ export const usePlayerStore = create<any, any>(
       passiveEarnModal: false,
       setPassiveEarnModal: (data: boolean) =>
         set(() => ({ passiveEarnModal: data })),
-      dailyCombo: [],
-      setDailyCombo: (data: number) =>
-        set((state: { dailyCombo: number[] }) => ({
-          dailyCombo: [...state.dailyCombo, data],
-        })),
+      dailyCombo: [null, null, null],
+      addValue: (value: number) =>
+        set((state: any) => {
+          if (
+            state.dailyCombo.includes(value) || // Prevent duplicates
+            state.dailyCombo.filter((item: number) => item !== null).length >= 3 // Check if already at max length
+          ) {
+            return state;
+          }
+
+          const updatedCombo = [...state.dailyCombo];
+          const firstNullIndex = updatedCombo.indexOf(null);
+
+          if (firstNullIndex !== -1) {
+            updatedCombo[firstNullIndex] = value;
+          } else {
+            updatedCombo.push(value); // This line should never be reached due to the max 3 check.
+          }
+
+          return { dailyCombo: updatedCombo };
+        }),
+
+      removeValue: (value: number) =>
+        set((state: any) => {
+          const updatedCombo = state.dailyCombo.map((item: number) =>
+            item === value ? null : item
+          );
+
+          return { dailyCombo: updatedCombo };
+        }),
+
+      updateNull: (newValue: number) =>
+        set((state: any) => {
+          if (state.dailyCombo.includes(newValue)) return state; // Prevent duplicates
+
+          const updatedCombo = [...state.dailyCombo];
+          const nullIndex = updatedCombo.indexOf(null);
+
+          if (nullIndex !== -1) {
+            updatedCombo[nullIndex] = newValue;
+          }
+
+          return { dailyCombo: updatedCombo };
+        }),
+      resetDailyCombo: () => set(() => ({ dailyCombo: [null, null, null] })),
       playerData: null,
       setPlayerData: (data: IPlayerData) => set(() => ({ playerData: data })),
       points: 0,

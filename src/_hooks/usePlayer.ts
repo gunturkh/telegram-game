@@ -27,11 +27,12 @@ const usePlayer = () => {
   const setInitialPoints = usePlayerStore.getState().setInitialPoints;
   const setInitialEnergy = usePlayerStore.getState().setInitialEnergy;
   const dailyCombo = usePlayerStore.getState().dailyCombo;
-  const setDailyCombo = usePlayerStore.getState().setDailyCombo;
+  console.log('dailyCombo', dailyCombo)
+  const updateDailyCombo = usePlayerStore.getState().updateNull;
   const setPassiveEarning = usePlayerStore.getState().setPassiveEarning;
   // queries
   const query = useQuery({
-    staleTime: 60000,
+    staleTime: Infinity,
     queryKey: ["player"],
     queryFn: async () => {
       try {
@@ -179,9 +180,7 @@ const usePlayer = () => {
     },
     onSuccess: (_, variables) => {
       console.log("card upgrade success variables", variables);
-      if (dailyCombo) {
-        setDailyCombo(variables?.card_id);
-      }
+      updateDailyCombo(variables?.card_id);
       toast.success("Success upgrade card", {
         style: {
           borderRadius: "10px",
