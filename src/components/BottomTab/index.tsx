@@ -1,17 +1,16 @@
-import {
-  binanceLogo,
-  // hamsterCoin
-} from "../../images";
 import Coins from "../../icons/Coins";
 import Friends from "../../icons/Friends";
 import Mine from "../../icons/Mine";
 import { useLocation, useNavigate } from "react-router-dom";
+import usePlayer from "../../_hooks/usePlayer";
 
 function BottomTab() {
   const navigate = useNavigate();
   const location = useLocation();
   const { pathname } = location;
-  // console.log('location', location)
+  const {
+    query: { data: playerData },
+  } = usePlayer();
   return (
     <div className="fixed bottom-0 left-1/2 transform -translate-x-1/2 w-[calc(100%-2rem)] max-w-xl bg-[#272a2f] flex justify-around items-center z-50 rounded-3xl text-xs">
       <div
@@ -20,7 +19,11 @@ function BottomTab() {
         }`}
         onClick={() => navigate("/")}
       >
-        <img src={binanceLogo} alt="Exchange" className="w-8 h-8 mx-auto" />
+        <img
+          src={playerData?.level?.current_level_image_url || ""}
+          alt="Exchange"
+          className="w-8 h-8 mx-auto"
+        />
         <p className="mt-1">Main</p>
       </div>
       <div
