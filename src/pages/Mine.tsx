@@ -16,6 +16,7 @@ const MinePage: React.FC = () => {
   type Card = {
     id: number;
     name: string;
+    description: string;
     image: string | undefined;
     level: number;
     category_id: number;
@@ -55,6 +56,7 @@ const MinePage: React.FC = () => {
   const [buyCardData, setBuyCardData] = useState<Card>({
     id: 0,
     name: "",
+    description: "",
     image: "",
     level: 0,
     category_id: 0,
@@ -402,7 +404,7 @@ const MinePage: React.FC = () => {
             </div> */}
             <Sheet
               isOpen={open}
-              snapPoints={[0.5]}
+              snapPoints={[0.55]}
               initialSnap={0}
               disableDrag={false}
               onClose={() => setOpen(false)}
@@ -422,7 +424,7 @@ const MinePage: React.FC = () => {
                     </button>
                   </div>
                 </Sheet.Header>
-                <Sheet.Content className="bg-[#1d2025] text-white">
+                <Sheet.Content className="bg-[#1d2025] text-white overflow-scroll no-scrollbar">
                   {/* Your sheet content goes here */}
                   <div className="flex p-4 flex-col w-full justify-center items-center gap-5">
                     <img
@@ -432,6 +434,9 @@ const MinePage: React.FC = () => {
                     <h1 className="text-lg font-bold">
                       {buyCardData?.name ?? "-"}
                     </h1>
+                    <h2 className="text-sm text-center">
+                      {buyCardData?.description ?? ""}
+                    </h2>
                     <div className="flex flex-col justify-center gap-1 items-center">
                       <div className="flex items-center space-x-1">
                         <p className="text-xs font-thin">Profit per hour: </p>
