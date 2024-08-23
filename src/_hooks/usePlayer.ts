@@ -27,7 +27,7 @@ const usePlayer = () => {
   const setInitialPoints = usePlayerStore.getState().setInitialPoints;
   const setInitialEnergy = usePlayerStore.getState().setInitialEnergy;
   const dailyCombo = usePlayerStore.getState().dailyCombo;
-  console.log('dailyCombo', dailyCombo)
+  console.log("dailyCombo", dailyCombo);
   const updateDailyCombo = usePlayerStore.getState().updateNull;
   const setPassiveEarning = usePlayerStore.getState().setPassiveEarning;
   // queries
@@ -90,6 +90,21 @@ const usePlayer = () => {
     queryFn: async () => {
       try {
         const response = await http.get("/tasks");
+        return response.data?.data;
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          throw new Error("Axios Error");
+        }
+
+        throw new Error("Unknown Error");
+      }
+    },
+  });
+  const queryDailyCombo = useQuery({
+    queryKey: ["combo"],
+    queryFn: async () => {
+      try {
+        const response = await http.get("/cards/combo");
         return response.data?.data;
       } catch (error) {
         if (error instanceof AxiosError) {
@@ -239,18 +254,55 @@ const usePlayer = () => {
       });
     },
   });
+
+  const mutationDailyCombo = useMutation({
+    mutationFn: async (data: { combo: number[] }) => {
+      try {
+        const response = await http.post("/cards/combo", data);
+        return response.data?.data;
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          throw new Error(error.message);
+        }
+
+        throw new Error("Unknown Error");
+      }
+    },
+    onSuccess: (data, variables) => {
+      console.log("Daily Combo Submitted", data, variables);
+      toast.success("Success", {
+        style: {
+          borderRadius: "10px",
+          background: "#333",
+          color: "#fff",
+        },
+      });
+      queryClient.invalidateQueries({ queryKey: ["combo"] });
+    },
+    onError: () => {
+      toast.error("Failed to submit Daily Combo", {
+        style: {
+          borderRadius: "10px",
+          background: "#333",
+          color: "#fff",
+        },
+      });
+    },
+  });
   return {
     // export all queries
     query,
     queryInfo,
     queryCards,
     queryTasks,
+    queryDailyCombo,
     // queryPointsPreview,
     // export all mutations
     mutationTap,
     mutationPointsUpdate,
     mutationCardUpgrade,
     mutationCheckTask,
+    mutationDailyCombo,
   };
 };
 export default usePlayer;

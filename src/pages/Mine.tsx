@@ -10,6 +10,7 @@ import Points from "../components/Points";
 import Header from "../components/Header";
 import Lock from "../icons/Lock";
 import { usePlayerStore } from "../store/player";
+import { numberWithCommas } from "../lib/utils";
 
 const MinePage: React.FC = () => {
   type Card = {
@@ -33,7 +34,9 @@ const MinePage: React.FC = () => {
   // const [cards, setCards] = useState<ICard[]>([]);
   const {
     queryCards: { data: cardsData },
+    queryDailyCombo: { data: dailyComboData },
     mutationCardUpgrade: { mutate },
+    mutationDailyCombo: { mutate: mutateDailyCombo },
   } = usePlayer();
   const { dailyCombo, removeValue } = usePlayerStore();
   console.log("dailyCombo", dailyCombo);
@@ -48,6 +51,7 @@ const MinePage: React.FC = () => {
   // console.log("cards", cards);
   // console.log("categories", categories);
   // const [cardCategories, setCardCategories] = useState<string[]>([]);
+  console.log("dailyComboData", dailyComboData);
   const [buyCardData, setBuyCardData] = useState<Card>({
     id: 0,
     name: "",
@@ -69,6 +73,7 @@ const MinePage: React.FC = () => {
   const [open, setOpen] = useState(false);
 
   // const [setDailyRewardTimeLeft] = useState("");
+  // const [dailyCipherTimeLeft, setDailyCipherTimeLeft] = useState("");
   const [, setDailyCipherTimeLeft] = useState("");
   // const [setDailyComboTimeLeft] = useState("");
 
@@ -84,11 +89,13 @@ const MinePage: React.FC = () => {
     const diff = target.getTime() - now.getTime();
     const hours = Math.floor(diff / (1000 * 60 * 60));
     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
     const paddedHours = hours.toString().padStart(2, "0");
     const paddedMinutes = minutes.toString().padStart(2, "0");
+    const paddedSeconds = seconds.toString().padStart(2, "0");
 
-    return `${paddedHours}:${paddedMinutes}`;
+    return `${paddedHours}:${paddedMinutes}:${paddedSeconds}`;
   };
 
   // useEffect(() => {
@@ -122,7 +129,7 @@ const MinePage: React.FC = () => {
     };
 
     updateCountdowns();
-    const interval = setInterval(updateCountdowns, 60000); // Update every minute
+    const interval = setInterval(updateCountdowns, 1000); // Update every minute
 
     return () => clearInterval(interval);
   }, []);
@@ -131,7 +138,7 @@ const MinePage: React.FC = () => {
     if (profit >= 1000000000) return `${(profit / 1000000000).toFixed(2)}B`;
     if (profit >= 1000000) return `${(profit / 1000000).toFixed(2)}M`;
     if (profit >= 1000) return `${(profit / 1000).toFixed(2)}K`;
-    return `${profit}`;
+    return `${Math.round(profit)}`;
   };
 
   const handleUpgradeCard = async (cardId: number) => {
@@ -151,7 +158,22 @@ const MinePage: React.FC = () => {
 
         <div className="flex-grow mt-4 bg-[#f3ba2f] rounded-t-[48px] relative top-glow z-0">
           <div className="absolute top-[2px] left-0 right-0 bottom-0 bg-[#1d2025] rounded-t-[46px] h-max">
-            <div className="px-4 mt-6 flex justify-between gap-2">
+            <div className="flex px-4 mt-6  w-full rounded-lg">
+              <div className="text-sm flex bg-[#272a2f] w-full rounded-lg p-2">
+                <p>Daily combo</p>
+                <div className="flex justify-end items-center flex-1 gap-2">
+                  <img
+                    src={dollarCoin}
+                    alt="Daily Combo Reward"
+                    className="w-4 h-4"
+                  />
+                  <p>
+                    +{numberWithCommas(parseInt(dailyComboData?.bonus_coins))}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="px-4 mt-2 flex justify-between gap-2">
               <div className="bg-[#272a2f] rounded-lg px-4 py-2 w-full relative">
                 {dailyCombo[0] && (
                   <div
@@ -218,7 +240,12 @@ const MinePage: React.FC = () => {
             </div>
             {dailyCombo.some((i: number) => i !== null) && (
               <div className="mt-2 w-full flex justify-center">
-                <button className="bg-blue-600 px-2 py-1 rounded-md">
+                <button
+                  onClick={() => {
+                    mutateDailyCombo(dailyCombo);
+                  }}
+                  className="bg-blue-600 px-2 py-1 rounded-md"
+                >
                   Check
                 </button>
               </div>
@@ -273,6 +300,9 @@ const MinePage: React.FC = () => {
                       }}
                     >
                       <div className="flex flex-col bg-[#272a2f] rounded-2xl h-full">
+                        {/* <div className="w-full h-full">
+                          {dailyCipherTimeLeft}
+                        </div> */}
                         <div className="flex flex-row items-center p-3 flex-1">
                           {!c?.upgrade?.is_available && (
                             <div className="w-16 h-16">
@@ -403,8 +433,8 @@ const MinePage: React.FC = () => {
                       {buyCardData?.name ?? "-"}
                     </h1>
                     <div className="flex flex-col justify-center gap-1 items-center">
-                      <p className="text-xs font-thin">Profit per hour</p>
                       <div className="flex items-center space-x-1">
+                        <p className="text-xs font-thin">Profit per hour: </p>
                         <img
                           src={dollarCoin}
                           alt="Dollar Coin"
@@ -419,16 +449,15 @@ const MinePage: React.FC = () => {
                       </div>
                     </div>
                     <div className="flex items-center space-x-2">
+                      <p className="text-md font-bold text-white">Price: </p>
                       <img
                         src={dollarCoin}
                         alt="Dollar Coin"
                         className="w-6 h-6"
                       />
                       <p className="text-md font-bold text-white">
-                        {buyCardData?.upgrade?.profit_per_hour
-                          ? formatCardsPriceInfo(
-                              buyCardData?.upgrade?.profit_per_hour
-                            )
+                        {buyCardData?.upgrade?.price
+                          ? formatCardsPriceInfo(buyCardData?.upgrade?.price)
                           : ""}
                       </p>
                     </div>
