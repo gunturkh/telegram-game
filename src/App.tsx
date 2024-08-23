@@ -62,7 +62,7 @@ const App: React.FC = () => {
     playerLogin();
   }, [setAuthToken]);
 
-  if (true) {
+  if (loading) {
     return <LoadingScreen />;
   }
 
