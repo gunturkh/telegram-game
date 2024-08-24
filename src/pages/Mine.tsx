@@ -10,7 +10,7 @@ import Points from "../components/Points";
 import Header from "../components/Header";
 import Lock from "../icons/Lock";
 import { usePlayerStore } from "../store/player";
-import { numberWithCommas } from "../lib/utils";
+import { calculateTimeLeft, numberWithCommas } from "../lib/utils";
 
 const MinePage: React.FC = () => {
   type Card = {
@@ -39,7 +39,13 @@ const MinePage: React.FC = () => {
     mutationCardUpgrade: { mutate },
     mutationDailyCombo: { mutate: mutateDailyCombo },
   } = usePlayer();
-  const { dailyCombo, removeValue } = usePlayerStore();
+  const {
+    dailyCombo,
+    removeValue,
+    resetDailyCombo,
+    comboSubmitted,
+    setComboSubmitted,
+  } = usePlayerStore();
   console.log("dailyCombo", dailyCombo);
   console.log("cardsData", cardsData);
   const { cards = [], categories = [] } = cardsData || {};
@@ -76,58 +82,23 @@ const MinePage: React.FC = () => {
 
   // const [setDailyRewardTimeLeft] = useState("");
   // const [dailyCipherTimeLeft, setDailyCipherTimeLeft] = useState("");
-  const [, setDailyCipherTimeLeft] = useState("");
-  // const [setDailyComboTimeLeft] = useState("");
+  // const [, setDailyCipherTimeLeft] = useState("");
+  const [dailyComboTimeLeft, setDailyComboTimeLeft] = useState("");
 
-  const calculateTimeLeft = (targetHour: number) => {
-    const now = new Date();
-    const target = new Date(now);
-    target.setUTCHours(targetHour, 0, 0, 0);
-
-    if (now.getUTCHours() >= targetHour) {
-      target.setUTCDate(target.getUTCDate() + 1);
+  // TODO: still buggy, automatically reset just when check button clicked
+  useEffect(() => {
+    if (comboSubmitted && !dailyComboData?.is_submitted) {
+      console.log("reset daily combo triggered");
+      resetDailyCombo();
+      setComboSubmitted(false);
     }
-
-    const diff = target.getTime() - now.getTime();
-    const hours = Math.floor(diff / (1000 * 60 * 60));
-    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-    const paddedHours = hours.toString().padStart(2, "0");
-    const paddedMinutes = minutes.toString().padStart(2, "0");
-    const paddedSeconds = seconds.toString().padStart(2, "0");
-
-    return `${paddedHours}:${paddedMinutes}:${paddedSeconds}`;
-  };
-
-  // useEffect(() => {
-  //   // const cardCategories = cards.reduce((acc, currentValue) => {
-  //   //   if (acc.includes(currentValue?.category?.name)) return acc
-  //   //   else {
-  //   //     acc.push(currentValue?.category?.name)
-  //   //     return acc
-  //   //   }
-  //   // }, [])
-  //   // const categories = cards?.reduce(
-  //   //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  //   //   (acc: any[], currentValue: { category: { name: any } }) => {
-  //   //     const categoryName = currentValue?.category?.name;
-  //   //     if (categoryName && !acc.includes(categoryName)) {
-  //   //       acc.push(categoryName);
-  //   //     }
-  //   //     return acc;
-  //   //   },
-  //   //   [] as string[]
-  //   // );
-  //   const mappedCategories =
-  //   setCardCategories();
-  // }, [categories]);
+  }, [dailyComboData, comboSubmitted, resetDailyCombo, setComboSubmitted]);
 
   useEffect(() => {
     const updateCountdowns = () => {
       // setDailyRewardTimeLeft(calculateTimeLeft(0));
-      setDailyCipherTimeLeft(calculateTimeLeft(19));
-      // setDailyComboTimeLeft(calculateTimeLeft(12));
+      // setDailyCipherTimeLeft(calculateTimeLeft(19, true));
+      setDailyComboTimeLeft(calculateTimeLeft(17, true));
     };
 
     updateCountdowns();
@@ -160,7 +131,8 @@ const MinePage: React.FC = () => {
 
         <div className="flex-grow mt-4 bg-[#f3ba2f] rounded-t-[48px] relative top-glow z-0">
           <div className="absolute top-[2px] left-0 right-0 bottom-0 bg-[#1d2025] rounded-t-[46px] h-max">
-            <div className="flex px-4 mt-6  w-full rounded-lg">
+            <div className="w-full text-xs text-right mt-6 mb-1 px-5">{dailyComboTimeLeft}</div>
+            <div className="flex px-4 w-full rounded-lg">
               <div className="text-sm flex bg-[#272a2f] w-full rounded-lg p-2">
                 <p>Daily combo</p>
                 <div className="flex justify-end items-center flex-1 gap-2">
@@ -177,7 +149,7 @@ const MinePage: React.FC = () => {
             </div>
             <div className="px-4 mt-2 flex justify-between gap-2">
               <div className="bg-[#272a2f] rounded-lg px-4 py-2 w-full relative">
-                {dailyCombo[0] && (
+                {dailyCombo[0] && !dailyComboData?.is_submitted && (
                   <div
                     onClick={() => removeValue(dailyCombo[0])}
                     className="absolute right-0 top-0 bg-red-500 text-xs p-1 rounded-full h-6 w-6 flex justify-center "
@@ -198,7 +170,7 @@ const MinePage: React.FC = () => {
                 />
               </div>
               <div className="bg-[#272a2f] rounded-lg px-4 py-2 w-full relative">
-                {dailyCombo[1] && (
+                {dailyCombo[1] && !dailyComboData?.is_submitted && (
                   <div
                     onClick={() => removeValue(dailyCombo[1])}
                     className="absolute right-0 top-0 bg-red-500 text-xs p-1 rounded-full h-6 w-6 flex justify-center "
@@ -219,7 +191,7 @@ const MinePage: React.FC = () => {
                 />
               </div>
               <div className="bg-[#272a2f] rounded-lg px-4 py-2 w-full relative">
-                {dailyCombo[2] && (
+                {dailyCombo[2] && !dailyComboData?.is_submitted && (
                   <div
                     onClick={() => removeValue(dailyCombo[2])}
                     className="absolute right-0 top-0 bg-red-500 text-xs p-1 rounded-full h-6 w-6 flex justify-center "
@@ -240,18 +212,19 @@ const MinePage: React.FC = () => {
                 />
               </div>
             </div>
-            {dailyCombo.some((i: number) => i !== null) && (
-              <div className="mt-2 w-full flex justify-center">
-                <button
-                  onClick={() => {
-                    mutateDailyCombo(dailyCombo);
-                  }}
-                  className="bg-blue-600 px-2 py-1 rounded-md"
-                >
-                  Check
-                </button>
-              </div>
-            )}
+            {dailyCombo.some((i: number) => i !== null) &&
+              !dailyComboData?.is_submitted && (
+                <div className="mt-2 w-full flex justify-center">
+                  <button
+                    onClick={() => {
+                      mutateDailyCombo({ combo: dailyCombo });
+                    }}
+                    className="bg-blue-600 px-2 py-1 rounded-md"
+                  >
+                    Check
+                  </button>
+                </div>
+              )}
 
             <Points />
 

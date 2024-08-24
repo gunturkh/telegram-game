@@ -23,6 +23,7 @@ export const usePlayerStore = create<any, any>(
       setPassiveEarnModal: (data: boolean) =>
         set(() => ({ passiveEarnModal: data })),
       dailyCombo: [null, null, null],
+      comboSubmitted: false,
       addValue: (value: number) =>
         set((state: any) => {
           if (
@@ -67,6 +68,7 @@ export const usePlayerStore = create<any, any>(
           return { dailyCombo: updatedCombo };
         }),
       resetDailyCombo: () => set(() => ({ dailyCombo: [null, null, null] })),
+      setComboSubmitted: (data: boolean) => set(() => ({ comboSubmitted: data })),
       playerData: null,
       setPlayerData: (data: IPlayerData) => set(() => ({ playerData: data })),
       points: 0,
