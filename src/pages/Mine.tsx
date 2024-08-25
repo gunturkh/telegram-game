@@ -436,6 +436,13 @@ const MinePage: React.FC = () => {
                                 </p>
                               )}
                             </div>
+                            {c.upgrade?.available_until && (
+                              <div className="w-full text-yellow-500 text-left text-xs font-thin flex-1">
+                                Available until : {calculateTimeLeftUsingTimestamp(
+                                  c.upgrade?.available_until * 1000
+                                )}
+                              </div>
+                            )}
                           </div>
                         </div>
                         <div className="flex flex-row w-full items-center border-t-[0.5px] border-gray-500">

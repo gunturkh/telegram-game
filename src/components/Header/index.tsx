@@ -5,8 +5,9 @@ import { dollarCoin } from "../../images";
 import Info from "../../icons/Info";
 import Settings from "../../icons/Settings";
 import { useState } from "react";
-// import { usePlayerStore } from "../../store/player";
+import { usePlayerStore } from "../../store/player";
 import { formatProfitPerHour } from "../../lib/utils";
+import { __DEV__ } from "../../utils/constants";
 
 const levelNames = [
   "Baby",
@@ -25,7 +26,7 @@ function Header() {
   const {
     query: { data: playerData },
   } = usePlayer();
-  // const { resetDailyCombo } = usePlayerStore();
+  const { resetDailyCombo } = usePlayerStore();
   const profitPerHour = playerData?.passive_earnings?.per_hour;
 
   return (
@@ -35,9 +36,9 @@ function Header() {
           <Hamster size={24} className="text-[#d4d4d4]" />
         </div>
         <div
-          // onClick={() =>
-          //   WebApp.showAlert(`referral: ${WebApp.initDataUnsafe.start_param}`)
-          // }
+        // onClick={() =>
+        //   WebApp.showAlert(`referral: ${WebApp.initDataUnsafe.start_param}`)
+        // }
         >
           <p className="text-sm">
             {WebApp?.initDataUnsafe?.user?.username} (CEO)
@@ -95,7 +96,9 @@ function Header() {
           </div>
           <div className="h-[32px] w-[2px] bg-[#43433b] mx-2"></div>
           <div
-          // onClick={()=> resetDailyCombo()}
+            onClick={() => {
+              if (__DEV__) resetDailyCombo();
+            }}
           >
             <Settings className="text-white" />
           </div>
