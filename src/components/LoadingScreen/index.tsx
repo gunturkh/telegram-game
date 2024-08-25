@@ -27,7 +27,7 @@ function LoadingScreen() {
       </div>
       <div className="absolute w-full">
         <div className="flex justify-center item w-full items-center h-screen">
-          <div className="flex flex-col items-center gap-4 mt-64">
+          <div className="flex flex-col items-center gap-4 mt-[30rem]">
             <h1 className="text-4xl font-bold text-orange-500">Chipmunk Kombat</h1>
             <h2 className="text-xl text-white">Will Be Launched</h2>
             <h3 className="text-5xl font-bold text-white"> Multichain</h3>

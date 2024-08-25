@@ -17,6 +17,12 @@ const App: React.FC = () => {
   const [loading, setLoading] = useState(false);
   console.log("WebApp", WebApp.platform);
   useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 5000);
+  }, []);
+
+  useEffect(() => {
     const telegramData = __DEV__
       ? {
           id: 465670876,
@@ -52,17 +58,17 @@ const App: React.FC = () => {
         const result = await response.json();
         // console.log("result");
         if (result.status) {
-          setLoading(false);
+          // setLoading(false);
           // console.log("login result", result.data);
           setAuthToken(result?.data?.token);
           setPassiveEarnModal(true);
         }
         if (!result.status) {
-          setLoading(false);
+          // setLoading(false);
           // console.log("login error", result.message);
         }
       } catch (error) {
-        setLoading(false);
+        // setLoading(false);
         // console.log("login error", error);
       }
     };
