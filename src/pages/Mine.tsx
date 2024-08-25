@@ -58,6 +58,14 @@ const MinePage: React.FC = () => {
   // console.log("dailyCombo", dailyCombo);
   // console.log("cardsData", cardsData);
   const { cards = [], categories = [] } = cardsData || {};
+  const specialTabs = [
+    { label: "My Cards", value: "mycards" },
+    { label: "New Cards", value: "newcards" },
+    { label: "Expired", value: "expired" },
+  ];
+  const [specialTab, setSpecialTab] = useState<
+    "mycards" | "newcards" | "expired"
+  >("mycards");
   // console.log("cards", cards);
   // console.log("categories", categories);
   // console.log('data', data)
@@ -296,13 +304,61 @@ const MinePage: React.FC = () => {
                 <div className="w-full m-1 p-4 rounded-2xl"></div>
               )}
             </div>
-            <div className="flex flex-wrap flex-row mt-6 mb-40">
+            {mineTab === 3 && (
+              <div className="max-w-xl flex justify-start items-center z-50 mt-6 text-xs">
+                {specialTabs?.map((s: any) => {
+                  return (
+                    <div
+                      className={`text-center text-[#85827d] w-1/5 ${
+                        specialTab === s.value && "text-yellow-500"
+                      }`}
+                      onClick={() => setSpecialTab(s.value)}
+                      key={s.value}
+                    >
+                      <p className="mt-1">{s.label}</p>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+            <div className="flex flex-wrap flex-row mt-6 mb-96">
               {cards
-                ?.filter(
-                  (c: Card) =>
-                    c.category_id === categories?.[mineTab]?.id &&
-                    c.is_published
-                )
+                ?.filter((c: Card) => {
+                  if (mineTab !== 3) {
+                    return (
+                      c.category_id === categories?.[mineTab]?.id &&
+                      c.is_published
+                    );
+                  } else {
+                    switch (specialTab) {
+                      case "mycards":
+                        return (
+                          c.category_id === categories?.[mineTab]?.id &&
+                          c.is_published &&
+                          c.level > 0
+                        );
+                      case "newcards":
+                        return (
+                          c.category_id === categories?.[mineTab]?.id &&
+                          c.is_published &&
+                          c.level === 0
+                        );
+                      case "expired":
+                        return (
+                          c.category_id === categories?.[mineTab]?.id &&
+                          c.is_published &&
+                          c.upgrade?.available_until > Date.now()
+                        );
+
+                      default:
+                        return (
+                          c.category_id === categories?.[mineTab]?.id &&
+                          c.is_published &&
+                          c.level > 0
+                        );
+                    }
+                  }
+                })
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 .map((c: Card, cIdx: any) => {
                   return (
