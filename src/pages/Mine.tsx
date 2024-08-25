@@ -10,7 +10,11 @@ import Points from "../components/Points";
 import Header from "../components/Header";
 import Lock from "../icons/Lock";
 import { usePlayerStore } from "../store/player";
-import { calculateTimeLeft, numberWithCommas } from "../lib/utils";
+import {
+  calculateTimeLeft,
+  calculateTimeLeftUsingTimestamp,
+  numberWithCommas,
+} from "../lib/utils";
 
 const MinePage: React.FC = () => {
   type Card = {
@@ -21,7 +25,11 @@ const MinePage: React.FC = () => {
     level: number;
     category_id: number;
     profit_per_hour: number;
+    is_published: boolean;
     upgrade: {
+      available_at: number;
+      available_until: number;
+      is_limited: boolean;
       level: number;
       price: number;
       profit_per_hour: number;
@@ -46,8 +54,8 @@ const MinePage: React.FC = () => {
     comboSubmitted,
     setComboSubmitted,
   } = usePlayerStore();
-  console.log("dailyCombo", dailyCombo);
-  console.log("cardsData", cardsData);
+  // console.log("dailyCombo", dailyCombo);
+  // console.log("cardsData", cardsData);
   const { cards = [], categories = [] } = cardsData || {};
   // console.log("cards", cards);
   // console.log("categories", categories);
@@ -58,7 +66,7 @@ const MinePage: React.FC = () => {
   // console.log("cards", cards);
   // console.log("categories", categories);
   // const [cardCategories, setCardCategories] = useState<string[]>([]);
-  console.log("dailyComboData", dailyComboData);
+  // console.log("dailyComboData", dailyComboData);
   const [buyCardData, setBuyCardData] = useState<Card>({
     id: 0,
     name: "",
@@ -67,13 +75,17 @@ const MinePage: React.FC = () => {
     level: 0,
     category_id: 0,
     profit_per_hour: 0,
+    is_published: false,
     upgrade: {
       price: 0,
+      is_limited: false,
       level: 0,
       profit_per_hour: 0,
       profit_per_hour_delta: 0,
       is_available: false,
       condition: null,
+      available_at: 0,
+      available_until: 0,
     },
   });
 
@@ -87,12 +99,13 @@ const MinePage: React.FC = () => {
 
   // TODO: still buggy, automatically reset just when check button clicked
   useEffect(() => {
-    if (comboSubmitted && !dailyComboData?.is_submitted) {
+    // console.log('dailyComboData?.is_submitted', dailyComboData?.is_submitted)
+    if (comboSubmitted && dailyComboData?.is_submitted === false) {
       console.log("reset daily combo triggered");
       resetDailyCombo();
       setComboSubmitted(false);
     }
-  }, [dailyComboData, comboSubmitted, resetDailyCombo, setComboSubmitted]);
+  }, []);
 
   useEffect(() => {
     const updateCountdowns = () => {
@@ -122,7 +135,7 @@ const MinePage: React.FC = () => {
       console.log("error", error);
     }
   };
-  console.log("open", open);
+  // console.log("open", open);
 
   return (
     <div className="bg-black flex justify-center">
@@ -131,23 +144,36 @@ const MinePage: React.FC = () => {
 
         <div className="flex-grow mt-4 bg-[#f3ba2f] rounded-t-[48px] relative top-glow z-0">
           <div className="absolute top-[2px] left-0 right-0 bottom-0 bg-[#1d2025] rounded-t-[46px] h-max">
-            <div className="w-full text-xs text-right mt-6 mb-1 px-5">{dailyComboTimeLeft}</div>
-            <div className="flex px-4 w-full rounded-lg">
-              <div className="text-sm flex bg-[#272a2f] w-full rounded-lg p-2">
-                <p>Daily combo</p>
-                <div className="flex justify-end items-center flex-1 gap-2">
-                  <img
-                    src={dollarCoin}
-                    alt="Daily Combo Reward"
-                    className="w-4 h-4"
-                  />
-                  <p>
-                    +{numberWithCommas(parseInt(dailyComboData?.bonus_coins))}
-                  </p>
+            {!dailyComboData?.is_submitted && (
+              <>
+                <div className="w-full text-xs text-right mt-6 mb-1 px-5">
+                  {dailyComboTimeLeft}
                 </div>
-              </div>
-            </div>
-            <div className="px-4 mt-2 flex justify-between gap-2">
+                <div className="flex px-4 w-full rounded-lg">
+                  <div className="text-sm flex bg-[#272a2f] w-full rounded-lg p-2">
+                    <p>Daily combo</p>
+                    <div className="flex justify-end items-center flex-1 gap-2">
+                      <img
+                        src={dollarCoin}
+                        alt="Daily Combo Reward"
+                        className="w-4 h-4"
+                      />
+                      <p>
+                        +
+                        {numberWithCommas(
+                          parseInt(dailyComboData?.bonus_coins)
+                        )}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
+            <div
+              className={`px-4 ${
+                dailyComboData?.is_submitted ? "mt-6" : "mt-2"
+              } flex justify-between gap-2`}
+            >
               <div className="bg-[#272a2f] rounded-lg px-4 py-2 w-full relative">
                 {dailyCombo[0] && !dailyComboData?.is_submitted && (
                   <div
@@ -250,8 +276,9 @@ const MinePage: React.FC = () => {
             <div className="flex flex-wrap flex-row mt-6 mb-40">
               {cards
                 ?.filter(
-                  (c: { category_id: number }) =>
-                    c.category_id === categories?.[mineTab]?.id
+                  (c: Card) =>
+                    c.category_id === categories?.[mineTab]?.id &&
+                    c.is_published
                 )
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 .map((c: Card, cIdx: any) => {
@@ -288,7 +315,7 @@ const MinePage: React.FC = () => {
                                 />
                                 <Lock
                                   size={24}
-                                  className="absolute text-[#43433b]"
+                                  className="absolute text-[#43433b] bg-white/80 rounded-full "
                                   containerClassName="flex h-full justify-center items-center"
                                 />
                               </div>
@@ -341,22 +368,33 @@ const MinePage: React.FC = () => {
                             lvl {c.level}
                           </p>
                           <div className="flex items-center space-x-1 flex-1 p-4">
-                            <img
-                              src={dollarCoin}
-                              alt="Dollar Coin"
-                              className="w-4 h-4"
-                            />
+                            {c.upgrade?.available_at && (
+                              <div className="w-full text-center text-md font-bold flex-1">
+                                {calculateTimeLeftUsingTimestamp(
+                                  c.upgrade?.available_at * 1000
+                                )}
+                              </div>
+                            )}
+                            {!c.upgrade?.available_at && (
+                              <img
+                                src={dollarCoin}
+                                alt="Dollar Coin"
+                                className="w-4 h-4"
+                              />
+                            )}
                             <div className="text-md text-white">
                               {c.upgrade?.is_available && c?.upgrade?.price ? (
                                 formatCardsPriceInfo(c?.upgrade?.price)
-                              ) : (
+                              ) : c.upgrade?.is_available &&
+                                c?.upgrade?.condition?.name &&
+                                c?.upgrade?.condition?.level ? (
                                 <span className="text-xs font-thin">
                                   <p className="font-semibold">
                                     {c?.upgrade?.condition?.name}
                                   </p>{" "}
                                   lvl {c?.upgrade?.condition?.level}
                                 </span>
-                              )}
+                              ) : null}
                             </div>
                           </div>
                         </div>

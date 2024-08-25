@@ -12,7 +12,7 @@ const http = axios.create({
 http.interceptors.request.use(
   async (request: InternalAxiosRequestConfig) => {
     const token = useAuthStore.getState().token;
-    console.log("token inside axios", token);
+    // console.log("token inside axios", token);
     if (token) {
       request.headers["Authorization"] = `Bearer ${token}`;
     }

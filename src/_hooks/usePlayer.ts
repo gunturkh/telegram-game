@@ -26,8 +26,8 @@ const usePlayer = () => {
   const queryClient = useQueryClient();
   const setInitialPoints = usePlayerStore.getState().setInitialPoints;
   const setInitialEnergy = usePlayerStore.getState().setInitialEnergy;
-  const dailyCombo = usePlayerStore.getState().dailyCombo;
-  console.log("dailyCombo", dailyCombo);
+  // const dailyCombo = usePlayerStore.getState().dailyCombo;
+  // console.log("dailyCombo", dailyCombo);
   const updateDailyCombo = usePlayerStore.getState().updateNull;
   const setPassiveEarning = usePlayerStore.getState().setPassiveEarning;
   const setComboSubmitted = usePlayerStore.getState().setComboSubmitted;
