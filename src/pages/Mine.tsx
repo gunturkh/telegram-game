@@ -26,6 +26,7 @@ const MinePage: React.FC = () => {
     category_id: number;
     profit_per_hour: number;
     is_published: boolean;
+    published_at_unix: number;
     upgrade: {
       available_at: number;
       available_until: number;
@@ -76,6 +77,7 @@ const MinePage: React.FC = () => {
     category_id: 0,
     profit_per_hour: 0,
     is_published: false,
+    published_at_unix: 0,
     upgrade: {
       price: 0,
       is_limited: false,
@@ -237,6 +239,27 @@ const MinePage: React.FC = () => {
                   className="mx-auto w-12 h-12"
                 />
               </div>
+              <div className="bg-[#272a2f] rounded-lg px-4 py-2 w-full relative">
+                {dailyCombo[3] && !dailyComboData?.is_submitted && (
+                  <div
+                    onClick={() => removeValue(dailyCombo[3])}
+                    className="absolute right-0 top-0 bg-red-500 text-xs p-1 rounded-full h-6 w-6 flex justify-center "
+                  >
+                    x
+                  </div>
+                )}
+                <img
+                  src={
+                    dailyCombo[3] && cardsData?.cards?.length > 0
+                      ? cardsData?.cards?.filter(
+                          (c: Card) => c.id === dailyCombo[3]
+                        )?.[0]?.image
+                      : questionMark
+                  }
+                  alt="Daily Combo"
+                  className="mx-auto w-12 h-12"
+                />
+              </div>
             </div>
             {dailyCombo.some((i: number) => i !== null) &&
               !dailyComboData?.is_submitted && (
@@ -245,9 +268,9 @@ const MinePage: React.FC = () => {
                     onClick={() => {
                       mutateDailyCombo({ combo: dailyCombo });
                     }}
-                    className="bg-blue-600 px-2 py-1 rounded-md"
+                    className="bg-orange-500 px-2 py-1 rounded-md"
                   >
-                    Check
+                    Submit Combo
                   </button>
                 </div>
               )}
@@ -287,7 +310,7 @@ const MinePage: React.FC = () => {
                       key={`${categories[mineTab]?.name}-card-${cIdx}`}
                       className="w-1/2  rounded-xl p-1"
                       onClick={async () => {
-                        if (c?.upgrade) {
+                        if (c?.upgrade && c?.upgrade?.is_available) {
                           console.log("card upgrade modal opened", c);
                           setOpen(true);
                           setBuyCardData(c);
@@ -307,8 +330,8 @@ const MinePage: React.FC = () => {
                         </div> */}
                         <div className="flex flex-row items-center p-3 flex-1">
                           {!c?.upgrade?.is_available && (
-                            <div className="w-16 h-16">
-                              <div className="flex items-center justify-center rounded-xl bg-neutral-500/30 w-16 h-16">
+                            <div className="w-12 h-12">
+                              <div className="flex items-center justify-center rounded-xl bg-neutral-500/30 w-14 h-14">
                                 <img
                                   src={c.image}
                                   className="absolute mx-auto w-10 h-10"
@@ -365,7 +388,7 @@ const MinePage: React.FC = () => {
                               c?.level > 0 ? "text-white" : "text-neutral-500"
                             }`}
                           >
-                            lvl {c.level}
+                            {c.level === 25 ? "MAX" : `lvl ${c.level}`}
                           </p>
                           <div className="flex items-center space-x-1 flex-1 p-4">
                             {c.upgrade?.available_at && (
@@ -375,13 +398,20 @@ const MinePage: React.FC = () => {
                                 )}
                               </div>
                             )}
-                            {!c.upgrade?.available_at && (
-                              <img
-                                src={dollarCoin}
-                                alt="Dollar Coin"
-                                className="w-4 h-4"
-                              />
-                            )}
+                            {!c.upgrade?.available_at &&
+                              c.upgrade?.is_available && (
+                                <img
+                                  src={dollarCoin}
+                                  alt="Dollar Coin"
+                                  className="w-4 h-4"
+                                />
+                              )}
+                            {!c.upgrade?.is_available &&
+                              c?.upgrade?.is_limited && (
+                                <div className="w-full text-center text-md text-neutral-500 font-bold flex-1">
+                                  Expired
+                                </div>
+                              )}
                             <div className="text-md text-white">
                               {c.upgrade?.is_available && c?.upgrade?.price ? (
                                 formatCardsPriceInfo(c?.upgrade?.price)

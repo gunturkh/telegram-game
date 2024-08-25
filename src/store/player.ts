@@ -22,13 +22,13 @@ export const usePlayerStore = create<any, any>(
       passiveEarnModal: false,
       setPassiveEarnModal: (data: boolean) =>
         set(() => ({ passiveEarnModal: data })),
-      dailyCombo: [null, null, null],
+      dailyCombo: [null, null, null, null],
       comboSubmitted: false,
       addValue: (value: number) =>
         set((state: any) => {
           if (
             state.dailyCombo.includes(value) || // Prevent duplicates
-            state.dailyCombo.filter((item: number) => item !== null).length >= 3 // Check if already at max length
+            state.dailyCombo.filter((item: number) => item !== null).length >= 4 // Check if already at max length
           ) {
             return state;
           }
@@ -67,7 +67,7 @@ export const usePlayerStore = create<any, any>(
 
           return { dailyCombo: updatedCombo };
         }),
-      resetDailyCombo: () => set(() => ({ dailyCombo: [null, null, null] })),
+      resetDailyCombo: () => set(() => ({ dailyCombo: [null, null, null, null] })),
       setComboSubmitted: (data: boolean) => set(() => ({ comboSubmitted: data })),
       playerData: null,
       setPlayerData: (data: IPlayerData) => set(() => ({ playerData: data })),

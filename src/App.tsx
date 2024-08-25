@@ -9,11 +9,13 @@ import { __DEV__, API_URL } from "./utils/constants";
 import FriendsPage from "./pages/Friends";
 import EarnPage from "./pages/Earn";
 import { usePlayerStore } from "./store/player";
+import { qr } from "./images";
 
 const App: React.FC = () => {
   const { setAuthToken } = useAuthStore();
   const { setPassiveEarnModal } = usePlayerStore();
   const [loading, setLoading] = useState(false);
+  console.log("WebApp", WebApp.platform);
   useEffect(() => {
     const telegramData = __DEV__
       ? {
@@ -22,7 +24,13 @@ const App: React.FC = () => {
           first_name: "-",
           last_name: "-",
         }
-      : WebApp?.initDataUnsafe?.user;
+      : // ? {
+        //   id: 769049677,
+        //   username: "tatangdev",
+        //   first_name: "Tatang",
+        //   last_name: "",
+        // }
+        WebApp?.initDataUnsafe?.user;
     const playerLogin = async () => {
       try {
         setLoading(true);
@@ -62,6 +70,20 @@ const App: React.FC = () => {
     playerLogin();
   }, [setAuthToken]);
 
+  if (
+    WebApp &&
+    (WebApp.platform === "macos" ||
+      WebApp.platform === "tdesktop" ||
+      WebApp.platform === "unigram" ||
+      WebApp.platform === "weba" ||
+      WebApp.platform === "webk" ||
+      WebApp.platform === "unknown") &&
+    !__DEV__
+  ) {
+    return (
+      <img src={qr} alt="Loading" className="w-full h-screen object-cover " />
+    );
+  }
   if (loading) {
     return <LoadingScreen />;
   }
