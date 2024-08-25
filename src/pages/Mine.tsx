@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Sheet } from "react-modal-sheet";
 import toast, { Toaster } from "react-hot-toast";
 import "../App.css";
-import { dollarCoin, questionMark } from "../images";
+import { dollarCoin, specials } from "../images";
 import BottomTab from "../components/BottomTab";
 import usePlayer from "../_hooks/usePlayer";
 import Points from "../components/Points";
@@ -199,7 +199,7 @@ const MinePage: React.FC = () => {
                       ? cardsData?.cards?.filter(
                           (c: Card) => c.id === dailyCombo[0]
                         )?.[0]?.image
-                      : questionMark
+                      : specials
                   }
                   alt="Daily Combo"
                   className="mx-auto w-12 h-12"
@@ -220,7 +220,7 @@ const MinePage: React.FC = () => {
                       ? cardsData?.cards?.filter(
                           (c: Card) => c.id === dailyCombo[1]
                         )?.[0]?.image
-                      : questionMark
+                      : specials
                   }
                   alt="Daily Combo"
                   className="mx-auto w-12 h-12"
@@ -241,7 +241,7 @@ const MinePage: React.FC = () => {
                       ? cardsData?.cards?.filter(
                           (c: Card) => c.id === dailyCombo[2]
                         )?.[0]?.image
-                      : questionMark
+                      : specials
                   }
                   alt="Daily Combo"
                   className="mx-auto w-12 h-12"
@@ -262,7 +262,7 @@ const MinePage: React.FC = () => {
                       ? cardsData?.cards?.filter(
                           (c: Card) => c.id === dailyCombo[3]
                         )?.[0]?.image
-                      : questionMark
+                      : specials
                   }
                   alt="Daily Combo"
                   className="mx-auto w-12 h-12"
