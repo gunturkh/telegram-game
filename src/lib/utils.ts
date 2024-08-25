@@ -41,6 +41,20 @@ export const formatPrice = ({
   });
 };
 
+export const formatProfitPerHour = (profit: number) => {
+  if (profit >= 1000000000) return `+${(profit / 1000000000).toFixed(2)}B`;
+  if (profit >= 1000000) return `+${(profit / 1000000).toFixed(2)}M`;
+  if (profit >= 1000) return `+${(profit / 1000).toFixed(2)}K`;
+  return `+${profit}`;
+};
+
+export const balanceFormatter = (profit: number) => {
+  if (profit >= 1000000000) return `${(profit / 1000000000).toFixed(2)}B`;
+  if (profit >= 1000000) return `${(profit / 1000000).toFixed(2)}M`;
+  if (profit >= 1000) return `${(profit / 1000).toFixed(2)}K`;
+  return `${profit}`;
+};
+
 export function kFormatter(num: number): string {
   return Math.abs(num) > 999
     ? Math.sign(num) * Number((Math.abs(num) / 1000).toFixed(1)) + "K"
@@ -51,7 +65,10 @@ export function numberWithCommas(x: number) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-export const calculateTimeLeft = (targetHour: number, showSeconds?: boolean) => {
+export const calculateTimeLeft = (
+  targetHour: number,
+  showSeconds?: boolean
+) => {
   const now = new Date();
   const target = new Date(now);
   target.setUTCHours(targetHour, 0, 0, 0);

@@ -116,6 +116,21 @@ const usePlayer = () => {
       }
     },
   });
+  const queryReferral = useQuery({
+    queryKey: ["referral"],
+    queryFn: async () => {
+      try {
+        const response = await http.get("/referral-stats");
+        return response.data?.data;
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          throw new Error("Axios Error");
+        }
+
+        throw new Error("Unknown Error");
+      }
+    },
+  });
   // const queryPointsPreview = useQuery({
   //   queryKey: ["points-preview"],
   //   queryFn: async () => {
@@ -301,6 +316,7 @@ const usePlayer = () => {
     queryCards,
     queryTasks,
     queryDailyCombo,
+    queryReferral,
     // queryPointsPreview,
     // export all mutations
     mutationTap,

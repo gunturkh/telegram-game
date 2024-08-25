@@ -6,6 +6,7 @@ import Info from "../../icons/Info";
 import Settings from "../../icons/Settings";
 import { useState } from "react";
 import { usePlayerStore } from "../../store/player";
+import { formatProfitPerHour } from "../../lib/utils";
 
 const levelNames = [
   "Baby",
@@ -26,12 +27,7 @@ function Header() {
   } = usePlayer();
   const { resetDailyCombo } = usePlayerStore();
   const profitPerHour = playerData?.passive_earnings?.per_hour;
-  const formatProfitPerHour = (profit: number) => {
-    if (profit >= 1000000000) return `+${(profit / 1000000000).toFixed(2)}B`;
-    if (profit >= 1000000) return `+${(profit / 1000000).toFixed(2)}M`;
-    if (profit >= 1000) return `+${(profit / 1000).toFixed(2)}K`;
-    return `+${profit}`;
-  };
+
   return (
     <div className="px-4 z-10">
       <div className="flex items-center space-x-2 pt-4">
