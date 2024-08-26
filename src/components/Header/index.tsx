@@ -65,7 +65,7 @@ function Header() {
             <div className="flex items-center mt-1 border-2 border-[#451e0f] rounded-full">
               <div className="w-full h-2 bg-[#451e0f]/[0.6] rounded-full">
                 <div
-                  className="progress-gradient h-2 rounded-full"
+                  className="bg-gradient-to-r from-[#dc7b0c] to-[#fff973] h-2 rounded-full"
                   // style={{ width: `${calculateProgress()}%` }}
                   style={{
                     width: `${playerData?.level?.next_level_percentage}%`,
