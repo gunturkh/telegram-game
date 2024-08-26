@@ -60,6 +60,7 @@ const usePlayer = () => {
     },
   });
   const queryInfo = useQuery({
+    staleTime: Infinity,
     queryKey: ["info"],
     queryFn: async () => {
       try {
@@ -75,6 +76,7 @@ const usePlayer = () => {
     },
   });
   const queryCards = useQuery({
+    staleTime: Infinity,
     queryKey: ["cards"],
     queryFn: async () => {
       try {
@@ -90,6 +92,7 @@ const usePlayer = () => {
     },
   });
   const queryTasks = useQuery<Task[]>({
+    staleTime: Infinity,
     queryKey: ["tasks"],
     queryFn: async () => {
       try {
@@ -105,6 +108,7 @@ const usePlayer = () => {
     },
   });
   const queryDailyCombo = useQuery({
+    staleTime: Infinity,
     queryKey: ["combo"],
     queryFn: async () => {
       try {
@@ -120,6 +124,7 @@ const usePlayer = () => {
     },
   });
   const queryReferral = useQuery({
+    staleTime: Infinity,
     queryKey: ["referral"],
     queryFn: async () => {
       try {
@@ -183,7 +188,7 @@ const usePlayer = () => {
       }
     },
     onSuccess: () => {
-      // queryClient.invalidateQueries({ queryKey: ["player"] });
+      queryClient.invalidateQueries({ queryKey: ["player"] });
     },
     onError: (error, variables, context) => {
       console.log("error", error);

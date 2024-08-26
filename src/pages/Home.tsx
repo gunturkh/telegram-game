@@ -31,7 +31,7 @@ const Home: React.FC = () => {
   const [clicks, setClicks] = useState<{ id: number; x: number; y: number }[]>(
     []
   );
-  const debouncedClicks = useDebounce(clicks, 1000);
+  const debouncedClicks = useDebounce(clicks, 500);
   const [energy, setEnergy] = useState(initialEnergy);
   // console.log("energy", energy);
   const pointsToAdd = playerData?.tap_earnings?.per_tap;
@@ -53,8 +53,7 @@ const Home: React.FC = () => {
       }
     };
     sync();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debouncedClicks]);
+  }, [debouncedClicks, mutateAsync]);
 
   useEffect(() => {
     const updateCountdowns = () => {
