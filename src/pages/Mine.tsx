@@ -54,7 +54,11 @@ const MinePage: React.FC = () => {
     resetDailyCombo,
     comboSubmitted,
     setComboSubmitted,
+    dailyComboReward,
+    dailyComboRewardModal,
+    setDailyComboRewardModal,
   } = usePlayerStore();
+  console.log("dailyComboRewardModal", dailyComboRewardModal);
   // console.log("dailyCombo", dailyCombo);
   // console.log("cardsData", cardsData);
   const { cards = [], categories = [] } = cardsData || {};
@@ -115,6 +119,7 @@ const MinePage: React.FC = () => {
       resetDailyCombo();
       setComboSubmitted(false);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -269,7 +274,7 @@ const MinePage: React.FC = () => {
                 />
               </div>
             </div>
-            {dailyCombo.some((i: number) => i !== null) &&
+            {dailyCombo.every((i: number) => i !== null) &&
               !dailyComboData?.is_submitted && (
                 <div className="mt-2 w-full flex justify-center">
                   <button
@@ -438,7 +443,8 @@ const MinePage: React.FC = () => {
                             </div>
                             {c.upgrade?.available_until && (
                               <div className="w-full text-yellow-500 text-left text-xs font-thin flex-1">
-                                Available until : {calculateTimeLeftUsingTimestamp(
+                                Available until :{" "}
+                                {calculateTimeLeftUsingTimestamp(
                                   c.upgrade?.available_until * 1000
                                 )}
                               </div>
@@ -581,6 +587,52 @@ const MinePage: React.FC = () => {
                 </Sheet.Content>
               </Sheet.Container>
               <Sheet.Backdrop onTap={() => setOpen(false)} />
+            </Sheet>
+            <Sheet
+              isOpen={dailyComboRewardModal}
+              snapPoints={[0.55]}
+              initialSnap={0}
+              disableDrag={false}
+              onClose={() => setDailyComboRewardModal(false)}
+              style={{
+                zIndex: dailyComboRewardModal ? "9999999" : "-1",
+                visibility: dailyComboRewardModal ? "visible" : "hidden",
+              }}
+            >
+              <Sheet.Container>
+                <Sheet.Header className="bg-[#1d2025]">
+                  <div className="w-full flex justify-end px-4">
+                    <button
+                      className="text-white text-lg font-bold"
+                      onClick={() => setDailyComboRewardModal(false)}
+                    >
+                      x
+                    </button>
+                  </div>
+                </Sheet.Header>
+                <Sheet.Content className="bg-[#1d2025] text-white overflow-scroll no-scrollbar">
+                  {/* Your sheet content goes here */}
+                  <div className="flex p-4 flex-col w-full justify-center items-center gap-5">
+                    <img src={dollarCoin} className="mx-auto w-20 h-20" />
+                    <h1 className="text-2xl text-center font-bold mt-6">
+                      {`You got ${
+                        dailyComboReward?.correct_combo
+                      } card correct, and ${numberWithCommas(
+                        dailyComboReward?.bonus_coins
+                      )} bonus point`}
+                    </h1>
+                    <div className="absolute bottom-4 w-full px-6 z-50">
+                      <button
+                        className="flex justify-center w-full bg-blue-500 rounded-lg px-6 py-4"
+                        onClick={() => setDailyComboRewardModal(false)}
+                      >
+                        Better luck next time!
+                      </button>
+                    </div>
+                  </div>
+                </Sheet.Content>
+              </Sheet.Container>
+              <Sheet.Backdrop onTap={() => setDailyComboRewardModal(false)} />
             </Sheet>
           </div>
         </div>

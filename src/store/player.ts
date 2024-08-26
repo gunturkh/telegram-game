@@ -13,6 +13,13 @@ interface IPlayerData {
   point: number;
   profit_per_hour: number;
 }
+
+type DailyComboReward = {
+  correct_combo: number;
+  bonus_coins: number;
+  is_submitted: boolean;
+  remain_seconds: number;
+};
 export const usePlayerStore = create<any, any>(
   persist(
     (set) => ({
@@ -23,6 +30,17 @@ export const usePlayerStore = create<any, any>(
       setPassiveEarnModal: (data: boolean) =>
         set(() => ({ passiveEarnModal: data })),
       dailyCombo: [null, null, null, null],
+      dailyComboReward: {
+        correct_combo: 0,
+        bonus_coins: 0,
+        is_submitted: false,
+        remain_seconds: 0,
+      },
+      setDailyComboReward: (data: DailyComboReward) =>
+        set(() => ({ dailyComboReward: data })),
+      dailyComboRewardModal: false,
+      setDailyComboRewardModal: (data: boolean) =>
+        set(() => ({ dailyComboRewardModal: data })),
       comboSubmitted: false,
       addValue: (value: number) =>
         set((state: any) => {
@@ -67,8 +85,10 @@ export const usePlayerStore = create<any, any>(
 
           return { dailyCombo: updatedCombo };
         }),
-      resetDailyCombo: () => set(() => ({ dailyCombo: [null, null, null, null] })),
-      setComboSubmitted: (data: boolean) => set(() => ({ comboSubmitted: data })),
+      resetDailyCombo: () =>
+        set(() => ({ dailyCombo: [null, null, null, null] })),
+      setComboSubmitted: (data: boolean) =>
+        set(() => ({ comboSubmitted: data })),
       playerData: null,
       setPlayerData: (data: IPlayerData) => set(() => ({ playerData: data })),
       points: 0,

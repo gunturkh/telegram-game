@@ -26,7 +26,7 @@ function Header() {
   const {
     query: { data: playerData },
   } = usePlayer();
-  const { resetDailyCombo } = usePlayerStore();
+  const { resetDailyCombo, setDailyComboRewardModal } = usePlayerStore();
   const profitPerHour = playerData?.passive_earnings?.per_hour;
 
   return (
@@ -77,6 +77,12 @@ function Header() {
         </div>
         <div className="flex items-center w-2/3 border-2 border-[#43433b] rounded-full px-4 py-[2px] bg-[#43433b]/[0.6] max-w-64">
           <img
+            onClick={() => {
+              if (__DEV__) {
+                console.log("trigger modal daily combo");
+                setDailyComboRewardModal(true);
+              }
+            }}
             src={playerData?.level?.current_level_image_url || ""}
             alt={playerData?.level?.current_level_name || "Chipmunk"}
             className="w-8 h-8"

@@ -31,6 +31,9 @@ const usePlayer = () => {
   const updateDailyCombo = usePlayerStore.getState().updateNull;
   const setPassiveEarning = usePlayerStore.getState().setPassiveEarning;
   const setComboSubmitted = usePlayerStore.getState().setComboSubmitted;
+  const setDailyComboReward = usePlayerStore.getState().setDailyComboReward;
+  const setDailyComboRewardModal =
+    usePlayerStore.getState().setDailyComboRewardModal;
   // queries
   const query = useQuery({
     staleTime: Infinity,
@@ -287,16 +290,18 @@ const usePlayer = () => {
     onSuccess: (data, variables) => {
       console.log("Daily Combo Submitted", data, variables);
       setComboSubmitted(true);
-      toast.success(
-        `You got ${data?.correct_combo} correct, and bonus point ${data?.bonus_coins}`,
-        {
-          style: {
-            borderRadius: "10px",
-            background: "#333",
-            color: "#fff",
-          },
-        }
-      );
+      setDailyComboReward(data);
+      setDailyComboRewardModal(true);
+      // toast.success(
+      //   `You got ${data?.correct_combo} correct, and bonus point ${data?.bonus_coins}`,
+      //   {
+      //     style: {
+      //       borderRadius: "10px",
+      //       background: "#333",
+      //       color: "#fff",
+      //     },
+      //   }
+      // );
       queryClient.invalidateQueries({ queryKey: ["combo"] });
     },
     onError: () => {

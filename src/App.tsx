@@ -74,6 +74,7 @@ const App: React.FC = () => {
     };
 
     playerLogin();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setAuthToken]);
 
   if (
