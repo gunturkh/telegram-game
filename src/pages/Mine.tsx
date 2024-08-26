@@ -154,18 +154,18 @@ const MinePage: React.FC = () => {
 
   return (
     <div className="bg-black flex justify-center">
-      <div className="w-full bg-black text-white h-screen font-bold flex flex-col max-w-xl">
+      <div className="w-full bg-[#fff3b2] text-white h-screen font-bold flex flex-col max-w-xl">
         <Header />
 
-        <div className="flex-grow mt-4 bg-[#f3ba2f] rounded-t-[48px] relative top-glow z-0">
-          <div className="absolute top-[2px] left-0 right-0 bottom-0 bg-[#1d2025] rounded-t-[46px] h-max">
+        <div className="flex-grow mt-4 bg-[#451e0f] rounded-t-[48px] relative top-glow z-0">
+          <div className="absolute top-[2px] left-0 right-0 bottom-0 bg-[#fff3b2] rounded-t-[46px] h-max">
             {!dailyComboData?.is_submitted && (
               <>
                 <div className="w-full text-xs text-right mt-6 mb-1 px-5">
                   {dailyComboTimeLeft}
                 </div>
                 <div className="flex px-4 w-full rounded-lg">
-                  <div className="text-sm flex bg-[#272a2f] w-full rounded-lg p-2">
+                  <div className="text-sm flex bg-[#451e0f] w-full rounded-lg p-2">
                     <p>Daily combo</p>
                     <div className="flex justify-end items-center flex-1 gap-2">
                       <img
@@ -189,7 +189,7 @@ const MinePage: React.FC = () => {
                 dailyComboData?.is_submitted ? "mt-6" : "mt-2"
               } flex justify-between gap-2`}
             >
-              <div className="bg-[#272a2f] rounded-lg px-4 py-2 w-full relative">
+              <div className="bg-[#451e0f] rounded-lg px-4 py-2 w-full relative">
                 {dailyCombo[0] && !dailyComboData?.is_submitted && (
                   <div
                     onClick={() => removeValue(dailyCombo[0])}
@@ -210,7 +210,7 @@ const MinePage: React.FC = () => {
                   className="mx-auto w-12 h-12"
                 />
               </div>
-              <div className="bg-[#272a2f] rounded-lg px-4 py-2 w-full relative">
+              <div className="bg-[#451e0f] rounded-lg px-4 py-2 w-full relative">
                 {dailyCombo[1] && !dailyComboData?.is_submitted && (
                   <div
                     onClick={() => removeValue(dailyCombo[1])}
@@ -231,7 +231,7 @@ const MinePage: React.FC = () => {
                   className="mx-auto w-12 h-12"
                 />
               </div>
-              <div className="bg-[#272a2f] rounded-lg px-4 py-2 w-full relative">
+              <div className="bg-[#451e0f] rounded-lg px-4 py-2 w-full relative">
                 {dailyCombo[2] && !dailyComboData?.is_submitted && (
                   <div
                     onClick={() => removeValue(dailyCombo[2])}
@@ -252,7 +252,7 @@ const MinePage: React.FC = () => {
                   className="mx-auto w-12 h-12"
                 />
               </div>
-              <div className="bg-[#272a2f] rounded-lg px-4 py-2 w-full relative">
+              <div className="bg-[#451e0f] rounded-lg px-4 py-2 w-full relative">
                 {dailyCombo[3] && !dailyComboData?.is_submitted && (
                   <div
                     onClick={() => removeValue(dailyCombo[3])}
@@ -290,13 +290,13 @@ const MinePage: React.FC = () => {
 
             <Points />
 
-            <div className="max-w-xl bg-[#272a2f] flex justify-around items-center z-50 rounded-3xl text-xs">
+            <div className="max-w-xl bg-[#451e0f] flex justify-around items-center z-50 rounded-3xl text-xs">
               {categories?.length > 0 ? (
                 categories?.map((c: any, cIdx: number) => {
                   return (
                     <div
-                      className={`text-center text-[#85827d] w-1/5 ${
-                        mineTab === cIdx && "bg-[#1c1f24] m-1 p-2 rounded-2xl"
+                      className={`text-center text-white w-1/5 ${
+                        mineTab === cIdx && "bg-[#904728] m-1 p-2 rounded-2xl"
                       }`}
                       onClick={() => setMineTab(cIdx)}
                       key={c.name}
@@ -314,8 +314,8 @@ const MinePage: React.FC = () => {
                 {specialTabs?.map((s: any) => {
                   return (
                     <div
-                      className={`text-center text-[#85827d] w-1/5 ${
-                        specialTab === s.value && "text-yellow-500"
+                      className={`text-center text-[#451e0f] w-1/5 ${
+                        specialTab === s.value && "text-[#904728]"
                       }`}
                       onClick={() => setSpecialTab(s.value)}
                       key={s.value}
@@ -385,7 +385,7 @@ const MinePage: React.FC = () => {
                           });
                       }}
                     >
-                      <div className="flex flex-col bg-[#272a2f] rounded-2xl h-full">
+                      <div className="flex flex-col bg-[#451e0f] rounded-2xl h-full">
                         {/* <div className="w-full h-full">
                           {dailyCipherTimeLeft}
                         </div> */}
@@ -524,7 +524,7 @@ const MinePage: React.FC = () => {
               }}
             >
               <Sheet.Container>
-                <Sheet.Header className="bg-[#1d2025]">
+                <Sheet.Header className="bg-[#451e0f]">
                   <div className="w-full flex justify-end px-4">
                     <button
                       className="text-white text-lg font-bold"
@@ -534,7 +534,7 @@ const MinePage: React.FC = () => {
                     </button>
                   </div>
                 </Sheet.Header>
-                <Sheet.Content className="bg-[#1d2025] text-white overflow-scroll no-scrollbar">
+                <Sheet.Content className="bg-[#451e0f] text-white overflow-scroll no-scrollbar">
                   {/* Your sheet content goes here */}
                   <div className="flex p-4 flex-col w-full justify-center items-center gap-5">
                     <img
@@ -577,7 +577,7 @@ const MinePage: React.FC = () => {
                       </p>
                     </div>
                     <button
-                      className="flex-1 w-full bg-blue-500 rounded-lg px-4 py-2"
+                      className="flex-1 w-full bg-[#904728] rounded-lg px-4 py-2"
                       onClick={() => handleUpgradeCard(buyCardData.id)}
                     >
                       {" "}
@@ -600,7 +600,7 @@ const MinePage: React.FC = () => {
               }}
             >
               <Sheet.Container>
-                <Sheet.Header className="bg-[#1d2025]">
+                <Sheet.Header className="bg-[#451e0f]">
                   <div className="w-full flex justify-end px-4">
                     <button
                       className="text-white text-lg font-bold"
@@ -610,7 +610,7 @@ const MinePage: React.FC = () => {
                     </button>
                   </div>
                 </Sheet.Header>
-                <Sheet.Content className="bg-[#1d2025] text-white overflow-scroll no-scrollbar">
+                <Sheet.Content className="bg-[#451e0f] text-white overflow-scroll no-scrollbar">
                   {/* Your sheet content goes here */}
                   <div className="flex p-4 flex-col w-full justify-center items-center gap-5">
                     <img src={dollarCoin} className="mx-auto w-20 h-20" />
@@ -623,7 +623,7 @@ const MinePage: React.FC = () => {
                     </h1>
                     <div className="absolute bottom-4 w-full px-6 z-50">
                       <button
-                        className="flex justify-center w-full bg-blue-500 rounded-lg px-6 py-4"
+                        className="flex justify-center w-full bg-[#904728] rounded-lg px-6 py-4"
                         onClick={() => setDailyComboRewardModal(false)}
                       >
                         Better luck next time!

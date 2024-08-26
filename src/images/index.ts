@@ -12,6 +12,7 @@ import questionMark from "./question-mark.png";
 import calendar from "./calendar.png";
 import qr from "./chipmunkqr.png";
 import specials from "./specials.png"
+import chipmunk from "./chipmunk.png";
 
 export {
   hamsterExchange,
@@ -28,4 +29,5 @@ export {
   calendar,
   qr,
   specials,
+  chipmunk
 };

@@ -32,15 +32,15 @@ function Header() {
   return (
     <div className="px-4 z-10">
       <div className="flex items-center space-x-2 pt-4">
-        <div className="p-1 rounded-lg bg-[#1d2025]">
-          <Hamster size={24} className="text-[#d4d4d4]" />
+        <div className="p-1 rounded-lg bg-[#451e0f]">
+          <Hamster size={24} className="text-[#fff3b2]" />
         </div>
         <div
         // onClick={() =>
         //   WebApp.showAlert(`referral: ${WebApp.initDataUnsafe.start_param}`)
         // }
         >
-          <p className="text-sm">
+        <p className="text-sm text-[#451e0f]">
             {WebApp?.initDataUnsafe?.user?.username} (CEO)
           </p>
         </div>
@@ -56,14 +56,14 @@ function Header() {
         <div className="flex items-center w-1/3">
           <div className="w-full">
             <div className="flex justify-between">
-              <p className="text-sm">{playerData?.level?.current_level_name}</p>
-              <p className="text-sm">
+              <p className="text-[#451e0f] text-sm">{playerData?.level?.current_level_name}</p>
+              <p className="text-[#451e0f] text-sm">
                 {playerData?.level?.current_level}{" "}
-                <span className="text-[#95908a]">/ {levelNames.length}</span>
+                <span className="text-[#451e0f]">/ {levelNames.length}</span>
               </p>
             </div>
-            <div className="flex items-center mt-1 border-2 border-[#43433b] rounded-full">
-              <div className="w-full h-2 bg-[#43433b]/[0.6] rounded-full">
+            <div className="flex items-center mt-1 border-2 border-[#451e0f] rounded-full">
+              <div className="w-full h-2 bg-[#451e0f]/[0.6] rounded-full">
                 <div
                   className="progress-gradient h-2 rounded-full"
                   // style={{ width: `${calculateProgress()}%` }}
@@ -75,7 +75,7 @@ function Header() {
             </div>
           </div>
         </div>
-        <div className="flex items-center w-2/3 border-2 border-[#43433b] rounded-full px-4 py-[2px] bg-[#43433b]/[0.6] max-w-64">
+        <div className="flex items-center w-2/3 border-2 border-[#451e0f] rounded-full px-4 py-[2px] bg-[#451e0f]/[0.6] max-w-64">
           <img
             onClick={() => {
               if (__DEV__) {
@@ -87,9 +87,9 @@ function Header() {
             alt={playerData?.level?.current_level_name || "Chipmunk"}
             className="w-8 h-8"
           />
-          <div className="h-[32px] w-[2px] bg-[#43433b] mx-2"></div>
+          <div className="h-[32px] w-[2px] bg-[#451e0f] mx-2"></div>
           <div className="flex-1 text-center">
-            <p className="text-xs text-[#85827d] font-medium">Hourly Profit</p>
+            <p className="text-xs text-white font-medium">Hourly Profit</p>
             <div className="flex items-center justify-center space-x-1">
               <img
                 src={dollarCoin}
@@ -97,10 +97,10 @@ function Header() {
                 className="w-[18px] h-[18px]"
               />
               <p className="text-sm">{formatProfitPerHour(profitPerHour)}</p>
-              <Info size={20} className="text-[#43433b]" />
+              <Info size={20} className="text-[#451e0f]" />
             </div>
           </div>
-          <div className="h-[32px] w-[2px] bg-[#43433b] mx-2"></div>
+          <div className="h-[32px] w-[2px] bg-[#451e0f] mx-2"></div>
           <div
             onClick={() => {
               if (__DEV__) resetDailyCombo();

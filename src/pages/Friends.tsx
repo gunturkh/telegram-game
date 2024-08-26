@@ -21,17 +21,17 @@ const FriendsPage = () => {
   const {
     queryReferral: { data },
   } = usePlayer();
-  console.log("referral stats", data);
+  // console.log("referral stats", data);
   return (
-    <div className="bg-black flex flex-col justify-start min-h-screen h-100%">
-      <div className="flex flex-col justify-center items-center text-white py-8 gap-4">
+    <div className="bg-[#fff3b2] flex flex-col justify-start min-h-screen h-100%">
+      <div className="flex flex-col justify-center items-center text-[#451e0f] py-8 gap-4">
         <div className="text-4xl font-bold">Invite friends!</div>
         <div className="text-md font-light">
           You and your friends will receive bonuses
         </div>
       </div>
       <div className="flex flex-col justify-center items-center text-white p-8 gap-4">
-        <div className="w-full flex gap-2 bg-[#272a2f] rounded-md p-2 mx-4 ">
+        <div className="w-full flex gap-2 bg-[#451e0f] rounded-md p-2 mx-4 ">
           <img src={gift} alt="Referral Gift" className="mx-auto w-12 h-12" />
           <div className="flex flex-col ">
             <div className="text-md font-bold">Invite a friend</div>
@@ -50,7 +50,7 @@ const FriendsPage = () => {
         </div>
       </div>
 
-      <div className="flex flex-col justify-start items-start text-white px-8 py-2">
+      <div className="flex flex-col justify-start items-start text-[#451e0f] px-8 py-2">
         <div className="text-md font-semibold">Friends List</div>
       </div>
       <div className="flex flex-col justify-center items-center text-white px-8 gap-4">
@@ -58,7 +58,7 @@ const FriendsPage = () => {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           data?.stats?.map((s: any) => {
             return (
-              <div className="w-full justify-between flex gap-2 bg-[#272a2f] rounded-md p-2 mx-4 ">
+              <div className="w-full justify-between flex gap-2 bg-[#451e0f] rounded-md p-2 mx-4 ">
                 <div className="flex flex-col px-2 ">
                   <div className="text-sm font-bold">{`${s.first_name} ${s.last_name}`}</div>
                   <div className="flex justify-start items-center gap-1">

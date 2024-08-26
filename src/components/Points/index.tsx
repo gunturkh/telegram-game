@@ -27,9 +27,9 @@ function Points() {
       <div className="px-4 py-2 flex items-center space-x-2">
         <img src={dollarCoin} alt="Dollar Coin" className="w-10 h-10" />
         {isLoading ? (
-          <p className="text-4xl text-white">-</p>
+          <p className="text-4xl text-[#451e0f]">-</p>
         ) : (
-          <p className="text-4xl text-white">
+          <p className="text-4xl text-[#451e0f]">
             {Math.floor(points)?.toLocaleString()}
           </p>
         )}

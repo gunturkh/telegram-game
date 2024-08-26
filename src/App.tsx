@@ -24,19 +24,19 @@ const App: React.FC = () => {
 
   useEffect(() => {
     const telegramData = __DEV__
-      ? {
-          id: 465670876,
-          username: "gunturkh",
-          first_name: "-",
-          last_name: "-",
+      ? // ? {
+        //     id: 465670876,
+        //     username: "gunturkh",
+        //     first_name: "-",
+        //     last_name: "-",
+        //   }
+        {
+          id: 769049677,
+          username: "tatangdev",
+          first_name: "Tatang",
+          last_name: "",
         }
-      : // ? {
-        //   id: 769049677,
-        //   username: "tatangdev",
-        //   first_name: "Tatang",
-        //   last_name: "",
-        // }
-        WebApp?.initDataUnsafe?.user;
+      : WebApp?.initDataUnsafe?.user;
     const playerLogin = async () => {
       try {
         setLoading(true);
@@ -74,7 +74,7 @@ const App: React.FC = () => {
     };
 
     playerLogin();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setAuthToken]);
 
   if (

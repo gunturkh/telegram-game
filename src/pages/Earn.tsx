@@ -126,7 +126,7 @@ const EarnPage = () => {
 
           {content?.type === "WithLink" && content?.link && (
             <div
-              className={`text-center w-full bg-blue-500/80 text-white py-4 rounded-md`}
+              className={`text-center w-full bg-[#904728]/80 text-white py-4 rounded-md`}
               onClick={() => {
                 WebApp.openLink(content.link as string);
               }}
@@ -167,7 +167,7 @@ const EarnPage = () => {
         <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 w-[calc(100%-2rem)] max-w-xl  flex justify-around items-center z-50 rounded-3xl text-3xl gap-1">
           <div
             className={`text-center w-full ${
-              enableCheckButton() ? "bg-blue-500/80" : "bg-neutral-200/20"
+              enableCheckButton() ? "bg-[#904728]/80" : "bg-neutral-200/20"
             } text-white py-4 rounded-md`}
             onClick={() => {
               if (!content.is_completed) {
@@ -209,8 +209,8 @@ const EarnPage = () => {
     } else return null;
   };
   return (
-    <div className="bg-black flex flex-col justify-start min-h-screen h-100%">
-      <div className="flex flex-col justify-center items-center text-white py-8 gap-4">
+    <div className="bg-[#fff3b2] flex flex-col justify-start min-h-screen h-100%">
+      <div className="flex flex-col justify-center items-center text-[#451e0f] py-8 gap-4">
         <img src={dollarCoin} alt="Dollar Coin" className="w-50 h-50" />
         <div className="text-4xl font-bold">Earn more coins</div>
         <div className="text-md font-light">
@@ -218,7 +218,7 @@ const EarnPage = () => {
         </div>
       </div>
 
-      <div className="px-4 text-white text-md font-semibold">Daily Tasks</div>
+      <div className="px-4 text-[#451e0f] text-md font-semibold">Daily Tasks</div>
 
       <div
         onClick={() => {
@@ -227,7 +227,7 @@ const EarnPage = () => {
         }}
         className="flex flex-col justify-center items-center text-white p-4 gap-4"
       >
-        <div className="w-full flex gap-2 bg-[#272a2f] rounded-md p-2 mx-4 ">
+        <div className="w-full flex gap-2 bg-[#451e0f] rounded-md p-2 mx-4 ">
           <img src={calendar} alt="Referral Gift" className="mx-4 w-12 h-12" />
           <div className="flex flex-col ">
             <div className="text-md font-bold">Daily Reward</div>
@@ -247,7 +247,7 @@ const EarnPage = () => {
         </div>
       </div>
 
-      <div className="px-4 text-white text-md font-semibold">Tasks list</div>
+      <div className="px-4 text-[#451e0f] text-md font-semibold">Tasks list</div>
 
       <div className="h-screen">
         {taskList?.map((t) => {
@@ -262,7 +262,7 @@ const EarnPage = () => {
             >
               <div
                 className={`w-full flex gap-2 ${
-                  t.is_completed ? "bg-[#272a2f] opacity-60" : "bg-[#272a2f]"
+                  t.is_completed ? "bg-[#451e0f] opacity-60" : "bg-[#451e0f]"
                 } rounded-md p-2 mx-4 `}
               >
                 <img
@@ -309,7 +309,7 @@ const EarnPage = () => {
         }}
       >
         <Sheet.Container>
-          <Sheet.Header className="bg-[#1d2025]">
+          <Sheet.Header className="bg-[#451e0f]">
             <div className="w-full flex justify-end px-4">
               <button
                 className="text-white text-lg font-bold"
@@ -319,7 +319,7 @@ const EarnPage = () => {
               </button>
             </div>
           </Sheet.Header>
-          <Sheet.Content className="bg-[#1d2025] text-white overflow-scroll">
+          <Sheet.Content className="bg-[#451e0f] text-white overflow-scroll">
             {/* Your sheet content goes here */}
             <DynamicSheetContent type={rewardType} content={sheetContent} />
           </Sheet.Content>

@@ -153,13 +153,13 @@ const Home: React.FC = () => {
   return (
     <div className="bg-black flex justify-center">
       <>
-        <div className="w-full bg-black text-white h-screen font-bold flex flex-col max-w-xl">
+        <div className="w-full bg-[#fff3b2] text-white h-screen font-bold flex flex-col max-w-xl">
           <Header />
 
-          <div className="flex-grow mt-4 bg-[#f3ba2f] rounded-t-[48px] relative top-glow z-0">
-            <div className="absolute top-[2px] left-0 right-0 bottom-0 bg-[#1d2025] rounded-t-[46px]">
+          <div className="flex-grow mt-4 bg-[#451e0f] rounded-t-[48px] relative top-glow z-0">
+            <div className="absolute top-[2px] left-0 right-0 bottom-0 bg-[#fff3b2] rounded-t-[46px]">
               <div className="px-4 mt-6 flex justify-between gap-2">
-                <div onClick={()=> navigate('/earn')} className="bg-[#272a2f] rounded-lg px-4 py-2 w-full relative">
+                <div onClick={()=> navigate('/earn')} className="bg-[#451e0f] rounded-lg px-4 py-2 w-full relative">
                   <div className="dot"></div>
                   <img
                     src={dailyReward}
@@ -187,7 +187,7 @@ const Home: React.FC = () => {
                   {dailyCipherTimeLeft}
                 </p>
                 </div> */}
-                <div onClick={()=> navigate('/mine')} className="bg-[#272a2f] rounded-lg px-4 py-2 w-full relative">
+                <div onClick={()=> navigate('/mine')} className="bg-[#451e0f] rounded-lg px-4 py-2 w-full relative">
                   <div className="dot"></div>
                   <img
                     src={dailyCombo}
@@ -220,7 +220,7 @@ const Home: React.FC = () => {
                     {/* <img src="https://drive.google.com/file/d/188oXT8FnUj1byookWrvnw2_W0uswTT8d/view"/> */}
                   </div>
                 </div>
-                <div className="px-4 w-full flex flex-col gap-2">
+                <div className="text-[#451e0f] px-4 w-full flex flex-col gap-2">
                   <div className="flex w-full items-center justify-between">
                     <span className="text-[15px]">Energy</span>
                     <span className="text-[15px] font-semibold">
@@ -251,7 +251,7 @@ const Home: React.FC = () => {
           }}
         >
           <Sheet.Container>
-            <Sheet.Header className="bg-[#1d2025]">
+            <Sheet.Header className="bg-[#451e0f]">
               <div className="w-full flex justify-end px-4">
                 <button
                   className="text-white text-lg font-bold"
@@ -261,7 +261,7 @@ const Home: React.FC = () => {
                 </button>
               </div>
             </Sheet.Header>
-            <Sheet.Content className="bg-[#1d2025] text-white">
+            <Sheet.Content className="bg-[#451e0f] text-white">
               {/* Your sheet content goes here */}
               <div className="flex flex-1 p-4 flex-col w-full justify-center items-center gap-5">
                 <div className="flex flex-1 flex-col justify-center gap-1 items-center">
@@ -278,7 +278,7 @@ const Home: React.FC = () => {
                   </div>
                 </div>
                 <button
-                  className="h-20 w-full bg-blue-500 rounded-lg px-4 py-2"
+                  className="h-20 w-full bg-[#904728] rounded-lg px-4 py-2"
                   onClick={() => setPassiveEarnModal(false)}
                 >
                   Thank you, Chipmunk
