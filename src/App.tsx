@@ -10,12 +10,17 @@ import FriendsPage from "./pages/Friends";
 import EarnPage from "./pages/Earn";
 import { usePlayerStore } from "./store/player";
 import { qr } from "./images";
+import { useDebounce } from "@uidotdev/usehooks";
+import usePlayer from "./_hooks/usePlayer";
 
 const App: React.FC = () => {
   const { setAuthToken } = useAuthStore();
-  const { setPassiveEarnModal } = usePlayerStore();
+  const { setPassiveEarnModal, taps, resetTaps } = usePlayerStore();
   const [loading, setLoading] = useState(false);
-  console.log("WebApp", WebApp.platform);
+  const {
+    mutationTap: { mutateAsync },
+  } = usePlayer();
+  // console.log("WebApp", WebApp.platform);
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
@@ -74,7 +79,23 @@ const App: React.FC = () => {
     playerLogin();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setAuthToken]);
-
+  const debouncedTaps = useDebounce(taps, 5000);
+  useEffect(() => {
+    const sync = async () => {
+      if (debouncedTaps) {
+        const data = await mutateAsync({
+          tap_count: taps,
+          timestamp: Math.floor(Date.now() / 1000),
+        });
+        // console.log("tapsdata", data);
+        if (data) {
+          resetTaps();
+          // resetClicks();
+        }
+      }
+    };
+    sync();
+  }, [debouncedTaps, mutateAsync]);
   if (
     WebApp &&
     (WebApp.platform === "macos" ||

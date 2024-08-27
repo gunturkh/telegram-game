@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { useDebounce } from "@uidotdev/usehooks";
+import React, { useState, useEffect, useRef } from "react";
 import "../App.css";
 import { dailyCombo, dailyReward, dollarCoin } from "../images";
 import BottomTab from "../components/BottomTab";
@@ -14,25 +13,32 @@ import { calculateTimeLeft } from "../lib/utils";
 const Home: React.FC = () => {
   const {
     query: { data: playerData, isLoading },
-    mutationTap: { mutateAsync },
   } = usePlayer();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   // console.log("player data from react query", playerData);
+  // console.log("energy remaining", playerData?.tap_earnings?.available_taps);
   const {
     setPoints,
-    energy: initialEnergy,
+    // energy: initialEnergy,
     passiveEarnModal,
     setPassiveEarnModal,
     passiveEarning,
+    setTaps,
+    clicks,
+    setClicks,
+    setClicksWhenAnimationEnd,
   } = usePlayerStore();
-  // console.log("playerData", playerData);
-  // const [levelIndex] = useState(0);
-  const [taps, setTaps] = useState(0);
-  const [clicks, setClicks] = useState<{ id: number; x: number; y: number }[]>(
-    []
+  // console.log("clicks", clicks);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null); // useRef to store interval ID
+  const [isPaused, setIsPaused] = useState(false);
+  // const [taps, setTaps] = useState(0);
+  // const [clicks, setClicks] = useState<{ id: number; x: number; y: number }[]>(
+  //   []
+  // );
+
+  const [energy, setEnergy] = useState(
+    playerData?.tap_earnings?.available_taps
   );
-  const debouncedClicks = useDebounce(clicks, 500);
-  const [energy, setEnergy] = useState(initialEnergy);
   // console.log("energy", energy);
   const pointsToAdd = playerData?.tap_earnings?.per_tap;
   // const profitPerHour = playerData?.passive_earnings?.per_hour;
@@ -41,19 +47,10 @@ const Home: React.FC = () => {
   const [, setDailyCipherTimeLeft] = useState("");
   const [dailyComboTimeLeft, setDailyComboTimeLeft] = useState("");
 
+  // TODO: energy logic, maybe move to app.tsx
   useEffect(() => {
-    const sync = async () => {
-      if (debouncedClicks) {
-        const data = await mutateAsync({
-          tap_count: taps,
-          timestamp: Math.floor(Date.now() / 1000),
-        });
-        // console.log("tapsdata", data);
-        if (data) setTaps(0);
-      }
-    };
-    sync();
-  }, [debouncedClicks, mutateAsync]);
+    setEnergy(playerData?.tap_earnings?.available_taps);
+  }, [playerData?.tap_earnings?.available_taps]);
 
   useEffect(() => {
     const updateCountdowns = () => {
@@ -93,10 +90,12 @@ const Home: React.FC = () => {
     //     pageY: 560,
     //   },
     // ]
+    if (intervalRef?.current) clearInterval(intervalRef?.current);
     if (energy > 0 && energy >= playerData?.tap_earnings?.per_tap) {
       for (let touch = 0; touch < e.touches.length; touch++) {
         const touchId = parseInt(`${Date.now()}${touch}`);
         // for (let touch = 0; touch < touches.length; touch++) {
+        setIsPaused(true);
         setEnergy((prev: number) => (prev > 0 ? prev - pointsToAdd : 0));
         // console.log('now', touch, parseInt(`${Date.now()}${touch}`))
         const { clientX, clientY, pageX, pageY } = e.touches[touch];
@@ -114,9 +113,9 @@ const Home: React.FC = () => {
 
         // console.log("setPoints ", points, pointsToAdd);
         setPoints(pointsToAdd);
-        setTaps((prev) => prev + 1);
-        if (!clicks.some((item) => item.id === touchId)) {
-          setClicks((prev) => [...prev, { id: touchId, x: pageX, y: pageY }]);
+        setTaps(1);
+        if (!clicks.some((item: { id: number }) => item.id === touchId)) {
+          setClicks({ id: touchId, x: pageX, y: pageY });
         }
       }
     }
@@ -124,22 +123,41 @@ const Home: React.FC = () => {
 
   const energyPercentage = (energy / playerData?.tap_earnings?.max_taps) * 100;
   useEffect(() => {
-    const interval = setInterval(() => {
-      setEnergy((prevEnergy: number) => {
-        if (prevEnergy < playerData?.tap_earnings?.max_taps) {
-          return (
-            prevEnergy + (playerData?.tap_earnings?.recovery_per_seconds || 3)
-          );
-        }
-        return prevEnergy;
-      });
-    }, 1000);
+    if (!isPaused) {
+      intervalRef.current = setInterval(() => {
+        setEnergy((prevEnergy: number) => {
+          if (prevEnergy < playerData?.tap_earnings?.max_taps) {
+            return (
+              prevEnergy + (playerData?.tap_earnings?.recovery_per_seconds || 3)
+            );
+          }
+          return prevEnergy;
+        });
+      }, 1000);
+    }
 
-    return () => clearInterval(interval);
-  }, [
-    playerData?.tap_earnings?.max_taps,
-    playerData?.tap_earnings?.recovery_per_seconds,
-  ]);
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, [playerData, isPaused]);
+
+  useEffect(() => {
+    if (isPaused) {
+      intervalRef.current = setInterval(() => {
+        setEnergy((prevEnergy: number) => {
+          if (prevEnergy < playerData?.tap_earnings?.max_taps) {
+            return (
+              prevEnergy + (playerData?.tap_earnings?.recovery_per_seconds || 3)
+            );
+          }
+          return prevEnergy;
+        });
+      }, 1000);
+      setIsPaused(false);
+    }
+  }, [energy]);
 
   const formatCardsPriceInfo = (profit: number) => {
     if (profit >= 1000000000) return `${(profit / 1000000000).toFixed(2)}B`;
@@ -158,7 +176,10 @@ const Home: React.FC = () => {
           <div className="flex-grow mt-4 bg-[#451e0f] rounded-t-[48px] relative top-glow z-0">
             <div className="absolute top-[2px] left-0 right-0 bottom-0 bg-[#fff3b2] rounded-t-[46px]">
               <div className="px-4 mt-6 flex justify-between gap-2">
-                <div onClick={()=> navigate('/earn')} className="bg-[#451e0f] rounded-lg px-4 py-2 w-full relative">
+                <div
+                  onClick={() => navigate("/earn")}
+                  className="bg-[#451e0f] rounded-lg px-4 py-2 w-full relative"
+                >
                   <div className="dot"></div>
                   <img
                     src={dailyReward}
@@ -186,7 +207,10 @@ const Home: React.FC = () => {
                   {dailyCipherTimeLeft}
                 </p>
                 </div> */}
-                <div onClick={()=> navigate('/mine')} className="bg-[#451e0f] rounded-lg px-4 py-2 w-full relative">
+                <div
+                  onClick={() => navigate("/mine")}
+                  className="bg-[#451e0f] rounded-lg px-4 py-2 w-full relative"
+                >
                   <div className="dot"></div>
                   <img
                     src={dailyCombo}
@@ -288,21 +312,33 @@ const Home: React.FC = () => {
           <Sheet.Backdrop onTap={() => setPassiveEarnModal(false)} />
         </Sheet>
         <BottomTab />
-
-        {clicks.map((click) => (
-          <div
-            key={click.id}
-            className="absolute text-3xl font-bold opacity-0 text-white pointer-events-none"
-            style={{
-              top: `${click.y - 42}px`,
-              left: `${click.x - 28}px`,
-              animation: `float 1s ease-out`,
-            }}
-            // onAnimationEnd={() => handleAnimationEnd(click.id)}
-          >
-            +{pointsToAdd}
-          </div>
-        ))}
+        {clicks.map(
+          (click: {
+            id: React.Key | null | undefined;
+            y: number;
+            x: number;
+          }) => (
+            <div
+              key={click.id}
+              className="absolute text-3xl font-bold opacity-0 text-white pointer-events-none"
+              style={{
+                top: `${click.y - 42}px`,
+                left: `${click.x - 28}px`,
+                animation: `float 1s ease-out`,
+              }}
+              onAnimationEnd={() => {
+                setClicksWhenAnimationEnd(
+                  clicks.filter(
+                    (c: { id: React.Key | null | undefined }) =>
+                      c.id !== click.id
+                  )
+                );
+              }}
+            >
+              +{pointsToAdd}
+            </div>
+          )
+        )}
       </>
     </div>
   );

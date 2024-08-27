@@ -178,6 +178,8 @@ const usePlayer = () => {
     mutationFn: async (data: { tap_count: number; timestamp: number }) => {
       try {
         const response = await http.post("/tap", data);
+        queryClient?.setQueryData(["player"], response?.data?.data);
+        console.log('query invalidate player', response.data.data)
         return response.data?.data;
       } catch (error) {
         if (error instanceof AxiosError) {
@@ -188,7 +190,7 @@ const usePlayer = () => {
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["player"] });
+      // queryClient.invalidateQueries({ queryKey: ["player"] });
     },
     onError: (error, variables, context) => {
       console.log("error", error);

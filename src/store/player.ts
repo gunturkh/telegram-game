@@ -20,9 +20,33 @@ type DailyComboReward = {
   is_submitted: boolean;
   remain_seconds: number;
 };
+// setPoints: (point: number) =>
+//   set((state: { points: number }) => {
+//     return {
+//       points: state.points + point,
+//     };
+//   }),
 export const usePlayerStore = create<any, any>(
   // persist(
   (set) => ({
+    energy: 0,
+    setEnergy: (energy: number) => set(() => ({ energy })),
+    taps: 0,
+    setTaps: (taps: number) =>
+      set((state: { taps: number }) => ({ taps: state.taps + taps })),
+    resetTaps: () => set(() => ({ taps: 0 })),
+    clicks: [],
+    setClicks: (clicks: { id: number; x: number; y: number }[]) =>
+      set((state: { clicks: { id: number; x: number; y: number }[] }) => ({
+        clicks: [...state.clicks, clicks],
+      })),
+    setClicksWhenAnimationEnd: (
+      clicks: { id: number; x: number; y: number }[]
+    ) =>
+      set(() => ({
+        clicks,
+      })),
+    resetClicks: () => set(() => ({ clicks: [] })),
     passiveEarning: 0,
     setPassiveEarning: (data: number) => set(() => ({ passiveEarning: data })),
     passiveEarnModal: false,
@@ -97,7 +121,6 @@ export const usePlayerStore = create<any, any>(
           points: state.points + point,
         };
       }),
-    energy: 0,
     setInitialEnergy: (energy: number) => set(() => ({ energy: energy })),
   })
   // {

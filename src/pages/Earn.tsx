@@ -249,7 +249,7 @@ const EarnPage = () => {
 
       <div className="px-4 text-[#451e0f] text-md font-semibold">Tasks list</div>
 
-      <div className="h-screen">
+      <div className="h-screen mb-10">
         {taskList?.map((t) => {
           return (
             <div
