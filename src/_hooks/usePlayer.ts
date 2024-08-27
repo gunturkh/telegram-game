@@ -179,7 +179,12 @@ const usePlayer = () => {
       try {
         const response = await http.post("/tap", data);
         queryClient?.setQueryData(["player"], response?.data?.data);
-        console.log('query invalidate player', response.data.data)
+        console.log("query invalidate player", response.data.data);
+        if (
+          response?.data?.data?.tap_earnings &&
+          response?.data?.data?.tap_earnings?.available_taps
+        )
+          setInitialEnergy(response?.data?.data?.tap_earnings?.available_taps);
         return response.data?.data;
       } catch (error) {
         if (error instanceof AxiosError) {

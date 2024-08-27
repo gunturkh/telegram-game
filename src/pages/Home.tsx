@@ -19,7 +19,7 @@ const Home: React.FC = () => {
   // console.log("energy remaining", playerData?.tap_earnings?.available_taps);
   const {
     setPoints,
-    // energy: initialEnergy,
+    energy: initialEnergy,
     passiveEarnModal,
     setPassiveEarnModal,
     passiveEarning,
@@ -37,7 +37,8 @@ const Home: React.FC = () => {
   // );
 
   const [energy, setEnergy] = useState(
-    playerData?.tap_earnings?.available_taps
+    initialEnergy
+    // playerData?.tap_earnings?.available_taps
   );
   // console.log("energy", energy);
   const pointsToAdd = playerData?.tap_earnings?.per_tap;

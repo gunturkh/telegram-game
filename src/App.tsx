@@ -79,7 +79,7 @@ const App: React.FC = () => {
     playerLogin();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setAuthToken]);
-  const debouncedTaps = useDebounce(taps, 5000);
+  const debouncedTaps = useDebounce(taps, 500);
   useEffect(() => {
     const sync = async () => {
       if (debouncedTaps) {
