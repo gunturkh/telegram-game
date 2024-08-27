@@ -29,7 +29,8 @@ const Home: React.FC = () => {
     setClicksWhenAnimationEnd,
   } = usePlayerStore();
   // console.log("clicks", clicks);
-  const intervalRef = useRef<NodeJS.Timeout | null>(null); // useRef to store interval ID
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const intervalRef = useRef<any>(null); // useRef to store interval ID
   const [isPaused, setIsPaused] = useState(false);
   // const [taps, setTaps] = useState(0);
   // const [clicks, setClicks] = useState<{ id: number; x: number; y: number }[]>(
