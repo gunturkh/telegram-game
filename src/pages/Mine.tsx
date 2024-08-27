@@ -119,7 +119,7 @@ const MinePage: React.FC = () => {
       resetDailyCombo();
       setComboSubmitted(false);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -151,6 +151,15 @@ const MinePage: React.FC = () => {
     }
   };
   // console.log("open", open);
+  const dailyComboCards = (index: number) => {
+    if (dailyComboData?.is_submitted && dailyComboData?.combination) {
+      return dailyComboData?.combination[index]?.image;
+    } else if (dailyCombo[index] && cardsData?.cards?.length > 0) {
+      return cardsData?.cards?.filter(
+        (c: Card) => c.id === dailyCombo[index]
+      )?.[0]?.image;
+    } else return specials;
+  };
 
   return (
     <div className="bg-black flex justify-center">
@@ -199,13 +208,7 @@ const MinePage: React.FC = () => {
                   </div>
                 )}
                 <img
-                  src={
-                    dailyCombo[0] && cardsData?.cards?.length > 0
-                      ? cardsData?.cards?.filter(
-                          (c: Card) => c.id === dailyCombo[0]
-                        )?.[0]?.image
-                      : specials
-                  }
+                  src={dailyComboCards(0)}
                   alt="Daily Combo"
                   className="mx-auto w-12 h-12"
                 />
@@ -220,13 +223,7 @@ const MinePage: React.FC = () => {
                   </div>
                 )}
                 <img
-                  src={
-                    dailyCombo[1] && cardsData?.cards?.length > 0
-                      ? cardsData?.cards?.filter(
-                          (c: Card) => c.id === dailyCombo[1]
-                        )?.[0]?.image
-                      : specials
-                  }
+                  src={dailyComboCards(1)}
                   alt="Daily Combo"
                   className="mx-auto w-12 h-12"
                 />
@@ -241,13 +238,7 @@ const MinePage: React.FC = () => {
                   </div>
                 )}
                 <img
-                  src={
-                    dailyCombo[2] && cardsData?.cards?.length > 0
-                      ? cardsData?.cards?.filter(
-                          (c: Card) => c.id === dailyCombo[2]
-                        )?.[0]?.image
-                      : specials
-                  }
+                  src={dailyComboCards(2)}
                   alt="Daily Combo"
                   className="mx-auto w-12 h-12"
                 />
@@ -262,13 +253,7 @@ const MinePage: React.FC = () => {
                   </div>
                 )}
                 <img
-                  src={
-                    dailyCombo[3] && cardsData?.cards?.length > 0
-                      ? cardsData?.cards?.filter(
-                          (c: Card) => c.id === dailyCombo[3]
-                        )?.[0]?.image
-                      : specials
-                  }
+                  src={dailyComboCards(3)}
                   alt="Daily Combo"
                   className="mx-auto w-12 h-12"
                 />
@@ -326,7 +311,7 @@ const MinePage: React.FC = () => {
                 })}
               </div>
             )}
-            <div className="flex flex-wrap flex-row mt-6 mb-96">
+            <div className="flex flex-wrap flex-row mt-6 mb-20">
               {cards
                 ?.filter((c: Card) => {
                   if (mineTab !== 3) {
