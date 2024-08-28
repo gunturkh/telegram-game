@@ -117,11 +117,11 @@ const App: React.FC = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Home />} />
         <Route path="/mine" element={<MinePage />} />
         <Route path="/friends" element={<FriendsPage />} />
         <Route path="/earn" element={<EarnPage />} />
       </Routes>
+      <Home />
     </Router>
   );
 };
