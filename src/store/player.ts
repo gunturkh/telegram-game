@@ -29,6 +29,8 @@ type DailyComboReward = {
 export const usePlayerStore = create<any, any>(
   // persist(
   (set) => ({
+    route: "/",
+    setRoute: (route: string) => set(() => ({ route })),
     energy: 0,
     setEnergy: (energy: number) => set(() => ({ energy })),
     taps: 0,
