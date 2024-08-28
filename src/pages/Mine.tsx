@@ -382,11 +382,13 @@ const MinePage: React.FC = () => {
                                   src={c.image}
                                   className="absolute mx-auto w-10 h-10"
                                 />
-                                <Lock
-                                  size={24}
-                                  className="absolute text-[#43433b] bg-white/80 rounded-full "
-                                  containerClassName="flex h-full justify-center items-center"
-                                />
+                                {c?.level !== 25 && (
+                                  <Lock
+                                    size={24}
+                                    className="absolute text-[#43433b] bg-white/80 rounded-full "
+                                    containerClassName="flex h-full justify-center items-center"
+                                  />
+                                )}
                               </div>
                             </div>
                           )}
@@ -420,9 +422,15 @@ const MinePage: React.FC = () => {
                               ) : null}
                               {!c?.upgrade?.is_available && (
                                 <p className="text-sm text-neutral-500">
-                                  {formatCardsPriceInfo(
-                                    c.upgrade?.profit_per_hour_delta
-                                  )}
+                                  {c?.level !== 25 &&
+                                    formatCardsPriceInfo(
+                                      c.upgrade?.profit_per_hour_delta
+                                    )}
+                                </p>
+                              )}
+                              {c.level === 25 && (
+                                <p className="text-sm text-white">
+                                  {formatCardsPriceInfo(c.profit_per_hour)}
                                 </p>
                               )}
                             </div>
@@ -445,6 +453,7 @@ const MinePage: React.FC = () => {
                             {c.level === 25 ? "MAX" : `lvl ${c.level}`}
                           </p>
                           <div className="flex items-center space-x-1 flex-1 p-4">
+                            {c.level === 25 && <p className="text-[10px]">You owned this card</p>}
                             {c.upgrade?.available_at && (
                               <div className="w-full text-center text-md font-bold flex-1">
                                 {calculateTimeLeftUsingTimestamp(
