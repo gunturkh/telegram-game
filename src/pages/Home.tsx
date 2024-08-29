@@ -27,7 +27,7 @@ const Home: React.FC = () => {
     clicks,
     setClicks,
     setClicksWhenAnimationEnd,
-    route,
+    // route,
   } = usePlayerStore();
   // console.log("clicks", clicks);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -171,11 +171,7 @@ const Home: React.FC = () => {
 
   if (isLoading) return null;
   return (
-    <div
-      className={`bg-black flex justify-center ${
-        route === "/" ? "" : "fixed z-0"
-      }`}
-    >
+    <div className={`bg-black flex justify-center fixed w-full z-0`}>
       <>
         <div className="w-full bg-[#fff3b2] text-white h-screen font-bold flex flex-col max-w-xl">
           <Header />
