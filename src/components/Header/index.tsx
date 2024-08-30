@@ -6,7 +6,8 @@ import Info from "../../icons/Info";
 import Settings from "../../icons/Settings";
 import { useState } from "react";
 import { usePlayerStore } from "../../store/player";
-import { formatProfitPerHour } from "../../lib/utils";
+import { formatProfitPerHour, numberWithDots } from "../../lib/utils";
+import { Tooltip } from "react-tooltip";
 import { __DEV__ } from "../../utils/constants";
 
 const levelNames = [
@@ -40,7 +41,7 @@ function Header() {
         //   WebApp.showAlert(`referral: ${WebApp.initDataUnsafe.start_param}`)
         // }
         >
-        <p className="text-sm text-[#451e0f]">
+          <p className="text-sm text-[#451e0f]">
             {WebApp?.initDataUnsafe?.user?.username} (CEO)
           </p>
         </div>
@@ -56,7 +57,9 @@ function Header() {
         <div className="flex items-center w-1/3">
           <div className="w-full">
             <div className="flex justify-between">
-              <p className="text-[#451e0f] text-sm">{playerData?.level?.current_level_name}</p>
+              <p className="text-[#451e0f] text-sm">
+                {playerData?.level?.current_level_name}
+              </p>
               <p className="text-[#451e0f] text-sm">
                 {playerData?.level?.current_level}{" "}
                 <span className="text-[#451e0f]">/ {levelNames.length}</span>
@@ -88,7 +91,11 @@ function Header() {
             className="w-8 h-8"
           />
           <div className="h-[32px] w-[2px] bg-[#451e0f] mx-2"></div>
-          <div className="flex-1 text-center">
+          <div className="flex-1 text-center"
+            data-tooltip-id="profit-per-hour"
+            data-tooltip-content={numberWithDots(profitPerHour)}
+            data-tooltip-place="bottom"
+           >
             <p className="text-xs text-white font-medium">Hourly Profit</p>
             <div className="flex items-center justify-center space-x-1">
               <img
@@ -100,6 +107,7 @@ function Header() {
               <Info size={20} className="text-[#451e0f]" />
             </div>
           </div>
+          <Tooltip id="profit-per-hour"/>
           <div className="h-[32px] w-[2px] bg-[#451e0f] mx-2"></div>
           <div
             onClick={() => {

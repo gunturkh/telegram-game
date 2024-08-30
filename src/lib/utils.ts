@@ -64,6 +64,9 @@ export function kFormatter(num: number): string {
 export function numberWithCommas(x: number) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
+export function numberWithDots(x: number) {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
 
 export const calculateTimeLeft = (
   targetHour: number,
