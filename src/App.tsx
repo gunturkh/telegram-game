@@ -12,6 +12,7 @@ import { usePlayerStore } from "./store/player";
 import { qr } from "./images";
 import { useDebounce } from "@uidotdev/usehooks";
 import usePlayer from "./_hooks/usePlayer";
+import LevelPage from "./pages/Level";
 
 const App: React.FC = () => {
   const { setAuthToken } = useAuthStore();
@@ -120,6 +121,7 @@ const App: React.FC = () => {
         <Route path="/mine" element={<MinePage />} />
         <Route path="/friends" element={<FriendsPage />} />
         <Route path="/earn" element={<EarnPage />} />
+        <Route path="/level" element={<LevelPage />} />
       </Routes>
       <Home />
     </Router>
