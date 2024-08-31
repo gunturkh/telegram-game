@@ -21,12 +21,11 @@ const EarnPage = () => {
   const [sheetContent, setSheetContent] = useState<Task | undefined>(undefined);
   console.log("tasks", data);
   const dailyReward = useMemo(
-    () => data?.filter((d) => d.id === "daily_streak")?.[0],
+    () => data?.filter((d) => d.type === "daily_check_in")?.[0],
     [data]
   );
   const taskList = useMemo(
-    () =>
-      data?.filter((d) => d.id !== "daily_streak") ,
+    () => data?.filter((d) => d.type !== "daily_check_in"),
     [data]
   );
 
@@ -124,14 +123,14 @@ const EarnPage = () => {
             {content?.description}
           </div>
 
-          {content?.type === "WithLink" && content?.link && (
+          {content?.type === "with_link" && content?.modal_link_url && (
             <div
               className={`text-center w-full bg-[#904728]/80 text-white py-4 rounded-md`}
               onClick={() => {
-                WebApp.openLink(content.link as string);
+                WebApp.openLink(content.modal_link_url as string);
               }}
             >
-              <p>Join</p>
+              <p>{content?.modal_link_button || "Join"}</p>
             </div>
           )}
 
@@ -201,7 +200,7 @@ const EarnPage = () => {
     type: string;
     content?: Task;
   }) => {
-    if (type === "daily_streak") {
+    if (type === "daily_check_in") {
       return <DailyRewardSheetContent />;
     }
     if (content) {
@@ -218,7 +217,9 @@ const EarnPage = () => {
         </div>
       </div>
 
-      <div className="px-4 text-[#451e0f] text-md font-semibold">Daily Tasks</div>
+      <div className="px-4 text-[#451e0f] text-md font-semibold">
+        Daily Tasks
+      </div>
 
       <div
         onClick={() => {
@@ -239,7 +240,7 @@ const EarnPage = () => {
               />
               <div className="text-xs flex items-center gap-2">
                 <p className="text-yellow-400 font-semibold">
-                  +{kFormatter(dailyReward?.total_reward_coins as number)}
+                  +{kFormatter(dailyReward?.reward_coins as number)}
                 </p>
               </div>
             </div>
@@ -247,7 +248,9 @@ const EarnPage = () => {
         </div>
       </div>
 
-      <div className="px-4 text-[#451e0f] text-md font-semibold">Tasks list</div>
+      <div className="px-4 text-[#451e0f] text-md font-semibold">
+        Tasks list
+      </div>
 
       <div className="h-screen mb-10">
         {taskList?.map((t) => {

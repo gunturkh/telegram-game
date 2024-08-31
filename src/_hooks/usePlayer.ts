@@ -20,7 +20,10 @@ export type Task = {
   is_completed: boolean;
   reward_delay_seconds?: number;
   type?: string;
-  link?: string;
+  modal_title: string;
+  modal_link_button?: string;
+  modal_link_url?: string;
+  requires_admin_approval?: boolean
 };
 const usePlayer = () => {
   const queryClient = useQueryClient();
