@@ -148,7 +148,7 @@ const LevelPage = () => {
           <div className="flex flex-col justify-start items-start text-[#451e0f] px-8 py-2">
             <div className="text-md font-semibold">Rank</div>
           </div>
-          <div className="flex flex-col justify-center items-center text-white px-8 gap-4">
+          <div className="flex flex-col justify-center items-center text-white px-8 gap-4 mb-40">
             {rank &&
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
               rank?.top_users?.map((s: any) => {
