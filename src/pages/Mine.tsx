@@ -36,7 +36,13 @@ const MinePage: React.FC = () => {
       profit_per_hour: number;
       profit_per_hour_delta: number;
       is_available: boolean;
-      condition: { id: number; level: number; name: string } | null;
+      condition: {
+        type: "card" | "invite_friends";
+        card_id?: number;
+        card_level?: number;
+        card_name?: string;
+        invite_friend_count?: number;
+      } | null;
     };
   };
 
@@ -161,13 +167,49 @@ const MinePage: React.FC = () => {
     } else return specials;
   };
 
+  const DynamicCardsText: React.FC<{ c: Card }> = ({ c }) => {
+    if (c.upgrade?.is_available && c?.upgrade?.price) {
+      return formatCardsPriceInfo(c?.upgrade?.price);
+    }
+
+    if (
+      // c?.upgrade?.is_available &&
+      c?.upgrade?.condition?.type === "card" &&
+      c?.upgrade?.condition?.card_name &&
+      c?.upgrade?.condition?.card_level
+    ) {
+      return (
+        <span className="text-xs font-thin">
+          <p className="font-semibold">{c?.upgrade?.condition?.card_name}</p>
+          lvl {c?.upgrade?.condition?.card_level}
+        </span>
+      );
+    }
+
+    if (
+      // c?.upgrade?.is_available &&
+      c?.upgrade?.condition?.type === "invite_friends" &&
+      c?.upgrade?.condition?.invite_friend_count
+    ) {
+      return (
+        <span className="text-xs font-thin">
+          <p className="font-semibold">
+            Invite {c?.upgrade?.condition?.invite_friend_count} friends
+          </p>{" "}
+        </span>
+      );
+    }
+
+    return null;
+  };
+
   return (
     <div className="bg-black flex justify-center">
       <div className="w-full bg-[#fff3b2] text-white h-screen font-bold flex flex-col max-w-xl">
         <Header />
 
         <div className="flex-grow mt-4 bg-[#451e0f] rounded-t-[48px] relative top-glow z-0">
-          <div className="absolute top-[2px] left-0 right-0 bottom-0 bg-[#fff3b2] rounded-t-[46px]">
+          <div className="absolute top-[2px] left-0 right-0 bottom-0 bg-[#fff3b2] rounded-t-[46px] h-max min-h-screen">
             {!dailyComboData?.is_submitted && (
               <>
                 <div className="w-full text-xs text-right mt-6 mb-1 px-5">
@@ -311,7 +353,7 @@ const MinePage: React.FC = () => {
                 })}
               </div>
             )}
-            <div className="flex flex-wrap flex-row mt-6 flex-1">
+            <div className="flex flex-wrap flex-row mt-6 flex-1 mb-20">
               {cards
                 ?.filter((c: Card) => {
                   if (mineTab !== 3) {
@@ -489,18 +531,7 @@ const MinePage: React.FC = () => {
                                 </div>
                               )}
                             <div className="text-md text-white">
-                              {c.upgrade?.is_available && c?.upgrade?.price ? (
-                                formatCardsPriceInfo(c?.upgrade?.price)
-                              ) : c.upgrade?.is_available &&
-                                c?.upgrade?.condition?.name &&
-                                c?.upgrade?.condition?.level ? (
-                                <span className="text-xs font-thin">
-                                  <p className="font-semibold">
-                                    {c?.upgrade?.condition?.name}
-                                  </p>{" "}
-                                  lvl {c?.upgrade?.condition?.level}
-                                </span>
-                              ) : null}
+                              <DynamicCardsText c={c} />
                             </div>
                           </div>
                         </div>
