@@ -179,9 +179,8 @@ const MinePage: React.FC = () => {
       c?.upgrade?.condition?.card_level
     ) {
       return (
-        <span className="text-xs font-thin">
-          <p className="font-semibold">{c?.upgrade?.condition?.card_name}</p>
-          lvl {c?.upgrade?.condition?.card_level}
+        <span className="text-xs font-thin text-neutral-500">
+          <p className="font-semibold">{`${c?.upgrade?.condition?.card_name} lvl ${c?.upgrade?.condition?.card_level}`}</p>
         </span>
       );
     }
@@ -192,7 +191,7 @@ const MinePage: React.FC = () => {
       c?.upgrade?.condition?.invite_friend_count
     ) {
       return (
-        <span className="text-xs font-thin">
+        <span className="text-xs font-thin text-neutral-500">
           <p className="font-semibold">
             Invite {c?.upgrade?.condition?.invite_friend_count} friends
           </p>{" "}

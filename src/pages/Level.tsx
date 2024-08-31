@@ -26,7 +26,7 @@ const divStyle = {
   backgroundSize: "contain",
   backgroundRepeat: "no-repeat",
   backgroundPosition: "center center",
-  height: "300px",
+  height: "200px",
 };
 const slideImages = [
   {
@@ -127,7 +127,7 @@ const LevelPage = () => {
         </Slide>
       </div>
       <>
-        <div className="flex flex-col justify-center items-center text-[#451e0f] py-8 gap-4">
+        <div className="flex flex-col justify-center items-center text-[#451e0f] py-1 gap-4">
           <div className="flex flex-col justify-center items-center text-center p-8 gap-4">
             {rank?.level_name && rank?.level_minimum_score && (
               <div className="flex flex-col ">
@@ -135,6 +135,11 @@ const LevelPage = () => {
                 <div className="text-md font-bold">
                   From {numberWithDots(rank?.level_minimum_score)}
                 </div>
+                {rank?.my_rank && (
+                  <div className="text-md font-bold">
+                    My rank: {rank?.my_rank}
+                  </div>
+                )}
               </div>
             )}
           </div>
