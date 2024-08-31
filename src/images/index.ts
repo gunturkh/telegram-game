@@ -11,8 +11,18 @@ import gift from "./gift.png";
 import questionMark from "./question-mark.png";
 import calendar from "./calendar.png";
 import qr from "./chipmunkqr.png";
-import specials from "./specials.png"
+import specials from "./specials.png";
 import chipmunk from "./chipmunk.png";
+import baby from "./baby.png";
+import toddler from "./toddler.png";
+import student from "./student.png";
+import scholar from "./scholar.png";
+import adult from "./adult.png";
+import employee from "./employee.png";
+import manager from "./manager.png";
+import generalmanager from "./generalmanager.png";
+import businessman from "./businessman.png";
+import chairman from "./chairman.png";
 
 export {
   hamsterExchange,
@@ -29,5 +39,15 @@ export {
   calendar,
   qr,
   specials,
-  chipmunk
+  chipmunk,
+  baby,
+  toddler,
+  student,
+  scholar,
+  adult,
+  employee,
+  manager,
+  generalmanager,
+  businessman,
+  chairman,
 };
