@@ -99,7 +99,7 @@ function Header() {
           <div
             className="flex-1 text-center"
             data-tooltip-id="profit-per-hour"
-            data-tooltip-content={numberWithDots(profitPerHour)}
+            data-tooltip-content={numberWithDots(profitPerHour) as string}
             data-tooltip-place="bottom"
           >
             <p className="text-xs text-white font-medium">Hourly Profit</p>

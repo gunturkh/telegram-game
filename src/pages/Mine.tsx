@@ -167,7 +167,7 @@ const MinePage: React.FC = () => {
         <Header />
 
         <div className="flex-grow mt-4 bg-[#451e0f] rounded-t-[48px] relative top-glow z-0">
-          <div className="absolute top-[2px] left-0 right-0 bottom-0 bg-[#fff3b2] rounded-t-[46px] h-max">
+          <div className="absolute top-[2px] left-0 right-0 bottom-0 bg-[#fff3b2] rounded-t-[46px]">
             {!dailyComboData?.is_submitted && (
               <>
                 <div className="w-full text-xs text-right mt-6 mb-1 px-5">
@@ -311,7 +311,7 @@ const MinePage: React.FC = () => {
                 })}
               </div>
             )}
-            <div className="flex flex-wrap flex-row mt-6 mb-20">
+            <div className="flex flex-wrap flex-row mt-6 flex-1">
               {cards
                 ?.filter((c: Card) => {
                   if (mineTab !== 3) {
@@ -346,6 +346,17 @@ const MinePage: React.FC = () => {
                           c.is_published &&
                           c.level > 0
                         );
+                    }
+                  }
+                })
+                .sort((a: any, b: any) => {
+                  if (mineTab !== 3) {
+                    return a.updated_at_unix - b.updated_at_unix;
+                  } else {
+                    if (specialTab === "mycards") {
+                      return b.updated_at_unix - a.updated_at_unix;
+                    } else {
+                      return a.updated_at_unix - b.updated_at_unix;
                     }
                   }
                 })
@@ -453,7 +464,9 @@ const MinePage: React.FC = () => {
                             {c.level === 25 ? "MAX" : `lvl ${c.level}`}
                           </p>
                           <div className="flex items-center space-x-1 flex-1 p-4">
-                            {c.level === 25 && <p className="text-[10px]">You owned this card</p>}
+                            {c.level === 25 && (
+                              <p className="text-[10px]">You owned this card</p>
+                            )}
                             {c.upgrade?.available_at && (
                               <div className="w-full text-center text-md font-bold flex-1">
                                 {calculateTimeLeftUsingTimestamp(
