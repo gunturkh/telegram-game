@@ -595,7 +595,7 @@ const MinePage: React.FC = () => {
                         <p className="text-xs text-white font-semibold">
                           +{" "}
                           {formatCardsPriceInfo(
-                            buyCardData?.upgrade?.profit_per_hour
+                            buyCardData?.upgrade?.profit_per_hour_delta
                           )}
                         </p>
                       </div>
