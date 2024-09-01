@@ -78,7 +78,7 @@ const LevelPage = () => {
   //   queryRank: { data: rank },
   // } = usePlayer();
   // console.log("rank", rank);
-  const [index, setIndex] = useState<null | number>(null);
+  const [index, setIndex] = useState<number>(5);
 
   const {
     data: rank,
@@ -102,12 +102,13 @@ const LevelPage = () => {
       }
     },
   });
+  console.log('index', index)
   // console.log("referral stats", data);
   return (
     <div className="bg-[#fff3b2] flex flex-col justify-start min-h-screen h-100%">
       <div className="p-6">
         <Slide
-          defaultIndex={index || 0}
+          defaultIndex={index as number}
           transitionDuration={200}
           onChange={(from, to) => {
             console.log("slide from: ", from, "to: ", to);
@@ -133,7 +134,7 @@ const LevelPage = () => {
               <div className="flex flex-col ">
                 <div className="text-md font-bold">{rank?.level_name}</div>
                 <div className="text-md font-bold">
-                  From {numberWithDots(rank?.level_minimum_score)}
+                  Spending From {numberWithDots(rank?.level_minimum_score)}
                 </div>
                 {rank?.my_rank && (
                   <div className="text-md font-bold">
