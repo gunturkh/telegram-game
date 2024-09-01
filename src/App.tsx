@@ -82,6 +82,10 @@ const App: React.FC = () => {
   }, [setAuthToken]);
   const debouncedTaps = useDebounce(taps, 500);
   useEffect(() => {
+    if (WebApp) WebApp.expand();
+  }, [WebApp]);
+
+  useEffect(() => {
     const sync = async () => {
       if (debouncedTaps) {
         const data = await mutateAsync({
