@@ -18,6 +18,8 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import http from "../lib/axios";
 import { AxiosError } from "axios";
+import usePlayer from "../_hooks/usePlayer";
+import LoadingScreen from "../components/LoadingScreen";
 
 const divStyle = {
   display: "flex",
@@ -78,7 +80,13 @@ const LevelPage = () => {
   //   queryRank: { data: rank },
   // } = usePlayer();
   // console.log("rank", rank);
-  const [index, setIndex] = useState<number>(5);
+  const {
+    query: { data: playerData, isLoading: playerIsLoading },
+  } = usePlayer();
+  console.log("player", playerData);
+  const [index, setIndex] = useState<number>(
+    playerData?.level?.current_level - 1
+  );
 
   const {
     data: rank,
@@ -102,31 +110,35 @@ const LevelPage = () => {
       }
     },
   });
-  console.log('index', index)
+  console.log("index", index);
   // console.log("referral stats", data);
   return (
     <div className="bg-[#fff3b2] flex flex-col justify-start min-h-screen h-100%">
-      <div className="p-6">
-        <Slide
-          defaultIndex={index as number}
-          transitionDuration={200}
-          onChange={(from, to) => {
-            console.log("slide from: ", from, "to: ", to);
-            setIndex(to);
-          }}
-        >
-          {slideImages.map((item, i) => (
-            <div key={`rank-${rank?.level_name}-${i}`}>
-              <div
-                style={{
-                  ...divStyle,
-                  backgroundImage: `url(${item.url})`,
-                }}
-              ></div>
-            </div>
-          ))}
-        </Slide>
-      </div>
+      {playerIsLoading ? (
+        <LoadingScreen />
+      ) : (
+        <div className="p-6">
+          <Slide
+            defaultIndex={index as number}
+            transitionDuration={200}
+            onChange={(from, to) => {
+              console.log("slide from: ", from, "to: ", to);
+              setIndex(to);
+            }}
+          >
+            {slideImages.map((item, i) => (
+              <div key={`rank-${rank?.level_name}-${i}`}>
+                <div
+                  style={{
+                    ...divStyle,
+                    backgroundImage: `url(${item.url})`,
+                  }}
+                ></div>
+              </div>
+            ))}
+          </Slide>
+        </div>
+      )}
       <>
         <div className="flex flex-col justify-center items-center text-[#451e0f] py-1 gap-4">
           <div className="flex flex-col justify-center items-center text-center p-8 gap-4">

@@ -1,9 +1,6 @@
-import Hamster from "../../icons/Hamster";
 import WebApp from "@twa-dev/sdk";
 import usePlayer from "../../_hooks/usePlayer";
-import { dollarCoin } from "../../images";
-import Info from "../../icons/Info";
-import Settings from "../../icons/Settings";
+import { coin, dollarCoin } from "../../images";
 import { useState } from "react";
 import { usePlayerStore } from "../../store/player";
 import { formatProfitPerHour, numberWithDots } from "../../lib/utils";
@@ -35,8 +32,8 @@ function Header() {
   return (
     <div className="px-4 z-10">
       <div className="flex items-center space-x-2 pt-4">
-        <div className="p-1 rounded-lg bg-[#451e0f]">
-          <Hamster size={24} className="text-[#fff3b2]" />
+        <div className="p-1 rounded-lg border-[#451e0f]">
+          <img src={coin} alt={"Chipmunk Coin"} className="w-8 h-8" />
         </div>
         <div
         // onClick={() =>
@@ -110,7 +107,7 @@ function Header() {
                 className="w-[18px] h-[18px]"
               />
               <p className="text-sm">{formatProfitPerHour(profitPerHour)}</p>
-              <Info size={20} className="text-[#451e0f]" />
+              {/* <Info size={20} className="text-[#451e0f]" /> */}
             </div>
           </div>
           <Tooltip id="profit-per-hour" />
@@ -120,7 +117,11 @@ function Header() {
               if (__DEV__) resetDailyCombo();
             }}
           >
-            <Settings className="text-white" />
+            <img
+              src={playerData?.level?.current_level_image_url || ""}
+              alt={playerData?.level?.current_level_name || "Chipmunk"}
+              className="w-8 h-8"
+            />
           </div>
         </div>
       </div>

@@ -23,6 +23,7 @@ import manager from "./manager.png";
 import generalmanager from "./generalmanager.png";
 import businessman from "./businessman.png";
 import chairman from "./chairman.png";
+import coin from "./coin.png";
 
 export {
   hamsterExchange,
@@ -50,4 +51,5 @@ export {
   generalmanager,
   businessman,
   chairman,
+  coin
 };
