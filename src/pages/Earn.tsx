@@ -17,7 +17,7 @@ const EarnPage = () => {
     mutationCheckTask: { mutate },
   } = usePlayer();
   const [open, setOpen] = useState(false);
-  const [rewardType, setRewardType] = useState("daily_streak");
+  const [rewardType, setRewardType] = useState("daily_check_in");
   const [sheetContent, setSheetContent] = useState<Task | undefined>(undefined);
   console.log("tasks", data);
   const dailyReward = useMemo(
@@ -44,14 +44,13 @@ const EarnPage = () => {
   const DailyRewardSheetContent = () => {
     return (
       <>
-        {" "}
         <div className="flex p-4 flex-col w-full justify-center items-center gap-5">
           <img
             src={calendar}
             alt="Referral Gift"
             className="mx-auto w-24 h-24"
           />
-          <div className="text-4xl font-bold">Daily reward</div>
+          <div className="text-4xl font-bold text-white">Daily reward</div>
           <div className="text-md text-center font-light">
             Accrue coins for logging into the game daily without skipping
           </div>
@@ -200,6 +199,7 @@ const EarnPage = () => {
     type: string;
     content?: Task;
   }) => {
+    console.log('dynamic type', type)
     if (type === "daily_check_in") {
       return <DailyRewardSheetContent />;
     }
@@ -224,7 +224,7 @@ const EarnPage = () => {
       <div
         onClick={() => {
           setOpen(true);
-          setRewardType("daily_streak");
+          setRewardType("daily_check_in");
         }}
         className="flex flex-col justify-center items-center text-white p-4 gap-4"
       >
