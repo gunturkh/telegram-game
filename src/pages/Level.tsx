@@ -97,7 +97,7 @@ const LevelPage = () => {
     queryFn: async () => {
       try {
         const response = await http.get(
-          `/rank${index ? `?level=${index + 1}` : ""}`
+          `/rank${index >= 0 ? `?level=${index + 1}` : ""}`
         );
         setIndex(response?.data?.data?.level - 1);
         return response.data?.data;
@@ -137,12 +137,8 @@ const LevelPage = () => {
               </div>
             ))}
           </Slide>
-        </div>
-      )}
-      <>
-        <div className="flex flex-col justify-center items-center text-[#451e0f] py-1 gap-4">
-          <div className="flex flex-col justify-center items-center text-center p-8 gap-4">
-            {rank?.level_name && rank?.level_minimum_score && (
+          <div className="flex flex-col justify-center items-center text-[#451e0f] py-1 gap-4">
+            <div className="flex flex-col justify-center items-center text-center p-8 gap-4">
               <div className="flex flex-col ">
                 <div className="text-md font-bold">{rank?.level_name}</div>
                 <div className="text-md font-bold">
@@ -154,18 +150,19 @@ const LevelPage = () => {
                   </div>
                 )}
               </div>
-            )}
+            </div>
           </div>
         </div>
-      </>
-
+      )}
       {isLoading || isFetching ? (
         <div className="text-md font-semibold px-8">Loading...</div>
       ) : (
         <>
-          <div className="flex flex-col justify-start items-start text-[#451e0f] px-8 py-2">
-            <div className="text-md font-semibold">Rank</div>
-          </div>
+          {rank?.top_users?.length > 0 && (
+            <div className="flex flex-col justify-start items-start text-[#451e0f] px-8 py-2">
+              <div className="text-md font-semibold">Rank</div>
+            </div>
+          )}
           <div className="flex flex-col justify-center items-center text-white px-8 gap-4 mb-40">
             {rank &&
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
