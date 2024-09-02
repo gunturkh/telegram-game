@@ -58,11 +58,11 @@ function Header() {
           onClick={() => navigate("/level")}
         >
           <div className="w-full">
-            <div className="flex justify-between">
-              <p className="text-[#451e0f] text-sm">
+            <div className="flex flex-col justify-start w-full">
+              <p className="text-[#451e0f] text-xs">
                 {playerData?.level?.current_level_name}
               </p>
-              <p className="text-[#451e0f] text-sm">
+              <p className="text-[#451e0f] text-xs">
                 {playerData?.level?.current_level}{" "}
                 <span className="text-[#451e0f]">/ {levelNames.length}</span>
               </p>
