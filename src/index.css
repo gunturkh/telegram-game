@@ -4,16 +4,26 @@
 
 // add the code bellow
 @layer utilities {
-      /* Hide scrollbar for Chrome, Safari and Opera */
-      .no-scrollbar::-webkit-scrollbar {
-          display: none;
-      }
-     /* Hide scrollbar for IE, Edge and Firefox */
-      .no-scrollbar {
-          -ms-overflow-style: none;  /* IE and Edge */
-          scrollbar-width: none;  /* Firefox */
-    }
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
   }
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+}
 body {
-    font-family: sans-serif;
+  font-family: sans-serif;
+}
+
+@layer base {
+  @font-face {
+    font-family: "Copperplate";
+    font-style: normal;
+    font-weight: normal;
+    src: local("Copperplate Gothic Light"),
+      url("/fonts/copperplate-gothic-light.woff") format("woff");
+  }
 }
