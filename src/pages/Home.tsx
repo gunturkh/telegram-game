@@ -129,9 +129,18 @@ const Home: React.FC = () => {
     if (!isPaused) {
       intervalRef.current = setInterval(() => {
         setEnergy((prevEnergy: number) => {
-          if (prevEnergy < playerData?.tap_earnings?.max_taps) {
+          if (prevEnergy < playerData?.tap_earnings?.max_taps - 3) {
             return (
               prevEnergy + (playerData?.tap_earnings?.recovery_per_seconds || 3)
+            );
+          }
+          if (
+            prevEnergy +
+              (playerData?.tap_earnings?.recovery_per_seconds || 3) >=
+            playerData?.tap_earnings?.max_taps
+          ) {
+            return (
+              prevEnergy + (playerData?.tap_earnings?.max_taps - prevEnergy)
             );
           }
           return prevEnergy;
@@ -150,9 +159,18 @@ const Home: React.FC = () => {
     if (isPaused) {
       intervalRef.current = setInterval(() => {
         setEnergy((prevEnergy: number) => {
-          if (prevEnergy < playerData?.tap_earnings?.max_taps) {
+          if (prevEnergy < playerData?.tap_earnings?.max_taps - 3) {
             return (
               prevEnergy + (playerData?.tap_earnings?.recovery_per_seconds || 3)
+            );
+          }
+          if (
+            prevEnergy +
+              (playerData?.tap_earnings?.recovery_per_seconds || 3) >=
+            playerData?.tap_earnings?.max_taps
+          ) {
+            return (
+              prevEnergy + (playerData?.tap_earnings?.max_taps - prevEnergy)
             );
           }
           return prevEnergy;
