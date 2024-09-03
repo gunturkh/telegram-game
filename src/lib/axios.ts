@@ -8,6 +8,12 @@ const http = axios.create({
     "Content-Type": "application/json",
   },
 });
+export const image = axios.create({
+  baseURL: `${API_URL}`,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
 
 http.interceptors.request.use(
   async (request: InternalAxiosRequestConfig) => {

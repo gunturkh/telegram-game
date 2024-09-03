@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import http from "../lib/axios";
+import http, { image } from "../lib/axios";
 import { AxiosError } from "axios";
 import { usePlayerStore } from "../store/player";
 import toast from "react-hot-toast";
@@ -24,6 +24,7 @@ export type Task = {
   modal_link_button?: string;
   modal_link_url?: string;
   requires_admin_approval?: boolean
+  status: 'pending_approval' | 'not_completed'
 };
 const usePlayer = () => {
   const queryClient = useQueryClient();
@@ -271,7 +272,7 @@ const usePlayer = () => {
   });
 
   const mutationCheckTask = useMutation({
-    mutationFn: async (data: { task_id: string }) => {
+    mutationFn: async (data: { task_id: string, image?: string }) => {
       try {
         const response = await http.post("/check-task", data);
         return response.data?.data;
@@ -345,6 +346,43 @@ const usePlayer = () => {
       });
     },
   });
+  const mutationUploadImage = useMutation({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    mutationFn: async (data) => {
+      try {
+        const response = await image.post("/media/images", data);
+        return response.data?.data;
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          throw new Error(error.message);
+        }
+
+        throw new Error("Unknown Error");
+      }
+    },
+    onSuccess: (_, variables) => {
+      console.log("upload image success for task submission", variables);
+      toast.success("Success upload image", {
+        style: {
+          borderRadius: "10px",
+          background: "#333",
+          color: "#fff",
+        },
+      });
+    },
+    onError: (error, variables, context) => {
+      console.log("error", error);
+      console.log("variables", variables);
+      console.log("context", context);
+      toast.error("Failed to upload image", {
+        style: {
+          borderRadius: "10px",
+          background: "#333",
+          color: "#fff",
+        },
+      });
+    },
+  });
   return {
     // export all queries
     query,
@@ -361,6 +399,7 @@ const usePlayer = () => {
     mutationCardUpgrade,
     mutationCheckTask,
     mutationDailyCombo,
+    mutationUploadImage
   };
 };
 export default usePlayer;
