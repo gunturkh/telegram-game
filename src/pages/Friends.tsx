@@ -4,6 +4,7 @@ import Share from "../components/Share";
 import { dollarCoin, gift } from "../images";
 import usePlayer from "../_hooks/usePlayer";
 import { balanceFormatter, kFormatter } from "../lib/utils";
+import { __DEV__ } from "../utils/constants";
 
 const LEVELS = [
   "Baby",
@@ -17,10 +18,22 @@ const LEVELS = [
   "Businessman",
   "Chairman",
 ];
+const dummy = Array.from({ length: 50 }, (_, i) => ({
+  first_name: `John ${i}`,
+  last_name: `Doe ${i}`,
+  level: (i % 10) + 1,
+  earn_passive_per_hour: i * 100,
+  balance_coins: i * 10000,
+  referral_bonus_coins: i * 50000,
+}));
 const FriendsPage = () => {
   const {
     queryReferral: { data },
+    queryInfo: { data: infoData },
   } = usePlayer();
+
+  const refferalData =
+    __DEV__ && infoData?.telegram_id === "465670876" ? dummy : data?.stats;
   // console.log("referral stats", data);
   return (
     <div className="bg-[#fff3b2] flex flex-col justify-start min-h-screen h-100%">
@@ -53,16 +66,16 @@ const FriendsPage = () => {
       <div className="flex flex-col justify-start items-start text-[#451e0f] px-8 py-2">
         <div className="text-md font-semibold">Friends List</div>
       </div>
-      <div className="flex flex-col justify-center items-center text-white px-8 gap-4">
-        {data &&
+      <div className="flex flex-col justify-center items-center text-white px-8 gap-4 mb-40">
+        {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          data?.stats?.map((s: any) => {
+          refferalData.map((s: any) => {
             return (
               <div className="w-full justify-between flex gap-2 bg-[#451e0f] rounded-md p-2 mx-4 ">
                 <div className="flex flex-col px-2 ">
                   <div className="text-sm font-bold">{`${s.first_name} ${s.last_name}`}</div>
                   <div className="flex justify-start items-center gap-1">
-                    <div className="text-xs font-thin">{` ${
+                    <div className="text-[0.65rem] font-thin">{` ${
                       LEVELS[s.level - 1]
                     } : `}</div>{" "}
                     <img
@@ -88,7 +101,8 @@ const FriendsPage = () => {
                 </div>
               </div>
             );
-          })}
+          })
+        }
       </div>
       <Share />
       <BottomTab />

@@ -41,7 +41,7 @@ function Header() {
         // }
         >
           <p className="text-sm text-[#451e0f]">
-            {WebApp?.initDataUnsafe?.user?.username} (DTW)
+            {`${WebApp?.initDataUnsafe?.user?.first_name} ${WebApp?.initDataUnsafe?.user?.last_name}`} (DTW)
           </p>
         </div>
       </div>

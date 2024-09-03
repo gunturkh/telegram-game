@@ -58,16 +58,16 @@ const EarnPage = () => {
             {dailyReward?.rewards_by_day?.map((r, rIdx) => {
               return (
                 <div
-                  className={`flex flex-col justify-start items-center gap-2 border ${claimedStyle(
+                  className={`flex flex-col justify-start items-center gap-1 border ${claimedStyle(
                     rIdx,
                     dailyReward?.days,
                     dailyReward?.is_completed
-                  )}  rounded-xl p-4`}
+                  )}  rounded-3xl p-1`}
                 >
                   <div className="text-xs flex items-center gap-2">
                     Day {r?.day_count}
                   </div>
-                  <img src={dollarCoin} alt="Dollar Coin" className="w-6 h-6" />
+                  <img src={dollarCoin} alt="Dollar Coin" className="w-4 h-4" />
                   <div className="text-xs font-bold flex items-center gap-2">
                     {kFormatter(r?.reward_coins)}
                   </div>
@@ -85,6 +85,7 @@ const EarnPage = () => {
             } text-white py-4 rounded-md`}
             onClick={() => {
               mutate({ task_id: dailyReward?.id as string });
+              setOpen(true);
             }}
           >
             <p>{dailyReward?.is_completed ? "Come back tomorrow" : "Claim"}</p>
@@ -199,7 +200,7 @@ const EarnPage = () => {
     type: string;
     content?: Task;
   }) => {
-    console.log('dynamic type', type)
+    console.log("dynamic type", type);
     if (type === "daily_check_in") {
       return <DailyRewardSheetContent />;
     }
