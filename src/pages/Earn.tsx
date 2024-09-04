@@ -250,7 +250,7 @@ const EarnPage = () => {
     <div className="bg-[#fff3b2] flex flex-col justify-start min-h-screen h-100%">
       <Toast ref={toast}></Toast>
       <div className="flex flex-col justify-center items-center text-[#451e0f] py-8 gap-4">
-        <img src={dollarCoin} alt="Dollar Coin" className="w-50 h-50" />
+        <img src={dollarCoin} alt="Dollar Coin" className="w-20 h-20" />
         <div className="text-4xl font-bold">Earn more coins</div>
         <div className="text-md font-light">
           You and your friends will receive bonuses
@@ -315,7 +315,7 @@ const EarnPage = () => {
                   className="mx-4 w-12 h-12"
                 />
                 <div className="flex flex-col w-full ">
-                  <div className="text-md font-bold">{t.name}</div>
+                  <div className="text-md font-bold capitalize">{t.name}</div>
                   <div className="flex justify-start items-center gap-1">
                     <img
                       src={dollarCoin}

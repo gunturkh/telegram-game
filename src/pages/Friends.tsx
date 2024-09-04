@@ -38,7 +38,7 @@ const FriendsPage = () => {
   return (
     <div className="bg-[#fff3b2] flex flex-col justify-start min-h-screen h-100%">
       <div className="flex flex-col justify-center items-center text-[#451e0f] py-8 gap-4">
-        <div className="text-4xl font-bold">Invite friends!</div>
+        <div className="text-4xl font-bold">Invite Friends</div>
         <div className="text-md font-light">
           You and your friends will receive bonuses
         </div>
@@ -47,7 +47,7 @@ const FriendsPage = () => {
         <div className="w-full flex gap-2 bg-[#451e0f] rounded-md p-2 mx-4 ">
           <img src={gift} alt="Referral Gift" className="mx-auto w-12 h-12" />
           <div className="flex flex-col ">
-            <div className="text-md font-bold">Invite a friend</div>
+            <div className="text-md font-bold">Invite A Friend</div>
             <div className="flex justify-start items-center gap-1">
               <img
                 src={dollarCoin}
