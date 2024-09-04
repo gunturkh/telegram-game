@@ -24,7 +24,7 @@ export type Task = {
   modal_link_button?: string;
   modal_link_url?: string;
   requires_admin_approval?: boolean
-  status: 'pending_approval' | 'not_completed'
+  status: 'pending_approval' | 'not_completed' | 'rejected'
 };
 const usePlayer = () => {
   const queryClient = useQueryClient();

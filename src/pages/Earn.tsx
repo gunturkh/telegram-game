@@ -148,6 +148,23 @@ const EarnPage = () => {
     );
   };
 
+  const TaskSubmissionStatus = ({
+    status,
+  }: {
+    status: "not_completed" | "pending_approval" | "rejected";
+  }) => {
+    switch (status) {
+      case "not_completed":
+        return <div className="px-8 py-2 text-center"> Not Completed</div>;
+      case "pending_approval":
+        return <div className="px-8 py-2 text-center">Pending Approval</div>;
+      case "rejected":
+        return <div className="px-8 py-2 text-center">Rejected</div>;
+
+      default:
+        return <div className="px-8 py-2 text-center"> Not Completed</div>;
+    }
+  };
   const RewardSheetContent = ({ content }: { content: Task }) => {
     const now = Math.floor(Date.now() / 1000);
     const ls = localStorage.getItem(`${content.id}-clicked`);
@@ -366,8 +383,13 @@ const EarnPage = () => {
           <Sheet.Content className="bg-[#451e0f] text-white overflow-scroll">
             {/* Your sheet content goes here */}
             <DynamicSheetContent type={rewardType} content={sheetContent} />
+
+            {sheetContent && sheetContent?.status && (
+              <TaskSubmissionStatus status={sheetContent.status} />
+            )}
             {sheetContent?.requires_admin_approval &&
-              sheetContent?.status === "not_completed" && (
+              (sheetContent?.status === "not_completed" ||
+                sheetContent?.status === "rejected") && (
                 <div className="px-8">
                   <label className={`text-xs`}>
                     Please Upload your Screenshot of completing the task
