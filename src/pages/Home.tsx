@@ -13,6 +13,8 @@ import { calculateTimeLeft } from "../lib/utils";
 const Home: React.FC = () => {
   const {
     query: { data: playerData, isLoading },
+    queryTasks: { data: taskData },
+    queryDailyCombo: { data: dailyComboData },
   } = usePlayer();
   const navigate = useNavigate();
   // console.log("player data from react query", playerData);
@@ -201,7 +203,12 @@ const Home: React.FC = () => {
                   onClick={() => navigate("/earn")}
                   className="bg-[#451e0f] rounded-lg px-4 py-2 w-full relative"
                 >
-                  <div className="dot"></div>
+                  {taskData?.filter((t) => t.type === "daily_check_in")[0]
+                    ?.status === "completed" ? (
+                    <div className="absolute right-3 ">✅</div>
+                  ) : (
+                    <div className="dot"></div>
+                  )}
                   <img
                     src={dailyReward}
                     alt="Daily Reward"
@@ -232,7 +239,11 @@ const Home: React.FC = () => {
                   onClick={() => navigate("/mine")}
                   className="bg-[#451e0f] rounded-lg px-4 py-2 w-full relative"
                 >
-                  <div className="dot"></div>
+                  {dailyComboData?.is_submitted ? (
+                    <div className="absolute right-3 ">✅</div>
+                  ) : (
+                    <div className="dot"></div>
+                  )}
                   <img
                     src={dailyCombo}
                     alt="Daily Combo"
