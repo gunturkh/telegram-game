@@ -44,19 +44,30 @@ const FriendsPage = () => {
         </div>
       </div>
       <div className="flex flex-col justify-center items-center text-white p-8 gap-4">
-        <div className="w-full flex gap-2 bg-[#451e0f] rounded-md p-2 mx-4 ">
-          <img src={gift} alt="Referral Gift" className="mx-auto w-12 h-12" />
+        <div className="w-full items-center flex gap-2 bg-[#451e0f] rounded-md p-2 mx-4 ">
+          <img src={gift} alt="Referral Gift" className="mx-2 w-12 h-12" />
           <div className="flex flex-col ">
             <div className="text-md font-bold">Invite A Friend</div>
             <div className="flex justify-start items-center gap-1">
-              <img
-                src={dollarCoin}
-                alt="Dollar Coin"
-                className="w-[12px] h-[12px]"
-              />
-              <div className="text-xs flex items-center gap-2">
-                <p className="text-yellow-400 font-semibold">+5,000</p>
-                for you and your friends
+              <div className="flex flex-col">
+                <div className="text-xs flex items-center gap-2">
+                  <img
+                    src={dollarCoin}
+                    alt="Dollar Coin"
+                    className="w-[12px] h-[12px]"
+                  />
+                  <p className="text-yellow-400 font-semibold">+10,000</p>
+                  for you
+                </div>
+                <div className="text-xs flex items-center gap-2">
+                  <img
+                    src={dollarCoin}
+                    alt="Dollar Coin"
+                    className="w-[12px] h-[12px]"
+                  />
+                  <p className="text-yellow-400 font-semibold">+5,000</p>
+                  for your friends
+                </div>
               </div>
             </div>
           </div>
