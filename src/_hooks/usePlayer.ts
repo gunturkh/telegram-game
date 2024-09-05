@@ -334,7 +334,8 @@ const usePlayer = () => {
       //     },
       //   }
       // );
-      queryClient.invalidateQueries({ queryKey: ["combo", "player"] });
+      queryClient.invalidateQueries({ queryKey: ["combo"] });
+      queryClient.invalidateQueries({ queryKey: ["players"] });
     },
     onError: () => {
       toast.error("Failed to submit Daily Combo", {
