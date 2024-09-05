@@ -95,13 +95,17 @@ const Home: React.FC = () => {
     //     pageY: 560,
     //   },
     // ]
-    if (intervalRef?.current) clearInterval(intervalRef?.current);
     if (energy > 0 && energy >= playerData?.tap_earnings?.per_tap) {
+      if (intervalRef?.current) clearInterval(intervalRef?.current);
       for (let touch = 0; touch < e.touches.length; touch++) {
         const touchId = parseInt(`${Date.now()}${touch}`);
         // for (let touch = 0; touch < touches.length; touch++) {
-        setIsPaused(true);
-        setEnergy((prev: number) => (prev > 0 ? prev - pointsToAdd : 0));
+        setEnergy((prev: number) => {
+          if (prev > 0 && prev - pointsToAdd >= 0) {
+            setIsPaused(true);
+            return prev - pointsToAdd;
+          } else return 0;
+        });
         // console.log('now', touch, parseInt(`${Date.now()}${touch}`))
         const { clientX, clientY, pageX, pageY } = e.touches[touch];
         // console.log('clientX, clientY', clientX, clientY)
