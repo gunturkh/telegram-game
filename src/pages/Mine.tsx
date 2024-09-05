@@ -9,7 +9,7 @@ import usePlayer from "../_hooks/usePlayer";
 import Points from "../components/Points";
 import Header from "../components/Header";
 import Lock from "../icons/Lock";
-import { usePlayerStore } from "../store/player";
+import { useDailyComboStore, usePlayerStore } from "../store/player";
 import {
   calculateTimeLeft,
   calculateTimeLeftUsingTimestamp,
@@ -63,7 +63,7 @@ const MinePage: React.FC = () => {
     dailyComboReward,
     dailyComboRewardModal,
     setDailyComboRewardModal,
-  } = usePlayerStore();
+  } = useDailyComboStore();
   console.log("dailyComboRewardModal", dailyComboRewardModal);
   // console.log("dailyCombo", dailyCombo);
   // console.log("cardsData", cardsData);

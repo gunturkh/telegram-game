@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import http, { image } from "../lib/axios";
 import { AxiosError } from "axios";
-import { usePlayerStore } from "../store/player";
+import { useDailyComboStore, usePlayerStore } from "../store/player";
 import toast from "react-hot-toast";
 type TaskRewardByDay = {
   day_count: number;
@@ -32,12 +32,12 @@ const usePlayer = () => {
   const setInitialEnergy = usePlayerStore.getState().setInitialEnergy;
   // const dailyCombo = usePlayerStore.getState().dailyCombo;
   // console.log("dailyCombo", dailyCombo);
-  const updateDailyCombo = usePlayerStore.getState().updateNull;
   const setPassiveEarning = usePlayerStore.getState().setPassiveEarning;
-  const setComboSubmitted = usePlayerStore.getState().setComboSubmitted;
-  const setDailyComboReward = usePlayerStore.getState().setDailyComboReward;
+  const updateDailyCombo = useDailyComboStore.getState().updateNull;
+  const setComboSubmitted = useDailyComboStore.getState().setComboSubmitted;
+  const setDailyComboReward = useDailyComboStore.getState().setDailyComboReward;
   const setDailyComboRewardModal =
-    usePlayerStore.getState().setDailyComboRewardModal;
+    useDailyComboStore.getState().setDailyComboRewardModal;
   // queries
   const query = useQuery({
     staleTime: Infinity,
