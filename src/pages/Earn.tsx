@@ -160,6 +160,8 @@ const EarnPage = () => {
         return <div className="px-8 py-2 text-center">Pending Approval</div>;
       case "rejected":
         return <div className="px-8 py-2 text-center">Rejected</div>;
+      case "completed":
+        return <div className="px-8 py-2 text-center">Completed</div>;
 
       default:
         return <div className="px-8 py-2 text-center"> Not Completed</div>;
