@@ -230,6 +230,7 @@ const EarnPage = () => {
                       image: image,
                     }),
                   });
+                  setStatus('initial')
                   setOpen(false);
                 }
                 if (!ls) {
