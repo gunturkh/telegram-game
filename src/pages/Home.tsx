@@ -59,9 +59,9 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     const updateCountdowns = () => {
-      setDailyRewardTimeLeft(calculateTimeLeft(17));
+      setDailyRewardTimeLeft(calculateTimeLeft(11));
       setDailyCipherTimeLeft(calculateTimeLeft(19));
-      setDailyComboTimeLeft(calculateTimeLeft(17));
+      setDailyComboTimeLeft(calculateTimeLeft(11));
     };
 
     updateCountdowns();
