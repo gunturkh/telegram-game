@@ -9,7 +9,7 @@ import usePlayer from "../_hooks/usePlayer";
 import Points from "../components/Points";
 import Header from "../components/Header";
 import Lock from "../icons/Lock";
-import { useDailyComboStore, usePlayerStore } from "../store/player";
+import { useDailyComboStore } from "../store/player";
 import {
   calculateTimeLeft,
   calculateTimeLeftUsingTimestamp,

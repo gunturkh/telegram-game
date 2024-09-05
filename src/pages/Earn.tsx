@@ -151,7 +151,7 @@ const EarnPage = () => {
   const TaskSubmissionStatus = ({
     status,
   }: {
-    status: "not_completed" | "pending_approval" | "rejected";
+    status: "not_completed" | "pending_approval" | "rejected" | "completed";
   }) => {
     switch (status) {
       case "not_completed":
