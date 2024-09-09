@@ -159,7 +159,7 @@ const MinePage: React.FC = () => {
   // console.log("open", open);
   const dailyComboCards = (index: number, key: string) => {
     if (dailyComboData?.is_submitted && dailyComboData?.combination) {
-      return dailyComboData?.combination[index]?.image;
+      return dailyComboData?.combination[index][key];
     } else if (dailyCombo[index] && cardsData?.cards?.length > 0) {
       return cardsData?.cards?.filter(
         (c: Card) => c.id === dailyCombo[index]
@@ -248,9 +248,11 @@ const MinePage: React.FC = () => {
                     x
                   </div>
                 )}
-                {dailyCombo[0] && dailyComboData?.is_submitted && (
+                {dailyComboData?.is_submitted && (
                   <div className="absolute right-0 top-0 text-xs p-1 rounded-full h-6 w-6 flex justify-center ">
-                    {dailyComboCards(0, "is_correct") === true ? "✅" : "❌"}
+                    {dailyComboData?.combination[0].is_correct === true
+                      ? "✅"
+                      : "❌"}
                   </div>
                 )}
                 <img
@@ -268,9 +270,11 @@ const MinePage: React.FC = () => {
                     x
                   </div>
                 )}
-                {dailyCombo[1] && dailyComboData?.is_submitted && (
+                {dailyComboData?.is_submitted && (
                   <div className="absolute right-0 top-0 text-xs p-1 rounded-full h-6 w-6 flex justify-center ">
-                    {dailyComboCards(1, "is_correct") === true ? "✅" : "❌"}
+                    {dailyComboData?.combination[1].is_correct === true
+                      ? "✅"
+                      : "❌"}
                   </div>
                 )}
                 <img
@@ -288,9 +292,11 @@ const MinePage: React.FC = () => {
                     x
                   </div>
                 )}
-                {dailyCombo[2] && dailyComboData?.is_submitted && (
+                {dailyComboData?.is_submitted && (
                   <div className="absolute right-0 top-0 text-xs p-1 rounded-full h-6 w-6 flex justify-center ">
-                    {dailyComboCards(2, "is_correct") === true ? "✅" : "❌"}
+                    {dailyComboData?.combination[2].is_correct === true
+                      ? "✅"
+                      : "❌"}
                   </div>
                 )}
                 <img
@@ -308,9 +314,11 @@ const MinePage: React.FC = () => {
                     x
                   </div>
                 )}
-                {dailyCombo[3] && dailyComboData?.is_submitted && (
+                {dailyComboData?.is_submitted && (
                   <div className="absolute right-0 top-0 text-xs p-1 rounded-full h-6 w-6 flex justify-center ">
-                    {dailyComboCards(3, "is_correct") === true ? "✅" : "❌"}
+                    {dailyComboData?.combination[2].is_correct === true
+                      ? "✅"
+                      : "❌"}
                   </div>
                 )}
                 <img
@@ -322,7 +330,9 @@ const MinePage: React.FC = () => {
             </div>
             {dailyComboData?.is_submitted && (
               <div className="flex justify-center items-center gap-2 mt-2">
-                <p className="text-md text-[#451e0f] font-medium">Daily Combo Bonus:</p>
+                <p className="text-md text-[#451e0f] font-medium">
+                  Daily Combo Bonus:
+                </p>
                 <div className="flex items-center justify-center space-x-1">
                   <img
                     src={dollarCoin}
