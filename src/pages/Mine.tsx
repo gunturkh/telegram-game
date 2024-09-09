@@ -316,7 +316,7 @@ const MinePage: React.FC = () => {
                 )}
                 {dailyComboData?.is_submitted && (
                   <div className="absolute right-0 top-0 text-xs p-1 rounded-full h-6 w-6 flex justify-center ">
-                    {dailyComboData?.combination[2].is_correct === true
+                    {dailyComboData?.combination[3].is_correct === true
                       ? "✅"
                       : "❌"}
                   </div>
