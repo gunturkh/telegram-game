@@ -340,7 +340,7 @@ const MinePage: React.FC = () => {
                     className="w-[18px] h-[18px]"
                   />
                   <p className="text-[#451e0f]">
-                    {Math.floor(dailyComboData?.bonus_coins)?.toLocaleString()}
+                    {Math.floor(dailyComboData?.accquired_bonus_coins ?? 0)?.toLocaleString()}
                   </p>
                   {/* <Info size={20} className="text-[#451e0f]" /> */}
                 </div>
