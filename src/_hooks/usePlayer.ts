@@ -23,8 +23,8 @@ export type Task = {
   modal_title: string;
   modal_link_button?: string;
   modal_link_url?: string;
-  requires_admin_approval?: boolean
-  status: 'pending_approval' | 'not_completed' | 'rejected' | 'completed'
+  requires_admin_approval?: boolean;
+  status: "pending_approval" | "not_completed" | "rejected" | "completed";
 };
 const usePlayer = () => {
   const queryClient = useQueryClient();
@@ -272,7 +272,7 @@ const usePlayer = () => {
   });
 
   const mutationCheckTask = useMutation({
-    mutationFn: async (data: { task_id: string, image?: string }) => {
+    mutationFn: async (data: { task_id: string; image?: string }) => {
       try {
         const response = await http.post("/check-task", data);
         return response.data?.data;
@@ -400,7 +400,7 @@ const usePlayer = () => {
     mutationCardUpgrade,
     mutationCheckTask,
     mutationDailyCombo,
-    mutationUploadImage
+    mutationUploadImage,
   };
 };
 export default usePlayer;

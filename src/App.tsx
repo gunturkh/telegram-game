@@ -13,16 +13,19 @@ import { qr } from "./images";
 import { useDebounce } from "@uidotdev/usehooks";
 import usePlayer from "./_hooks/usePlayer";
 import LevelPage from "./pages/Level";
+import { useQueryClient } from "@tanstack/react-query";
 
 const App: React.FC = () => {
   const { setAuthToken } = useAuthStore();
   const { setPassiveEarnModal, taps, resetTaps } = usePlayerStore();
   const [loading, setLoading] = useState(false);
+  const queryClient = useQueryClient();
   const {
     mutationTap: { mutateAsync },
   } = usePlayer();
   // console.log("WebApp", WebApp.platform);
   useEffect(() => {
+    queryClient.refetchQueries({ queryKey: ["player"], type: "active" });
     setTimeout(() => {
       setLoading(false);
     }, 5000);
@@ -31,14 +34,14 @@ const App: React.FC = () => {
   useEffect(() => {
     const telegramData = __DEV__
       ? {
-          id: 465670876,
-          username: "gunturkh",
-          first_name: "-",
-          last_name: "-",
-          // id: 769049677,
-          // username: "tatangdev",
-          // first_name: "Tatang",
-          // last_name: "",
+          // id: 465670876,
+          // username: "gunturkh",
+          // first_name: "-",
+          // last_name: "-",
+          id: 769049677,
+          username: "tatangdev",
+          first_name: "Tatang",
+          last_name: "",
         }
       : WebApp?.initDataUnsafe?.user;
     const playerLogin = async () => {
