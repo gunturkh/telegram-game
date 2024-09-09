@@ -157,13 +157,13 @@ const MinePage: React.FC = () => {
     }
   };
   // console.log("open", open);
-  const dailyComboCards = (index: number) => {
+  const dailyComboCards = (index: number, key: string) => {
     if (dailyComboData?.is_submitted && dailyComboData?.combination) {
       return dailyComboData?.combination[index]?.image;
     } else if (dailyCombo[index] && cardsData?.cards?.length > 0) {
       return cardsData?.cards?.filter(
         (c: Card) => c.id === dailyCombo[index]
-      )?.[0]?.image;
+      )?.[0][key];
     } else return specials;
   };
 
@@ -248,8 +248,13 @@ const MinePage: React.FC = () => {
                     x
                   </div>
                 )}
+                {dailyCombo[0] && dailyComboData?.is_submitted && (
+                  <div className="absolute right-0 top-0 text-xs p-1 rounded-full h-6 w-6 flex justify-center ">
+                    {dailyComboCards(0, "is_correct") === true ? "✅" : "❌"}
+                  </div>
+                )}
                 <img
-                  src={dailyComboCards(0)}
+                  src={dailyComboCards(0, "image")}
                   alt="Daily Combo"
                   className="mx-auto w-12 h-12"
                 />
@@ -263,8 +268,13 @@ const MinePage: React.FC = () => {
                     x
                   </div>
                 )}
+                {dailyCombo[1] && dailyComboData?.is_submitted && (
+                  <div className="absolute right-0 top-0 text-xs p-1 rounded-full h-6 w-6 flex justify-center ">
+                    {dailyComboCards(1, "is_correct") === true ? "✅" : "❌"}
+                  </div>
+                )}
                 <img
-                  src={dailyComboCards(1)}
+                  src={dailyComboCards(1, "image")}
                   alt="Daily Combo"
                   className="mx-auto w-12 h-12"
                 />
@@ -278,8 +288,13 @@ const MinePage: React.FC = () => {
                     x
                   </div>
                 )}
+                {dailyCombo[2] && dailyComboData?.is_submitted && (
+                  <div className="absolute right-0 top-0 text-xs p-1 rounded-full h-6 w-6 flex justify-center ">
+                    {dailyComboCards(2, "is_correct") === true ? "✅" : "❌"}
+                  </div>
+                )}
                 <img
-                  src={dailyComboCards(2)}
+                  src={dailyComboCards(2, "image")}
                   alt="Daily Combo"
                   className="mx-auto w-12 h-12"
                 />
@@ -293,13 +308,34 @@ const MinePage: React.FC = () => {
                     x
                   </div>
                 )}
+                {dailyCombo[3] && dailyComboData?.is_submitted && (
+                  <div className="absolute right-0 top-0 text-xs p-1 rounded-full h-6 w-6 flex justify-center ">
+                    {dailyComboCards(3, "is_correct") === true ? "✅" : "❌"}
+                  </div>
+                )}
                 <img
-                  src={dailyComboCards(3)}
+                  src={dailyComboCards(3, "image")}
                   alt="Daily Combo"
                   className="mx-auto w-12 h-12"
                 />
               </div>
             </div>
+            {dailyComboData?.is_submitted && (
+              <div className="flex justify-center items-center gap-2 mt-2">
+                <p className="text-md text-[#451e0f] font-medium">Daily Combo Bonus:</p>
+                <div className="flex items-center justify-center space-x-1">
+                  <img
+                    src={dollarCoin}
+                    alt="Dollar Coin"
+                    className="w-[18px] h-[18px]"
+                  />
+                  <p className="text-[#451e0f]">
+                    {Math.floor(dailyComboData?.bonus_coins)?.toLocaleString()}
+                  </p>
+                  {/* <Info size={20} className="text-[#451e0f]" /> */}
+                </div>
+              </div>
+            )}
             {dailyCombo.every((i: number) => i !== null) &&
               !dailyComboData?.is_submitted && (
                 <div className="mt-2 w-full flex justify-center">
