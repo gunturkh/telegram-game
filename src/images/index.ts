@@ -24,6 +24,10 @@ import generalmanager from "./generalmanager.png";
 import businessman from "./businessman.png";
 import chairman from "./chairman.png";
 import coin from "./coin.png";
+import energy from "./energy.png";
+import tap from "./tap.png";
+import boost from "./boost.png";
+import limit from "./limit.png";
 
 export {
   hamsterExchange,
@@ -51,5 +55,9 @@ export {
   generalmanager,
   businessman,
   chairman,
-  coin
+  coin,
+  energy,
+  tap,
+  limit,
+  boost,
 };

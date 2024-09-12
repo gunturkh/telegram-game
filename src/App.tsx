@@ -14,6 +14,7 @@ import { useDebounce } from "@uidotdev/usehooks";
 import usePlayer from "./_hooks/usePlayer";
 import LevelPage from "./pages/Level";
 import { useQueryClient } from "@tanstack/react-query";
+import BoostPage from "./pages/Boost";
 
 const App: React.FC = () => {
   const { setAuthToken } = useAuthStore();
@@ -129,6 +130,7 @@ const App: React.FC = () => {
         <Route path="/friends" element={<FriendsPage />} />
         <Route path="/earn" element={<EarnPage />} />
         <Route path="/level" element={<LevelPage />} />
+        <Route path="/boost" element={<BoostPage />} />
       </Routes>
       <Home />
     </Router>

@@ -1,6 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import "../App.css";
-import { dailyCombo, dailyReward, dollarCoin } from "../images";
+import {
+  boost,
+  dailyCombo,
+  dailyReward,
+  dollarCoin,
+  energy as energyIcon,
+} from "../images";
 import BottomTab from "../components/BottomTab";
 import { usePlayerStore } from "../store/player";
 import Points from "../components/Points";
@@ -281,10 +287,20 @@ const Home: React.FC = () => {
                 </div>
                 <div className="text-[#451e0f] px-4 w-full flex flex-col gap-2">
                   <div className="flex w-full items-center justify-between">
-                    <span className="text-[15px]">Energy</span>
-                    <span className="text-[15px] font-semibold">
-                      {energy} / {playerData?.tap_earnings?.max_taps}
-                    </span>
+                    <div className="flex justify-start items-center gap-2">
+                      <img
+                        src={energyIcon}
+                        alt={"Energy Icon"}
+                        className="w-8 h-8"
+                      />
+                      <span className="text-[15px] font-semibold">
+                        {energy} / {playerData?.tap_earnings?.max_taps}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2" onClick={()=> navigate("/boost")}>
+                      <img src={boost} alt={"Boost Icon"} className="w-8 h-8" />
+                      <span>Boost</span>
+                    </div>
                   </div>
                   <div className="w-full relative rounded-full h-[16px] bg-[#012237] border border-[#073755]">
                     <div

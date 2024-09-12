@@ -159,6 +159,22 @@ const usePlayer = () => {
       }
     },
   });
+  const queryBoost = useQuery({
+    staleTime: Infinity,
+    queryKey: ["boost"],
+    queryFn: async () => {
+      try {
+        const response = await http.get("/boost");
+        return response.data?.data;
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          throw new Error("Axios Error");
+        }
+
+        throw new Error("Unknown Error");
+      }
+    },
+  });
   // const queryPointsPreview = useQuery({
   //   queryKey: ["points-preview"],
   //   queryFn: async () => {
@@ -384,6 +400,41 @@ const usePlayer = () => {
       });
     },
   });
+  const mutationBoost = useMutation({
+    mutationFn: async (data: { boost_id: string }) => {
+      try {
+        const response = await http.post("/boost", data);
+        return response.data?.data;
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          throw new Error(error.message);
+        }
+
+        throw new Error("Unknown Error");
+      }
+    },
+    onSuccess: (data, variables) => {
+      console.log("Success apply boost!", data, variables);
+      toast.success(`Success apply boost`, {
+        style: {
+          borderRadius: "10px",
+          background: "#333",
+          color: "#fff",
+        },
+      });
+      queryClient.invalidateQueries({ queryKey: ["boost"] });
+      queryClient.invalidateQueries({ queryKey: ["player"] });
+    },
+    onError: () => {
+      toast.error("Failed to apply boost", {
+        style: {
+          borderRadius: "10px",
+          background: "#333",
+          color: "#fff",
+        },
+      });
+    },
+  });
   return {
     // export all queries
     query,
@@ -393,6 +444,7 @@ const usePlayer = () => {
     queryDailyCombo,
     queryReferral,
     queryRank,
+    queryBoost,
     // queryPointsPreview,
     // export all mutations
     mutationTap,
@@ -401,6 +453,7 @@ const usePlayer = () => {
     mutationCheckTask,
     mutationDailyCombo,
     mutationUploadImage,
+    mutationBoost,
   };
 };
 export default usePlayer;
