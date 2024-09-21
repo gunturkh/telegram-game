@@ -104,7 +104,7 @@ const EarnPage = () => {
           />
           <div className="text-4xl font-bold text-white">Daily reward</div>
           <div className="text-md text-center font-light">
-            Accrue coins for logging into the game daily without skipping
+            Accrue points for logging into the game daily without skipping
           </div>
           <div className="grid grid-cols-4 grid-rows-4 w-full gap-2">
             {dailyReward?.rewards_by_day?.map((r, rIdx) => {
@@ -271,7 +271,7 @@ const EarnPage = () => {
       <Toast ref={toast}></Toast>
       <div className="flex flex-col justify-center items-center text-white py-8 gap-4">
         <img src={dollarCoin} alt="Dollar Coin" className="w-20 h-20" />
-        <div className="text-4xl font-bold text-[#e8af00]">Earn more coins</div>
+        <div className="text-4xl font-bold text-[#e8af00]">Earn more points</div>
         <div className="text-md font-light">
           Complete tasks to receive bonuses
         </div>

@@ -310,6 +310,7 @@ const usePlayer = () => {
         },
       });
       queryClient.invalidateQueries({ queryKey: ["tasks"] });
+      queryClient.invalidateQueries({ queryKey: ["player"] });
     },
     onError: () => {
       toast.error("Failed to complete task", {
