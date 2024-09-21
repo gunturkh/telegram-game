@@ -544,13 +544,13 @@ const MinePage: React.FC = () => {
                         </div>
                         <div className="flex flex-row w-full items-center border-t-[0.5px] border-[#e8af00]">
                           <p
-                            className={`text-md font-semibold w-20 p-4 border-r-[0.5px] border-[#e8af00] ${
+                            className={`text-md font-semibold w-18 p-4 border-r-[0.5px] border-[#e8af00] ${
                               c?.level > 0 ? "text-white" : "text-neutral-500"
                             }`}
                           >
                             {c.level === 25 ? "MAX" : `lvl ${c.level}`}
                           </p>
-                          <div className="flex items-center space-x-1 flex-1 p-4">
+                          <div className="flex items-center space-x-1 flex-1 p-4 text-sm">
                             {c.level === 25 && (
                               <p className="text-[10px]">You owned this card</p>
                             )}
