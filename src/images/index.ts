@@ -38,6 +38,8 @@ import giftboxnew from "./giftboxnew.png";
 import multitapnew from "./multitapnew.png";
 import telegram1 from "./telegram-1.png";
 import loadingnewdesign from "./loadingnewdesign.png";
+import rightarrow from "./rightarrow.png";
+import leftarrow from "./leftarrow.png";
 
 export {
   hamsterExchange,
@@ -80,4 +82,6 @@ export {
   multitapnew,
   telegram1,
   loadingnewdesign,
+  rightarrow,
+  leftarrow,
 };
