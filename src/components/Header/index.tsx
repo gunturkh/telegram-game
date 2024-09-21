@@ -32,7 +32,7 @@ function Header() {
   return (
     <div className="font-figtree px-4 z-10">
       <div className="flex items-center space-x-2 pt-4">
-        <div className="p-1 rounded-lg border-[#451e0f]">
+        <div className="p-1 rounded-lg border-[#e8af00]">
           <img src={coin} alt={"Chipmunk Coin"} className="w-8 h-8" />
         </div>
         <div
@@ -80,7 +80,7 @@ function Header() {
             </div>
           </div>
         </div>
-        <div className="flex items-center w-2/3 border-2 border-white rounded-full px-4 py-[2px] bg-[#fff]/[0.2] max-w-64">
+        <div className="flex items-center w-1/2 border-2 border-white rounded-full px-4 py-[2px] bg-[#fff]/[0.2] max-w-64">
           <img
             onClick={() => {
               if (__DEV__) {
@@ -90,7 +90,7 @@ function Header() {
             }}
             src={playerData?.level?.current_level_image_url || ""}
             alt={playerData?.level?.current_level_name || "Chipmunk"}
-            className="w-8 h-8"
+            className="w-10 h-10"
           />
           <div className="h-[32px] w-[2px] bg-white mx-2"></div>
           <div

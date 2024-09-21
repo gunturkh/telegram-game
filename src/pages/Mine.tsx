@@ -330,7 +330,7 @@ const MinePage: React.FC = () => {
             </div>
             {dailyComboData?.is_submitted && (
               <div className="flex justify-center items-center gap-2 mt-2">
-                <p className="text-md text-[#451e0f] font-medium">
+                <p className="text-md text-[#e8af00] font-medium">
                   Daily Combo Bonus:
                 </p>
                 <div className="flex items-center justify-center space-x-1">
@@ -339,7 +339,7 @@ const MinePage: React.FC = () => {
                     alt="Dollar Coin"
                     className="w-[18px] h-[18px]"
                   />
-                  <p className="text-[#451e0f]">
+                  <p className="text-[#e8af00]">
                     {Math.floor(dailyComboData?.accquired_bonus_coins ?? 0)?.toLocaleString()}
                   </p>
                   {/* <Info size={20} className="text-[#451e0f]" /> */}
@@ -353,7 +353,7 @@ const MinePage: React.FC = () => {
                     onClick={() => {
                       mutateDailyCombo({ combo: dailyCombo });
                     }}
-                    className="bg-orange-500 px-2 py-1 rounded-md"
+                    className="bg-[#e8af00] text-[#212121] text-xl font-semibold px-2 py-1 rounded-md"
                   >
                     Submit Combo
                   </button>
@@ -682,7 +682,7 @@ const MinePage: React.FC = () => {
               }}
             >
               <Sheet.Container>
-                <Sheet.Header className="bg-[#451e0f]">
+                <Sheet.Header className="bg-[#151515]">
                   <div className="w-full flex justify-end px-4">
                     <button
                       className="text-white text-lg font-bold"
@@ -692,7 +692,7 @@ const MinePage: React.FC = () => {
                     </button>
                   </div>
                 </Sheet.Header>
-                <Sheet.Content className="bg-[#451e0f] text-white overflow-scroll no-scrollbar">
+                <Sheet.Content className="bg-[#151515] text-white overflow-scroll no-scrollbar">
                   {/* Your sheet content goes here */}
                   <div className="flex p-4 flex-col w-full justify-center items-center gap-5">
                     <img src={dollarCoin} className="mx-auto w-20 h-20" />
@@ -705,7 +705,7 @@ const MinePage: React.FC = () => {
                     </h1>
                     <div className="absolute bottom-4 w-full px-6 z-50">
                       <button
-                        className="flex justify-center w-full bg-[#904728] rounded-lg px-6 py-4"
+                        className="flex justify-center w-full bg-[#e8af00] text-[#212121] text-xl font-semibold rounded-lg px-6 py-4"
                         onClick={() => setDailyComboRewardModal(false)}
                       >
                         Better luck next time!

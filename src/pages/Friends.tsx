@@ -83,10 +83,12 @@ const FriendsPage = () => {
 
       <div className="flex justify-start items-start text-[#e8af00] px-5 py-2 gap-2">
         <div className="text-md font-semibold">Friends List</div>
-        <span className="text-[#e8af00]">{`(${refferalData.length})`}</span>
+        {refferalData && (
+          <span className="text-[#e8af00]">{`(${refferalData?.length})`}</span>
+        )}
       </div>
       <div className="flex flex-col justify-center items-center text-white px-5 gap-4 mb-40">
-        {
+        {refferalData &&
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           refferalData.map((s: any) => {
             return (

@@ -186,7 +186,7 @@ const EarnPage = () => {
     return (
       <>
         {" "}
-        <div className="flex p-4 flex-col w-full justify-center items-center gap-5">
+        <div className="flex p-4 flex-col font-figtree w-full justify-center items-center gap-5">
           <img
             src={content.image}
             alt="Referral Gift"
@@ -199,7 +199,7 @@ const EarnPage = () => {
 
           {content?.type === "with_link" && content?.modal_link_url && (
             <div
-              className={`text-center w-full bg-[#904728]/80 text-white py-4 rounded-md`}
+              className={`text-center w-full text-xl font-semibold bg-[#e8af00] text-[#212121] py-4 rounded-md`}
               onClick={() => {
                 WebApp.openLink(content.modal_link_url as string);
               }}
@@ -218,8 +218,8 @@ const EarnPage = () => {
         <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 w-[calc(100%-2rem)] max-w-xl  flex justify-around items-center z-50 rounded-3xl text-3xl gap-1">
           <div
             className={`text-center w-full ${
-              enableCheckButton() ? "bg-[#904728]/80" : "bg-neutral-200/20"
-            } text-white py-4 rounded-md`}
+              enableCheckButton() ? "bg-[#e8af00]" : "bg-neutral-200/20"
+            } text-[#212121] text-3xl font-semibold py-4 rounded-md`}
             onClick={() => {
               if (!content.is_completed) {
                 if (ls && now >= JSON.parse(ls)) {
@@ -230,7 +230,7 @@ const EarnPage = () => {
                       image: image,
                     }),
                   });
-                  setStatus('initial')
+                  setStatus("initial");
                   setOpen(false);
                 }
                 if (!ls) {
@@ -267,17 +267,18 @@ const EarnPage = () => {
     } else return null;
   };
   return (
-    <div className="bg-[#fff3b2] flex flex-col justify-start min-h-screen h-100%">
+    <div className="bg-[#151515] flex flex-col justify-start min-h-screen h-100% font-figtree">
       <Toast ref={toast}></Toast>
-      <div className="flex flex-col justify-center items-center text-[#451e0f] py-8 gap-4">
+      <div className="flex flex-col justify-center items-center text-white py-8 gap-4">
         <img src={dollarCoin} alt="Dollar Coin" className="w-20 h-20" />
-        <div className="text-4xl font-bold">Earn more coins</div>
+        <div className="text-4xl font-bold text-[#e8af00]">Earn more coins</div>
         <div className="text-md font-light">
-          You and your friends will receive bonuses
+          Complete tasks to receive bonuses
         </div>
+        <div className="w-full h-[1px] bg-[#e8af00]"></div>
       </div>
 
-      <div className="px-4 text-[#451e0f] text-md font-semibold">
+      <div className="px-4 text-[#e8af00] text-md font-semibold">
         Daily Tasks
       </div>
 
@@ -288,9 +289,9 @@ const EarnPage = () => {
         }}
         className="flex flex-col justify-center items-center text-white p-4 gap-4"
       >
-        <div className="w-full flex gap-2 bg-[#451e0f] rounded-md p-2 mx-4 ">
+        <div className="w-full flex gap-2 bg-[#303030] border border-[#b7b7b7] rounded-2xl p-2 mx-4">
           <img src={calendar} alt="Referral Gift" className="mx-4 w-12 h-12" />
-          <div className="flex flex-col ">
+          <div className="flex flex-col w-full">
             <div className="text-md font-bold">Daily Reward</div>
             <div className="flex justify-start items-center gap-1">
               <img
@@ -298,17 +299,22 @@ const EarnPage = () => {
                 alt="Dollar Coin"
                 className="w-[12px] h-[12px]"
               />
-              <div className="text-xs flex items-center gap-2">
+              <div className="text-xs flex items-center gap-2 w-full">
                 <p className="text-yellow-400 font-semibold">
                   +{kFormatter(dailyReward?.reward_coins as number)}
                 </p>
+                {dailyReward?.is_completed && (
+                  <div className="flex-1 text-right mr-2">
+                    <p className="text-[#c4ff55] font-semibold">Completed</p>
+                  </div>
+                )}
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="px-4 text-[#451e0f] text-md font-semibold">
+      <div className="px-4 text-[#e8af00] text-md font-semibold">
         Tasks list
       </div>
 
@@ -322,12 +328,12 @@ const EarnPage = () => {
                 setRewardType(t.id);
                 setSheetContent(t);
               }}
-              className="flex flex-col justify-center items-center text-white px-4 py-1 gap-4"
+              className="flex flex-col w-full justify-center items-center text-white px-4 py-1 gap-4"
             >
               <div
                 className={`w-full flex gap-2 ${
-                  t.is_completed ? "bg-[#451e0f] opacity-60" : "bg-[#451e0f]"
-                } rounded-md p-2 mx-4 `}
+                  t.is_completed ? "opacity-60 border border-[#c4ff55]" : ""
+                } bg-[#303030] border border-[#b7b7b7] rounded-2xl p-2 mx-4`}
               >
                 <img
                   src={t.image}
@@ -342,14 +348,16 @@ const EarnPage = () => {
                       alt="Dollar Coin"
                       className="w-4 h-4"
                     />
-                    <div className="text-xs flex items-center gap-2">
+                    <div className="text-xs flex items-center gap-2 w-full">
                       <p className="text-yellow-400 font-semibold">
                         +{kFormatter(t.reward_coins)}
                       </p>
                       {t.is_completed && (
-                        <p className="text-green-400 font-semibold">
-                          Completed
-                        </p>
+                        <div className="flex-1 text-right mr-2">
+                          <p className="text-[#c4ff55] font-semibold">
+                            Completed
+                          </p>
+                        </div>
                       )}
                     </div>
                   </div>
@@ -373,7 +381,7 @@ const EarnPage = () => {
         }}
       >
         <Sheet.Container>
-          <Sheet.Header className="bg-[#451e0f]">
+          <Sheet.Header className="bg-[#151515]">
             <div className="w-full flex justify-end px-4">
               <button
                 className="text-white text-lg font-bold"
@@ -383,7 +391,7 @@ const EarnPage = () => {
               </button>
             </div>
           </Sheet.Header>
-          <Sheet.Content className="bg-[#451e0f] text-white overflow-scroll">
+          <Sheet.Content className="bg-[#151515] text-white overflow-scroll">
             {/* Your sheet content goes here */}
             <DynamicSheetContent type={rewardType} content={sheetContent} />
 
