@@ -137,7 +137,7 @@ const Home: React.FC = () => {
     }
   };
 
-  const energyPercentage = (energy / playerData?.tap_earnings?.max_taps) * 100;
+  // const energyPercentage = (energy / playerData?.tap_earnings?.max_taps) * 100;
   useEffect(() => {
     if (!isPaused) {
       intervalRef.current = setInterval(() => {
@@ -275,7 +275,7 @@ const Home: React.FC = () => {
 
               <div className="px-2 w-50 mt-auto flex flex-col items-center justify-center">
                 <div
-                  className="w-[14rem] h-[14rem] p-4 rounded-full circle-outer"
+                  className="w-[13rem] h-[13rem] p-4 rounded-full circle-outer"
                   onTouchStart={handleCardClick}
                 >
                   <div className="w-full h-full rounded-full circle-inner">
@@ -288,29 +288,29 @@ const Home: React.FC = () => {
                     {/* <img src="https://drive.google.com/file/d/188oXT8FnUj1byookWrvnw2_W0uswTT8d/view"/> */}
                   </div>
                 </div>
-                <div className="text-white font-figtree px-4 w-full flex flex-col gap-2">
+                <div className="text-white -mt-3 font-figtree pl-1 pr-4 w-full flex flex-col gap-2">
                   <div className="flex w-full items-center justify-between">
                     <div className="flex justify-start items-center gap-2">
                       <img
                         src={energynew}
                         alt={"Energy Icon"}
-                        className="w-10 h-10"
+                        className="w-8 h-8"
                       />
                       <span className="text-[15px] font-medium">
                         {energy} / {playerData?.tap_earnings?.max_taps}
                       </span>
                     </div>
                     <div className="flex items-center font-medium" onClick={()=> navigate("/boost")}>
-                      <img src={boosternew} alt={"Boost Icon"} className="w-14 h-14" />
+                      <img src={boosternew} alt={"Boost Icon"} className="w-10 h-10" />
                       <span>Boost</span>
                     </div>
                   </div>
-                  <div className="w-full relative rounded-full h-[20px] bg-[#012237] border-white border-2">
+                  {/* <div className="w-full relative rounded-full h-[20px] bg-[#012237] border-white border-2">
                     <div
                       className="absolute left-0 h-full rounded-full bg-gradient-to-r from-[#e3932a] via-[#e7ac04] to-[#f7d724]"
                       style={{ width: `${energyPercentage}%` }}
                     ></div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
