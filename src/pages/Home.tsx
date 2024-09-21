@@ -318,8 +318,7 @@ const Home: React.FC = () => {
         </div>
 
         <Sheet
-          // isOpen={passiveEarnModal}
-          isOpen={true}
+          isOpen={passiveEarnModal}
           snapPoints={[0.5]}
           initialSnap={0}
           disableDrag={false}

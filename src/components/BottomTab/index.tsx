@@ -14,7 +14,7 @@ function BottomTab() {
   } = usePlayer();
   const { setRoute } = usePlayerStore();
   return (
-    <div className="fixed font-figtree bottom-0 left-1/2 transform -translate-x-1/2 w-[calc(100%-2rem)] max-w-xl bg-[#343434] flex justify-around items-center z-50 rounded-3xl text-xs h-20">
+    <div className="fixed font-figtree bottom-1 left-1/2 transform -translate-x-1/2 w-[calc(100%-2rem)] max-w-xl bg-[#343434] flex justify-around items-center z-50 rounded-3xl text-xs h-20 border-2 border-[#807c7c]">
       <div
         className={`text-center text-white w-1/5 ${
           pathname === "/" &&
