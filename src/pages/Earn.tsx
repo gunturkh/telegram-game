@@ -172,17 +172,20 @@ const EarnPage = () => {
     const ls = localStorage.getItem(`${content.id}-clicked`);
     const enableCheckButton = () => {
       if (status === "uploading") return false;
-      if (content.is_completed) {
+      else if (content.is_completed) {
         localStorage.removeItem(`${content.id}-clicked`);
         return false;
       }
-      if (!ls) return true;
-      if (ls && JSON.parse(ls)) {
+      else if (content.type === "invite_friends") return true;
+      if (ls) {
+        console.log(
+          "🚀 ~ enableCheckButton ~ ls 2:",
+          `${content.id}-clicked`,
+          now >= JSON.parse(ls)
+        );
         return now >= JSON.parse(ls);
       } else return false;
     };
-    // console.log("enableCheckButton", enableCheckButton);
-    // console.log("content", content);
     return (
       <>
         {" "}
@@ -202,6 +205,7 @@ const EarnPage = () => {
               className={`text-center w-full text-xl font-semibold bg-[#e8af00] text-[#212121] py-4 rounded-md`}
               onClick={() => {
                 WebApp.openLink(content.modal_link_url as string);
+                localStorage.setItem(`${content.id}-clicked`, "0");
               }}
             >
               <p>{content?.modal_link_button || "Join"}</p>
@@ -223,7 +227,6 @@ const EarnPage = () => {
             onClick={() => {
               if (!content.is_completed) {
                 if (ls && now >= JSON.parse(ls)) {
-                  // console.log("enable");
                   mutate({
                     task_id: content?.id as string,
                     ...(content?.requires_admin_approval && {
@@ -234,13 +237,14 @@ const EarnPage = () => {
                   setOpen(false);
                 }
                 if (!ls) {
+                  console.log("🚀 ~ RewardSheetContent ~ ls set LS:", ls);
                   localStorage.setItem(
                     `${content.id}-clicked`,
-                    JSON.stringify(
-                      now + (content.reward_delay_seconds as number)
-                    )
+                    "0"
+                    // JSON.stringify(
+                    //   now + (content.reward_delay_seconds as number)
+                    // )
                   );
-                  // console.log("clicked", ls, content, now);
                 }
               }
             }}
@@ -271,7 +275,9 @@ const EarnPage = () => {
       <Toast ref={toast}></Toast>
       <div className="flex flex-col justify-center items-center text-white py-8 gap-4">
         <img src={dollarCoin} alt="Dollar Coin" className="w-20 h-20" />
-        <div className="text-4xl font-bold text-[#e8af00]">Earn more points</div>
+        <div className="text-4xl font-bold text-[#e8af00]">
+          Earn more points
+        </div>
         <div className="text-md font-light">
           Complete tasks to receive bonuses
         </div>
@@ -395,9 +401,11 @@ const EarnPage = () => {
             {/* Your sheet content goes here */}
             <DynamicSheetContent type={rewardType} content={sheetContent} />
 
-            {sheetContent && sheetContent?.status && sheetContent?.requires_admin_approval && (
-              <TaskSubmissionStatus status={sheetContent.status} />
-            )}
+            {sheetContent &&
+              sheetContent?.status &&
+              sheetContent?.requires_admin_approval && (
+                <TaskSubmissionStatus status={sheetContent.status} />
+              )}
             {sheetContent?.requires_admin_approval &&
               (sheetContent?.status === "not_completed" ||
                 sheetContent?.status === "rejected") && (
