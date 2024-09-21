@@ -3,7 +3,7 @@
 }
 
 .top-glow {
-  box-shadow: 0 -26px 20px rgba(243, 186, 47, 0.3);
+  box-shadow: 0 -5px 30px #f9d8383b;
 }
 
 /* Define the keyframes for the blinking animation */
@@ -34,7 +34,7 @@
 }
 
 .circle-outer {
-  background: linear-gradient(to bottom, #451e0f, #202731);
+  background: linear-gradient(to bottom, #ffda6a, #d8a000, #865300);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -45,7 +45,13 @@
 }
 
 .circle-inner {
-  background: radial-gradient(circle, #904728, #282e3e);
+  background: radial-gradient(
+    circle,
+    #ffda6a 0%,
+    #d89e008a 23%,
+    #593e00e6 31%,
+    #201400 51%
+  );
   display: flex;
   align-items: center;
   justify-content: center;

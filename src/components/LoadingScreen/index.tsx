@@ -1,4 +1,4 @@
-import { loadingImage } from "../../images";
+import { loadingnewdesign } from "../../images";
 
 function LoadingScreen() {
   return (
@@ -25,18 +25,18 @@ function LoadingScreen() {
         </svg>
         <div className="text-white">Loading</div>
       </div>
-      <div className="absolute w-full">
+      {/* <div className="absolute w-full">
         <div className="flex justify-center item w-full items-center h-screen">
           <div className="absolute bottom-7 flex flex-col items-center">
             <h1 className="text-[7vw] text-center font-bold text-orange-500 font-['Copperplate']">Chipmunk Kombat Token</h1>
-            {/* <h2 className="text-xl text-white">Will Be Launched</h2> */}
+            <h2 className="text-xl text-white">Will Be Launched</h2>
             <h3 className="text-5xl font-bold text-white font-['Copperplate']">Multichain</h3>
           </div>
         </div>
-      </div>
+      </div> */}
 
       <img
-        src={loadingImage}
+        src={loadingnewdesign}
         alt="Loading"
         className="w-full h-screen object-cover "
       />

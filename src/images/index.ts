@@ -28,6 +28,16 @@ import energy from "./energy.png";
 import tap from "./tap.png";
 import boost from "./boost.png";
 import limit from "./limit.png";
+import boosternew from "./boosternew.png";
+import chipmunklogolabel from "./chipmunklogolabel.png";
+import dailycombonew from "./dailycombonew.png";
+import dailyrewardnew from "./dailyrewardnew.png";
+import energylimitnew from "./energylimitnew.png";
+import energynew from "./energynew.png";
+import giftboxnew from "./giftboxnew.png";
+import multitapnew from "./multitapnew.png";
+import telegram1 from "./telegram-1.png";
+import loadingnewdesign from "./loadingnewdesign.png";
 
 export {
   hamsterExchange,
@@ -60,4 +70,14 @@ export {
   tap,
   limit,
   boost,
+  boosternew,
+  chipmunklogolabel,
+  dailycombonew,
+  dailyrewardnew,
+  energylimitnew,
+  energynew,
+  giftboxnew,
+  multitapnew,
+  telegram1,
+  loadingnewdesign,
 };

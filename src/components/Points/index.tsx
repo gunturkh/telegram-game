@@ -23,13 +23,13 @@ function Points() {
 
 
   return (
-    <div className="px-4 mt-4 flex justify-center">
+    <div className="px-4 mt-4 mb-4 flex justify-center font-figtree">
       <div className="px-4 py-2 flex items-center space-x-2">
         <img src={dollarCoin} alt="Dollar Coin" className="w-10 h-10" />
         {isLoading ? (
-          <p className="text-4xl text-[#451e0f]">-</p>
+          <p className="text-4xl text-white">-</p>
         ) : (
-          <p className="text-4xl text-[#451e0f]">
+          <p className="text-4xl text-white">
             {Math.floor(points)?.toLocaleString()}
           </p>
         )}

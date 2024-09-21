@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import "../App.css";
 import {
-  boost,
-  dailyCombo,
-  dailyReward,
+  boosternew,
+  chipmunklogolabel,
+  dailycombonew,
+  dailyrewardnew,
   dollarCoin,
-  energy as energyIcon,
+  energynew,
 } from "../images";
 import BottomTab from "../components/BottomTab";
 import { usePlayerStore } from "../store/player";
@@ -203,16 +204,17 @@ const Home: React.FC = () => {
   return (
     <div className={`bg-black flex justify-center fixed w-full z-0`}>
       <>
-        <div className="w-full bg-[#fff3b2] text-white h-screen font-bold flex flex-col max-w-xl">
+        <div className="w-full bg-[#151515] text-white h-screen font-bold flex flex-col max-w-xl">
           <Header />
 
-          <div className="flex-grow mt-4 bg-[#451e0f] rounded-t-[48px] relative top-glow z-0">
-            <div className="absolute top-[2px] left-0 right-0 bottom-0 bg-[#fff3b2] rounded-t-[46px]">
-              <div className="px-4 mt-6 flex justify-between gap-2">
+          <div className="flex-grow mt-4 bg-[#e8af00] rounded-t-[48px] relative top-glow z-0">
+            <div className="absolute top-[2px] left-0 right-0 bottom-0 bg-[#212121] rounded-t-[46px]">
+              <div className="px-6 mt-6 flex justify-around gap-6">
                 <div
                   onClick={() => navigate("/earn")}
-                  className="bg-[#451e0f] rounded-lg px-4 py-2 w-full relative"
+                  className="bg-[#303030] rounded-2xl px-4 py-2 w-full relative shadow-xl overflow-hidden"
                 >
+                  <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-gradient-to-bl from-[rgba(255,255,255,0.4)] via-transparent to-transparent opacity-30"></div>
                   {taskData?.filter((t) => t.type === "daily_check_in")[0]
                     ?.status === "completed" ? (
                     <div className="absolute right-3 ">✅</div>
@@ -220,14 +222,14 @@ const Home: React.FC = () => {
                     <div className="dot"></div>
                   )}
                   <img
-                    src={dailyReward}
+                    src={dailyrewardnew}
                     alt="Daily Reward"
-                    className="mx-auto w-12 h-12"
+                    className="mx-auto w-14 h-14"
                   />
-                  <p className="text-[10px] text-center text-white mt-1">
+                  <p className="text-[10px] text-center text-[#E8AF00] mt-1">
                     Daily reward
                   </p>
-                  <p className="text-[10px] font-medium text-center text-gray-400 mt-2">
+                  <p className="text-[10px] font-medium text-center text-white mt-1">
                     {dailyRewardTimeLeft}
                   </p>
                 </div>
@@ -247,22 +249,23 @@ const Home: React.FC = () => {
                 </div> */}
                 <div
                   onClick={() => navigate("/mine")}
-                  className="bg-[#451e0f] rounded-lg px-4 py-2 w-full relative"
+                  className="bg-[#303030] rounded-2xl px-4 py-2 w-full relative shadow-xl overflow-hidden"
                 >
+                  <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-gradient-to-bl from-[rgba(255,255,255,0.4)] via-transparent to-transparent opacity-30"></div>
                   {dailyComboData?.is_submitted ? (
                     <div className="absolute right-3 ">✅</div>
                   ) : (
                     <div className="dot"></div>
                   )}
                   <img
-                    src={dailyCombo}
+                    src={dailycombonew}
                     alt="Daily Combo"
-                    className="mx-auto w-12 h-12"
+                    className="mx-auto w-14 h-14"
                   />
-                  <p className="text-[10px] text-center text-white mt-1">
+                  <p className="text-[10px] text-center text-[#E8AF00] mt-1">
                     Daily combo
                   </p>
-                  <p className="text-[10px] font-medium text-center text-gray-400 mt-2">
+                  <p className="text-[10px] font-medium text-center text-white mt-1">
                     {dailyComboTimeLeft}
                   </p>
                 </div>
@@ -285,26 +288,26 @@ const Home: React.FC = () => {
                     {/* <img src="https://drive.google.com/file/d/188oXT8FnUj1byookWrvnw2_W0uswTT8d/view"/> */}
                   </div>
                 </div>
-                <div className="text-[#451e0f] px-4 w-full flex flex-col gap-2">
+                <div className="text-white font-figtree px-4 w-full flex flex-col gap-2">
                   <div className="flex w-full items-center justify-between">
                     <div className="flex justify-start items-center gap-2">
                       <img
-                        src={energyIcon}
+                        src={energynew}
                         alt={"Energy Icon"}
-                        className="w-8 h-8"
+                        className="w-10 h-10"
                       />
-                      <span className="text-[15px] font-semibold">
+                      <span className="text-[15px] font-medium">
                         {energy} / {playerData?.tap_earnings?.max_taps}
                       </span>
                     </div>
-                    <div className="flex items-center gap-2" onClick={()=> navigate("/boost")}>
-                      <img src={boost} alt={"Boost Icon"} className="w-8 h-8" />
+                    <div className="flex items-center font-medium" onClick={()=> navigate("/boost")}>
+                      <img src={boosternew} alt={"Boost Icon"} className="w-14 h-14" />
                       <span>Boost</span>
                     </div>
                   </div>
-                  <div className="w-full relative rounded-full h-[16px] bg-[#012237] border border-[#073755]">
+                  <div className="w-full relative rounded-full h-[20px] bg-[#012237] border-white border-2">
                     <div
-                      className="absolute left-0 h-full rounded-full bg-gradient-to-r from-[#dc7b0c] to-[#fff973]"
+                      className="absolute left-0 h-full rounded-full bg-gradient-to-r from-[#e3932a] via-[#e7ac04] to-[#f7d724]"
                       style={{ width: `${energyPercentage}%` }}
                     ></div>
                   </div>
@@ -315,7 +318,8 @@ const Home: React.FC = () => {
         </div>
 
         <Sheet
-          isOpen={passiveEarnModal}
+          // isOpen={passiveEarnModal}
+          isOpen={true}
           snapPoints={[0.5]}
           initialSnap={0}
           disableDrag={false}
@@ -326,7 +330,8 @@ const Home: React.FC = () => {
           }}
         >
           <Sheet.Container>
-            <Sheet.Header className="bg-[#451e0f]">
+            <Sheet.Header className="bg-[#151515]">
+              <img src={chipmunklogolabel} alt="logo" className="absolute z-10 -top-10 left-1/2 transform -translate-x-1/2 w-30 h-30" />
               <div className="w-full flex justify-end px-4">
                 <button
                   className="text-white text-lg font-bold"
@@ -336,24 +341,24 @@ const Home: React.FC = () => {
                 </button>
               </div>
             </Sheet.Header>
-            <Sheet.Content className="bg-[#451e0f] text-white">
+            <Sheet.Content className="bg-[#151515] text-white font-figtree">
               {/* Your sheet content goes here */}
-              <div className="flex flex-1 p-4 flex-col w-full justify-center items-center gap-5">
-                <div className="flex flex-1 flex-col justify-center gap-1 items-center">
-                  <p className="text-3xl font-bold">Passive Profit</p>
-                  <div className="flex flex-1 items-center space-x-4">
+              <div className="flex flex-1 p-4 flex-col w-full items-center gap-5">
+                <div className="flex bg-[#212121] w-full pt-14 pb-8 rounded-xl flex-col justify-center gap-1 items-center">
+                  <p className="text-3xl font-medium">Passive Profit</p>
+                  <div className="flex items-center space-x-4">
                     <img
                       src={dollarCoin}
                       alt="Dollar Coin"
-                      className="w-16 h-16"
+                      className="w-12 h-12"
                     />
-                    <p className="text-3xl text-white font-semibold">
+                    <p className="text-4xl text-[#fed215] font-semibold">
                       +{formatCardsPriceInfo(passiveEarning)}
                     </p>
                   </div>
                 </div>
                 <button
-                  className="h-20 w-full bg-[#904728] rounded-lg px-4 py-2"
+                  className="h-16 w-full bg-[#e8af00] text-[#212121] text-2xl font-semibold rounded-lg px-4 py-2"
                   onClick={() => setPassiveEarnModal(false)}
                 >
                   Thank you, Chipmunk
