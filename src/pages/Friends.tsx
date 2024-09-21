@@ -1,7 +1,7 @@
 import { Toaster } from "react-hot-toast";
 import BottomTab from "../components/BottomTab";
 import Share from "../components/Share";
-import { dollarCoin, gift } from "../images";
+import { dollarCoin, giftboxnew, telegram1 } from "../images";
 import usePlayer from "../_hooks/usePlayer";
 import { balanceFormatter, kFormatter } from "../lib/utils";
 import { __DEV__ } from "../utils/constants";
@@ -36,16 +36,23 @@ const FriendsPage = () => {
     __DEV__ && infoData?.telegram_id === "465670876" ? dummy : data?.stats;
   // console.log("referral stats", data);
   return (
-    <div className="bg-[#fff3b2] flex flex-col justify-start min-h-screen h-100%">
-      <div className="flex flex-col justify-center items-center text-[#451e0f] py-8 gap-4">
-        <div className="text-4xl font-bold">Invite Friends</div>
+    <div className="bg-[#151515] flex flex-col justify-start min-h-screen h-100% font-figtree">
+      <div className="flex flex-col justify-center items-center text-white py-8 gap-4">
+        <img src={telegram1} alt="logo" className="w-20 h-20" />
+        <div className="text-4xl font-bold text-[#e8af00]">Invite Friends</div>
+
         <div className="text-md font-light">
           You and your friends will receive bonuses
         </div>
+        <div className="w-full h-[1px] bg-[#e8af00]"></div>
       </div>
-      <div className="flex flex-col justify-center items-center text-white p-8 gap-4">
-        <div className="w-full items-center flex gap-2 bg-[#451e0f] rounded-md p-2 mx-4 ">
-          <img src={gift} alt="Referral Gift" className="mx-2 w-12 h-12" />
+      <div className="flex flex-col justify-center items-center text-white p-5 gap-4">
+        <div className="w-full items-center flex gap-2 bg-[#303030] border border-[#b7b7b7] rounded-2xl p-2 mx-4 ">
+          <img
+            src={giftboxnew}
+            alt="Referral Gift"
+            className="mx-2 w-12 h-12"
+          />
           <div className="flex flex-col ">
             <div className="text-md font-bold">Invite A Friend</div>
             <div className="flex justify-start items-center gap-1">
@@ -74,15 +81,16 @@ const FriendsPage = () => {
         </div>
       </div>
 
-      <div className="flex flex-col justify-start items-start text-[#451e0f] px-8 py-2">
+      <div className="flex justify-start items-start text-[#e8af00] px-5 py-2 gap-2">
         <div className="text-md font-semibold">Friends List</div>
+        <span className="text-[#e8af00]">{`(${refferalData.length})`}</span>
       </div>
-      <div className="flex flex-col justify-center items-center text-white px-8 gap-4 mb-40">
+      <div className="flex flex-col justify-center items-center text-white px-5 gap-4 mb-40">
         {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
           refferalData.map((s: any) => {
             return (
-              <div className="w-full justify-between flex gap-2 bg-[#451e0f] rounded-md p-2 mx-4 ">
+              <div className="w-full justify-between flex gap-2 bg-[#303030] border border-[#b7b7b7] rounded-2xl p-2 mx-4 ">
                 <div className="flex flex-col px-2 ">
                   <div className="text-sm font-bold">{`${s.first_name} ${s.last_name}`}</div>
                   <div className="flex justify-start items-center gap-1">
