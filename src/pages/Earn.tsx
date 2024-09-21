@@ -395,7 +395,7 @@ const EarnPage = () => {
             {/* Your sheet content goes here */}
             <DynamicSheetContent type={rewardType} content={sheetContent} />
 
-            {sheetContent && sheetContent?.status && (
+            {sheetContent && sheetContent?.status && sheetContent?.requires_admin_approval && (
               <TaskSubmissionStatus status={sheetContent.status} />
             )}
             {sheetContent?.requires_admin_approval &&
