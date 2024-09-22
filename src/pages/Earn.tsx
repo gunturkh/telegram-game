@@ -236,16 +236,16 @@ const EarnPage = () => {
                   setStatus("initial");
                   setOpen(false);
                 }
-                if (!ls) {
-                  console.log("🚀 ~ RewardSheetContent ~ ls set LS:", ls);
-                  localStorage.setItem(
-                    `${content.id}-clicked`,
-                    "0"
-                    // JSON.stringify(
-                    //   now + (content.reward_delay_seconds as number)
-                    // )
-                  );
-                }
+                // if (!ls) {
+                //   console.log("🚀 ~ RewardSheetContent ~ ls set LS:", ls);
+                //   localStorage.setItem(
+                //     `${content.id}-clicked`,
+                //     "0"
+                //     // JSON.stringify(
+                //     //   now + (content.reward_delay_seconds as number)
+                //     // )
+                //   );
+                // }
               }
             }}
           >
