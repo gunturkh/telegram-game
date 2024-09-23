@@ -3,10 +3,9 @@ import BottomTab from "../components/BottomTab";
 import {
   calendar,
   dollarCoin,
-  tap,
-  energy,
-  // boost,
-  limit,
+  energynew,
+  multitapnew,
+  energylimitnew,
   // gift
 } from "../images";
 import usePlayer, { Task } from "../_hooks/usePlayer";
@@ -202,7 +201,7 @@ const BoostPage = () => {
 
           {content?.type === "with_link" && content?.modal_link_url && (
             <div
-              className={`text-center w-full bg-[#904728]/80 text-white py-4 rounded-md`}
+              className={`text-center w-full bg-[#e8af00] text-[#212121] py-4 rounded-md`}
               onClick={() => {
                 WebApp.openLink(content.modal_link_url as string);
               }}
@@ -223,7 +222,7 @@ const BoostPage = () => {
         </div>
         <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 w-[calc(100%-2rem)] max-w-xl  flex justify-around items-center z-50 rounded-3xl text-3xl gap-1">
           <div
-            className={`text-center w-full bg-[#904728]/80 text-white py-4 rounded-md`}
+            className={`text-center w-full bg-[#e8af00] text-[#212121] py-4 rounded-md font-semibold`}
             onClick={() => {
               mutateBoost({
                 boost_id: content?.id as string,
@@ -249,15 +248,15 @@ const BoostPage = () => {
       case "boost_full_available_taps":
         return (
           <img
-            src={energy}
+            src={energynew}
             alt={id}
-            className={`mx-4 ${size === "normal" ? "w-12 h-12" : "w-24 h-24"}`}
+            className={`mx-4 ${size === "normal" ? "w-10 h-10" : "w-24 h-24"}`}
           />
         );
       case "boost_earnings_taps":
         return (
           <img
-            src={tap}
+            src={multitapnew}
             alt={id}
             className={`mx-4 ${size === "normal" ? "w-12 h-12" : "w-24 h-24"}`}
           />
@@ -265,7 +264,7 @@ const BoostPage = () => {
       case "boost_max_taps":
         return (
           <img
-            src={limit}
+            src={energylimitnew}
             alt={id}
             className={`mx-4 ${size === "normal" ? "w-12 h-12" : "w-24 h-24"}`}
           />
@@ -273,7 +272,7 @@ const BoostPage = () => {
       default:
         return (
           <img
-            src={energy}
+            src={energynew}
             alt={id}
             className={`mx-4 ${size === "normal" ? "w-12 h-12" : "w-24 h-24"}`}
           />
@@ -296,13 +295,20 @@ const BoostPage = () => {
   };
 
   return (
-    <div className="bg-[#fff3b2] flex flex-col justify-start min-h-screen h-100%">
+    <div className="bg-[#151515] flex flex-col justify-start min-h-screen h-100% font-figtree">
       <Toast ref={toast}></Toast>
-      <div className="py-8 font-bold">
+      <div className="flex flex-col justify-center items-center text-white py-8 gap-4">
+        <div className="text-2xl font-bold text-[#e8af00]">
+          Boost your earnings
+        </div>
+        <div className="text-sm font-light">
+          Use boosters to increase your mining power
+        </div>
         <Points />
+        <div className="w-full h-[1px] bg-[#e8af00]"></div>
       </div>
 
-      <div className="px-4 text-[#451e0f] text-md font-semibold">Boosters</div>
+      <div className="px-4 text-[#e8af00] text-md font-semibold">Boosters</div>
 
       <div className="h-screen mb-10">
         {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
@@ -319,15 +325,15 @@ const BoostPage = () => {
             >
               <div
                 className={`w-full flex gap-2 ${
-                  b.is_completed ? "bg-[#451e0f] opacity-60" : "bg-[#451e0f]"
-                } rounded-md p-2 mx-4 `}
+                  b.is_completed ? "opacity-60 border border-[#c4ff55]" : ""
+                } bg-[#303030] border border-[#b7b7b7] rounded-2xl p-2 mx-4`}
               >
                 <BoosterImage id={b.id} />
                 <div className="flex flex-col w-full ">
                   <div className="text-md font-bold capitalize">{b.name}</div>
                   {b.quota && (
                     <div className="flex justify-start items-center gap-1">
-                      <div className="text-lg flex items-center gap-2">
+                      <div className="text-xs flex items-center gap-2">
                         <p className="text-yellow-400 font-semibold">
                           {b.used} / {b.quota}
                         </p>
@@ -341,14 +347,16 @@ const BoostPage = () => {
                         alt="Dollar Coin"
                         className="w-4 h-4"
                       />
-                      <div className="text-lg flex items-center gap-2">
+                      <div className="text-xs flex items-center gap-2 w-full">
                         <p className="text-yellow-400 font-semibold">
                           {numberWithCommas(b.price)} : lvl {b.level}
                         </p>
                         {b.is_completed && (
-                          <p className="text-green-400 font-semibold">
-                            Completed
-                          </p>
+                          <div className="flex-1 text-right mr-2">
+                            <p className="text-[#c4ff55] font-semibold">
+                              Completed
+                            </p>
+                          </div>
                         )}
                       </div>
                     </div>
@@ -363,9 +371,6 @@ const BoostPage = () => {
       <Toaster position="top-left" />
       <Sheet
         isOpen={open}
-        // snapPoints={[0.5]}
-        // initialSnap={0}
-        // disableDrag={false}
         onClose={() => setOpen(false)}
         style={{
           zIndex: open ? "9999999" : "-1",
@@ -373,7 +378,7 @@ const BoostPage = () => {
         }}
       >
         <Sheet.Container>
-          <Sheet.Header className="bg-[#451e0f]">
+          <Sheet.Header className="bg-[#151515]">
             <div className="w-full flex justify-end px-4">
               <button
                 className="text-white text-lg font-bold"
@@ -383,7 +388,7 @@ const BoostPage = () => {
               </button>
             </div>
           </Sheet.Header>
-          <Sheet.Content className="bg-[#451e0f] text-white overflow-scroll">
+          <Sheet.Content className="bg-[#151515] text-white overflow-scroll">
             {/* Your sheet content goes here */}
             <DynamicSheetContent type={boosterType} content={sheetContent} />
 
@@ -400,7 +405,6 @@ const BoostPage = () => {
                   <input
                     type="file"
                     onChange={handleFileUpload}
-                    // className="shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-white mb-3 leading-tight focus:outline-none focus:shadow-outline"
                     className="text-sm text-stone-500
                   file:mr-5 file:py-1 file:px-3 file:border-[1px]
                   file:text-xs file:font-medium
