@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import usePlayer from "../../_hooks/usePlayer";
 import { usePlayerStore } from "../../store/player";
 import { dollarCoin } from "../../images";
-
+import useSound from 'use-sound';
 function BottomTab() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -13,6 +13,7 @@ function BottomTab() {
     query: { data: playerData },
   } = usePlayer();
   const { setRoute } = usePlayerStore();
+  const [playSound] = useSound('click.wav');
   return (
     <div className="fixed font-figtree bottom-1 left-1/2 transform -translate-x-1/2 w-[calc(100%-2rem)] max-w-xl bg-[#343434] flex justify-around items-center z-50 rounded-3xl text-xs h-20 border-2 border-[#807c7c]">
       <div
@@ -21,6 +22,7 @@ function BottomTab() {
           "bg-[#212429] border border-[#e8af00] m-1 p-2 rounded-2xl"
         }`}
         onClick={() => {
+          playSound();
           navigate("/");
           setRoute("/");
         }}
@@ -37,6 +39,7 @@ function BottomTab() {
           pathname === "/mine" && "bg-[#212429] border border-[#e8af00] m-1 p-2 rounded-2xl"
         }`}
         onClick={() => {
+          playSound();
           navigate("/mine");
           setRoute("/mine");
         }}
@@ -49,6 +52,7 @@ function BottomTab() {
           pathname === "/friends" && "bg-[#212429] border border-[#e8af00] m-1 p-2 rounded-2xl"
         }`}
         onClick={() => {
+          playSound();
           navigate("/friends");
           setRoute("/friends");
         }}
@@ -61,6 +65,7 @@ function BottomTab() {
           pathname === "/earn" && "bg-[#212429] border border-[#e8af00] m-1 p-2 rounded-2xl"
         }`}
         onClick={() => {
+          playSound();
           navigate("/earn");
           setRoute("/earn");
         }}
