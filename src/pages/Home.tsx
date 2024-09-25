@@ -16,6 +16,7 @@ import Header from "../components/Header";
 import { Sheet } from "react-modal-sheet";
 import { useNavigate } from "react-router-dom";
 import { calculateTimeLeft } from "../lib/utils";
+import useSound from "use-sound";
 
 const Home: React.FC = () => {
   const {
@@ -24,6 +25,7 @@ const Home: React.FC = () => {
     queryDailyCombo: { data: dailyComboData },
   } = usePlayer();
   const navigate = useNavigate();
+  const [playSound] = useSound('click.wav');
   // console.log("player data from react query", playerData);
   // console.log("energy remaining", playerData?.tap_earnings?.available_taps);
   const {
@@ -131,6 +133,7 @@ const Home: React.FC = () => {
         setPoints(pointsToAdd);
         setTaps(1);
         if (!clicks.some((item: { id: number }) => item.id === touchId)) {
+          playSound();
           setClicks({ id: touchId, x: pageX, y: pageY });
         }
       }
@@ -211,7 +214,10 @@ const Home: React.FC = () => {
             <div className="absolute top-[2px] left-0 right-0 bottom-0 bg-[#212121] rounded-t-[46px]">
               <div className="px-6 mt-6 flex justify-around gap-6">
                 <div
-                  onClick={() => navigate("/earn")}
+                  onClick={() => {
+                    playSound();
+                    navigate("/earn");
+                  }}
                   className="bg-[#303030] rounded-2xl px-4 py-2 w-full relative shadow-xl overflow-hidden"
                 >
                   <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-gradient-to-bl from-[rgba(255,255,255,0.4)] via-transparent to-transparent opacity-30"></div>
@@ -248,7 +254,10 @@ const Home: React.FC = () => {
                 </p>
                 </div> */}
                 <div
-                  onClick={() => navigate("/mine")}
+                  onClick={() => {
+                    playSound();
+                    navigate("/mine");
+                  }}
                   className="bg-[#303030] rounded-2xl px-4 py-2 w-full relative shadow-xl overflow-hidden"
                 >
                   <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-gradient-to-bl from-[rgba(255,255,255,0.4)] via-transparent to-transparent opacity-30"></div>
@@ -300,7 +309,9 @@ const Home: React.FC = () => {
                         {energy} / {playerData?.tap_earnings?.max_taps}
                       </span>
                     </div>
-                    <div className="flex items-center font-medium" onClick={()=> navigate("/boost")}>
+                    <div className="flex items-center font-medium" onClick={()=> {
+                      playSound();
+                      navigate("/boost")}}>
                       <img src={boosternew} alt={"Boost Icon"} className="w-10 h-10" />
                       <span>Boost</span>
                     </div>
@@ -322,7 +333,10 @@ const Home: React.FC = () => {
           snapPoints={[0.5]}
           initialSnap={0}
           disableDrag={false}
-          onClose={() => passiveEarnModal(false)}
+          onClose={() => {
+            playSound();
+            passiveEarnModal(false);
+          }}
           style={{
             zIndex: passiveEarnModal ? "9999999" : "-1",
             visibility: passiveEarnModal ? "visible" : "hidden",
@@ -334,7 +348,10 @@ const Home: React.FC = () => {
               <div className="w-full flex justify-end px-4">
                 <button
                   className="text-white text-lg font-bold"
-                  onClick={() => setPassiveEarnModal(false)}
+                  onClick={() => {
+                    playSound();
+                    setPassiveEarnModal(false);
+                  }}
                 >
                   x
                 </button>
@@ -358,14 +375,20 @@ const Home: React.FC = () => {
                 </div>
                 <button
                   className="h-16 w-full bg-[#e8af00] text-[#212121] text-2xl font-semibold rounded-lg px-4 py-2"
-                  onClick={() => setPassiveEarnModal(false)}
+                  onClick={() => {
+                    playSound();
+                    setPassiveEarnModal(false);
+                  }}
                 >
                   Thank you, Chipmunk
                 </button>
               </div>
             </Sheet.Content>
           </Sheet.Container>
-          <Sheet.Backdrop onTap={() => setPassiveEarnModal(false)} />
+          <Sheet.Backdrop onTap={() => {
+            playSound();
+            setPassiveEarnModal(false);
+          }} />
         </Sheet>
         <BottomTab />
         {clicks.map(

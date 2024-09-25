@@ -15,6 +15,7 @@ import {
   calculateTimeLeftUsingTimestamp,
   numberWithCommas,
 } from "../lib/utils";
+import useSound from "use-sound";
 
 const MinePage: React.FC = () => {
   type Card = {
@@ -48,6 +49,7 @@ const MinePage: React.FC = () => {
 
   // const { token } = useAuthStore();
   // const [cards, setCards] = useState<ICard[]>([]);
+  const [playSound] = useSound('click.wav');
   const {
     queryCards: { data: cardsData },
     queryDailyCombo: { data: dailyComboData },
@@ -242,7 +244,10 @@ const MinePage: React.FC = () => {
               <div className="bg-[#343434] border border-[#666666] rounded-lg py-2 w-full relative">
                 {dailyCombo[0] && !dailyComboData?.is_submitted && (
                   <div
-                    onClick={() => removeValue(dailyCombo[0])}
+                    onClick={() => {
+                      playSound();
+                      removeValue(dailyCombo[0]);
+                    }}
                     className="absolute right-0 top-0 bg-red-500 text-xs p-1 rounded-full h-6 w-6 flex justify-center "
                   >
                     x
@@ -264,7 +269,10 @@ const MinePage: React.FC = () => {
               <div className="bg-[#343434] border border-[#666666] rounded-lg py-2 w-full relative">
                 {dailyCombo[1] && !dailyComboData?.is_submitted && (
                   <div
-                    onClick={() => removeValue(dailyCombo[1])}
+                    onClick={() => {
+                      playSound();
+                      removeValue(dailyCombo[1]);
+                    }}
                     className="absolute right-0 top-0 bg-red-500 text-xs p-1 rounded-full h-6 w-6 flex justify-center "
                   >
                     x
@@ -286,7 +294,10 @@ const MinePage: React.FC = () => {
               <div className="bg-[#343434] border border-[#666666] rounded-lg py-2 w-full relative">
                 {dailyCombo[2] && !dailyComboData?.is_submitted && (
                   <div
-                    onClick={() => removeValue(dailyCombo[2])}
+                    onClick={() => {
+                      playSound();
+                      removeValue(dailyCombo[2]);
+                    }}
                     className="absolute right-0 top-0 bg-red-500 text-xs p-1 rounded-full h-6 w-6 flex justify-center "
                   >
                     x
@@ -308,7 +319,10 @@ const MinePage: React.FC = () => {
               <div className="bg-[#343434] border border-[#666666] rounded-lg py-2 w-full relative">
                 {dailyCombo[3] && !dailyComboData?.is_submitted && (
                   <div
-                    onClick={() => removeValue(dailyCombo[3])}
+                    onClick={() => {
+                      playSound();
+                      removeValue(dailyCombo[3]);
+                    }}
                     className="absolute right-0 top-0 bg-red-500 text-xs p-1 rounded-full h-6 w-6 flex justify-center "
                   >
                     x
@@ -351,6 +365,7 @@ const MinePage: React.FC = () => {
                 <div className="mt-2 w-full flex justify-center">
                   <button
                     onClick={() => {
+                      playSound();
                       mutateDailyCombo({ combo: dailyCombo });
                     }}
                     className="bg-[#e8af00] text-[#212121] text-xl font-semibold px-2 py-1 rounded-md"
@@ -370,7 +385,10 @@ const MinePage: React.FC = () => {
                       className={`text-center text-white w-1/5 ${
                         mineTab === cIdx && "bg-[#262626] border border-[#e8af00] m-1 p-2 rounded-2xl"
                       }`}
-                      onClick={() => setMineTab(cIdx)}
+                      onClick={() => {
+                        playSound();
+                        setMineTab(cIdx);
+                      }}
                       key={c.name}
                     >
                       <p className="mt-1">{c.name}</p>
@@ -389,7 +407,10 @@ const MinePage: React.FC = () => {
                       className={`text-center text-[#e8af00] w-1/5 ${
                         specialTab === s.value && "text-white"
                       }`}
-                      onClick={() => setSpecialTab(s.value)}
+                      onClick={() => {
+                        playSound();
+                        setSpecialTab(s.value);
+                      }}
                       key={s.value}
                     >
                       <p className="mt-1">{s.label}</p>
@@ -454,6 +475,7 @@ const MinePage: React.FC = () => {
                       key={`${categories[mineTab]?.name}-card-${cIdx}`}
                       className="w-1/2  rounded-xl p-1"
                       onClick={async () => {
+                        playSound();
                         if (c?.upgrade && c?.upgrade?.is_available) {
                           console.log("card upgrade modal opened", c);
                           setOpen(true);
@@ -611,7 +633,10 @@ const MinePage: React.FC = () => {
                   <div className="w-full flex justify-end px-4">
                     <button
                       className="text-white text-lg font-bold"
-                      onClick={() => setOpen(false)}
+                      onClick={() => {
+                        playSound();
+                        setOpen(false);
+                      }}
                     >
                       x
                     </button>
@@ -661,14 +686,20 @@ const MinePage: React.FC = () => {
                     </div>
                     <button
                       className="flex-1 w-full bg-[#e8af00] text-[#212121] text-xl font-semibold rounded-lg px-4 py-2"
-                      onClick={() => handleUpgradeCard(buyCardData.id)}
+                      onClick={() => {
+                        playSound();
+                        handleUpgradeCard(buyCardData.id);
+                      }}
                     >
                       Buy
                     </button>
                   </div>
                 </Sheet.Content>
               </Sheet.Container>
-              <Sheet.Backdrop onTap={() => setOpen(false)} />
+              <Sheet.Backdrop onTap={() => {
+                playSound();
+                setOpen(false);
+              }} />
             </Sheet>
             <Sheet
               isOpen={dailyComboRewardModal}
@@ -686,7 +717,10 @@ const MinePage: React.FC = () => {
                   <div className="w-full flex justify-end px-4">
                     <button
                       className="text-white text-lg font-bold"
-                      onClick={() => setDailyComboRewardModal(false)}
+                      onClick={() => {
+                        playSound();
+                        setDailyComboRewardModal(false);
+                      }}
                     >
                       x
                     </button>
@@ -706,7 +740,10 @@ const MinePage: React.FC = () => {
                     <div className="absolute bottom-4 w-full px-6 z-50">
                       <button
                         className="flex justify-center w-full bg-[#e8af00] text-[#212121] text-xl font-semibold rounded-lg px-6 py-4"
-                        onClick={() => setDailyComboRewardModal(false)}
+                        onClick={() => {
+                          playSound();
+                          setDailyComboRewardModal(false);
+                        }}
                       >
                         Better luck next time!
                       </button>
@@ -714,7 +751,10 @@ const MinePage: React.FC = () => {
                   </div>
                 </Sheet.Content>
               </Sheet.Container>
-              <Sheet.Backdrop onTap={() => setDailyComboRewardModal(false)} />
+              <Sheet.Backdrop onTap={() => {
+                playSound();
+                setDailyComboRewardModal(false);
+              }} />
             </Sheet>
           </div>
         </div>

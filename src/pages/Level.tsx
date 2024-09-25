@@ -23,6 +23,11 @@ import { AxiosError } from "axios";
 import usePlayer from "../_hooks/usePlayer";
 import LoadingScreen from "../components/LoadingScreen";
 
+// Add this import for generating random names
+import { faker } from '@faker-js/faker';
+import { __DEV__ } from "../utils/constants";
+import useSound from "use-sound";
+
 const divStyle = {
   display: "flex",
   alignItems: "center",
@@ -82,6 +87,7 @@ const LevelPage = () => {
   //   queryRank: { data: rank },
   // } = usePlayer();
   // console.log("rank", rank);
+  const [playSound] = useSound('click.wav');
   const {
     query: { data: playerData, isLoading: playerIsLoading },
   } = usePlayer();
@@ -102,6 +108,17 @@ const LevelPage = () => {
           `/rank${index >= 0 ? `?level=${index + 1}` : ""}`
         );
         setIndex(response?.data?.data?.level - 1);
+        
+        // Modify the response data if in development environment
+        if (__DEV__) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          response.data.data.top_users = response.data.data.top_users.map((user: any) => ({
+            ...user,
+            first_name: faker.person.firstName(),
+            last_name: faker.person.lastName(),
+          }));
+        }
+        
         return response.data?.data;
       } catch (error) {
         if (error instanceof AxiosError) {
@@ -125,6 +142,7 @@ const LevelPage = () => {
             transitionDuration={200}
             onChange={(from, to) => {
               console.log("slide from: ", from, "to: ", to);
+              playSound();
               setIndex(to);
             }}
             nextArrow={<img src={rightarrow} alt="Next" className="w-8 h-8" />}

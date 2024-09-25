@@ -7,6 +7,7 @@ import { formatProfitPerHour, numberWithDots } from "../../lib/utils";
 import { Tooltip } from "react-tooltip";
 import { __DEV__ } from "../../utils/constants";
 import { useNavigate } from "react-router-dom";
+import useSound from "use-sound";
 
 const levelNames = [
   "Baby",
@@ -27,6 +28,7 @@ function Header() {
     query: { data: playerData },
   } = usePlayer();
   const { setDailyComboRewardModal } = usePlayerStore();
+  const [playSound] = useSound('click.wav');
   const profitPerHour = playerData?.passive_earnings?.per_hour;
 
   return (
@@ -55,7 +57,10 @@ function Header() {
       <div className="flex items-center justify-between space-x-4 mt-1">
         <div
           className="flex items-center w-1/3"
-          onClick={() => navigate("/level")}
+          onClick={() => {
+            playSound();
+            navigate("/level");
+          }}
         >
           <div className="w-full">
             <div className="flex flex-col justify-start w-full">
@@ -83,6 +88,7 @@ function Header() {
         <div className="flex items-center w-1/2 border-2 border-white rounded-full px-4 py-[2px] bg-[#fff]/[0.2] max-w-64">
           <img
             onClick={() => {
+              playSound();
               if (__DEV__) {
                 console.log("trigger modal daily combo");
                 setDailyComboRewardModal(true);

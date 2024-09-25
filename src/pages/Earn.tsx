@@ -13,6 +13,7 @@ import WebApp from "@twa-dev/sdk";
 import { Toast } from "primereact/toast";
 import { useAuthStore } from "../store/auth";
 import { API_URL } from "../utils/constants";
+import useSound from "use-sound";
 export const Result = ({
   status,
 }: {
@@ -30,6 +31,7 @@ export const Result = ({
 };
 const EarnPage = () => {
   const { token } = useAuthStore();
+  const [playSound] = useSound('click.wav');
   console.log("token earn", token);
   const toast = useRef<Toast>(null);
   const {
@@ -137,6 +139,7 @@ const EarnPage = () => {
                 : "bg-green-500/80"
             } text-white py-4 rounded-md`}
             onClick={() => {
+              playSound();
               mutate({ task_id: dailyReward?.id as string });
               setOpen(false);
             }}
@@ -290,6 +293,7 @@ const EarnPage = () => {
 
       <div
         onClick={() => {
+          playSound();
           setOpen(true);
           setRewardType("daily_check_in");
         }}
@@ -330,6 +334,7 @@ const EarnPage = () => {
             <div
               key={t.id}
               onClick={() => {
+                playSound();
                 setOpen(true);
                 setRewardType(t.id);
                 setSheetContent(t);
@@ -380,7 +385,10 @@ const EarnPage = () => {
         // snapPoints={[0.5]}
         // initialSnap={0}
         // disableDrag={false}
-        onClose={() => setOpen(false)}
+        onClose={() => {
+          playSound();
+          setOpen(false);
+        }}
         style={{
           zIndex: open ? "9999999" : "-1",
           visibility: open ? "visible" : "hidden",
@@ -391,7 +399,10 @@ const EarnPage = () => {
             <div className="w-full flex justify-end px-4">
               <button
                 className="text-white text-lg font-bold"
-                onClick={() => setOpen(false)}
+                onClick={() => {
+                  playSound();
+                  setOpen(false);
+                }}
               >
                 x
               </button>
@@ -436,7 +447,10 @@ const EarnPage = () => {
               )}
           </Sheet.Content>
         </Sheet.Container>
-        <Sheet.Backdrop onTap={() => setOpen(false)} />
+        <Sheet.Backdrop onTap={() => {
+          playSound();
+          setOpen(false);
+        }} />
       </Sheet>
     </div>
   );

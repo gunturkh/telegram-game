@@ -17,6 +17,7 @@ import { Toast } from "primereact/toast";
 import { useAuthStore } from "../store/auth";
 import { API_URL } from "../utils/constants";
 import Points from "../components/Points";
+import useSound from "use-sound";
 export const Result = ({
   status,
 }: {
@@ -34,6 +35,7 @@ export const Result = ({
 };
 const BoostPage = () => {
   const { token } = useAuthStore();
+  const [playSound] = useSound('click.wav');
   console.log("token earn", token);
   const toast = useRef<Toast>(null);
   const {
@@ -144,6 +146,7 @@ const BoostPage = () => {
                 : "bg-green-500/80"
             } text-white py-4 rounded-md`}
             onClick={() => {
+              playSound();
               mutate({ task_id: dailyReward?.id as string });
               setOpen(false);
             }}
@@ -203,6 +206,7 @@ const BoostPage = () => {
             <div
               className={`text-center w-full bg-[#e8af00] text-[#212121] py-4 rounded-md`}
               onClick={() => {
+                playSound();
                 WebApp.openLink(content.modal_link_url as string);
               }}
             >
@@ -224,6 +228,7 @@ const BoostPage = () => {
           <div
             className={`text-center w-full bg-[#e8af00] text-[#212121] py-4 rounded-md font-semibold`}
             onClick={() => {
+              playSound();
               mutateBoost({
                 boost_id: content?.id as string,
               });
@@ -317,6 +322,7 @@ const BoostPage = () => {
             <div
               key={b.id}
               onClick={() => {
+                playSound();
                 setOpen(true);
                 setBoosterType(b.id);
                 setSheetContent(b);
@@ -371,7 +377,10 @@ const BoostPage = () => {
       <Toaster position="top-left" />
       <Sheet
         isOpen={open}
-        onClose={() => setOpen(false)}
+        onClose={() => {
+          playSound();
+          setOpen(false);
+        }}
         style={{
           zIndex: open ? "9999999" : "-1",
           visibility: open ? "visible" : "hidden",
@@ -382,7 +391,10 @@ const BoostPage = () => {
             <div className="w-full flex justify-end px-4">
               <button
                 className="text-white text-lg font-bold"
-                onClick={() => setOpen(false)}
+                onClick={() => {
+                  playSound();
+                  setOpen(false);
+                }}
               >
                 x
               </button>
@@ -424,7 +436,12 @@ const BoostPage = () => {
               )}
           </Sheet.Content>
         </Sheet.Container>
-        <Sheet.Backdrop onTap={() => setOpen(false)} />
+        <Sheet.Backdrop
+          onTap={() => {
+            playSound();
+            setOpen(false);
+          }}
+        />
       </Sheet>
     </div>
   );
