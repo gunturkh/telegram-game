@@ -133,11 +133,10 @@ const EarnPage = () => {
         </div>
         <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 w-[calc(100%-2rem)] max-w-xl  flex justify-around items-center z-50 rounded-3xl text-3xl gap-1">
           <div
-            className={`text-center w-full ${
-              dailyReward?.is_completed
+            className={`text-center w-full ${dailyReward?.is_completed
                 ? "bg-neutral-200/20"
                 : "bg-green-500/80"
-            } text-white py-4 rounded-md`}
+              } text-white py-4 rounded-md`}
             onClick={() => {
               playSound();
               mutate({ task_id: dailyReward?.id as string });
@@ -224,12 +223,22 @@ const EarnPage = () => {
         </div>
         <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 w-[calc(100%-2rem)] max-w-xl  flex justify-around items-center z-50 rounded-3xl text-3xl gap-1">
           <div
-            className={`text-center w-full ${
-              enableCheckButton() ? "bg-[#e8af00]" : "bg-neutral-200/20"
-            } text-[#212121] text-3xl font-semibold py-4 rounded-md`}
+            className={`text-center w-full ${enableCheckButton() ? "bg-[#e8af00]" : "bg-neutral-200/20"
+              } text-[#212121] text-3xl font-semibold py-4 rounded-md`}
             onClick={() => {
+              playSound()
+              console.log('content', content)
               if (!content.is_completed) {
-                if (ls && now >= JSON.parse(ls)) {
+                console.log('triggered check')
+                if (content.type === 'invite_friends') {
+                  mutate({
+                    task_id: content?.id as string,
+                    ...(content?.requires_admin_approval && {
+                      image: image,
+                    }),
+                  });
+                }
+                else if (content.type !== 'invite_friends' && ls && now >= JSON.parse(ls)) {
                   mutate({
                     task_id: content?.id as string,
                     ...(content?.requires_admin_approval && {
@@ -342,9 +351,8 @@ const EarnPage = () => {
               className="flex flex-col w-full justify-center items-center text-white px-4 py-1 gap-4"
             >
               <div
-                className={`w-full flex gap-2 ${
-                  t.is_completed ? "opacity-60 border border-[#c4ff55]" : ""
-                } bg-[#303030] border border-[#b7b7b7] rounded-2xl p-2 mx-4`}
+                className={`w-full flex gap-2 ${t.is_completed ? "opacity-60 border border-[#c4ff55]" : ""
+                  } bg-[#303030] border border-[#b7b7b7] rounded-2xl p-2 mx-4`}
               >
                 <img
                   src={t.image}
