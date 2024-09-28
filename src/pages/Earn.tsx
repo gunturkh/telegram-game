@@ -237,6 +237,7 @@ const EarnPage = () => {
                       image: image,
                     }),
                   });
+                  setOpen(false);
                 }
                 else if (content.type !== 'invite_friends' && ls && now >= JSON.parse(ls)) {
                   mutate({
