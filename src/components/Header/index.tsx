@@ -26,7 +26,9 @@ function Header() {
   const [msg] = useState(false);
   const {
     query: { data: playerData },
+    queryInfo: { data: playerInfo },
   } = usePlayer();
+  console.log("🚀 ~ Header ~ playerData:", playerData)
   const { setDailyComboRewardModal } = usePlayerStore();
   const [playSound] = useSound('click.wav');
   const profitPerHour = playerData?.passive_earnings?.per_hour;
@@ -44,6 +46,9 @@ function Header() {
         >
           <p className="text-sm text-white">
             {`${WebApp?.initDataUnsafe?.user?.first_name} ${WebApp?.initDataUnsafe?.user?.last_name}`} (DTW)
+          </p>
+          <p className="text-xs text-white">
+            {playerInfo?.telegram_id}
           </p>
         </div>
       </div>
