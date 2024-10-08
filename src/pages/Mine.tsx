@@ -117,7 +117,7 @@ const MinePage: React.FC = () => {
   // const [setDailyRewardTimeLeft] = useState("");
   // const [dailyCipherTimeLeft, setDailyCipherTimeLeft] = useState("");
   // const [, setDailyCipherTimeLeft] = useState("");
-  const [, setDailyComboTimeLeft] = useState("");
+  const [dailyComboTimeLeft, setDailyComboTimeLeft] = useState("");
 
   // TODO: still buggy, automatically reset just when check button clicked
   useEffect(() => {
@@ -134,7 +134,7 @@ const MinePage: React.FC = () => {
     const updateCountdowns = () => {
       // setDailyRewardTimeLeft(calculateTimeLeft(0));
       // setDailyCipherTimeLeft(calculateTimeLeft(19, true));
-      setDailyComboTimeLeft(calculateTimeLeft(17, true));
+      setDailyComboTimeLeft(calculateTimeLeft(11, true));
     };
 
     updateCountdowns();
@@ -213,9 +213,9 @@ const MinePage: React.FC = () => {
           <div className="absolute top-[2px] left-0 right-0 bottom-0 bg-[#212121] rounded-t-[46px] h-max min-h-screen">
             {!dailyComboData?.is_submitted && (
               <>
-                {/* <div className="w-full text-md text-[#e8af00] text-center mt-6 mb-1 px-5">
+                <div className="w-full text-md text-[#e8af00] text-center mt-6 mb-1 px-5">
                   {dailyComboTimeLeft}
-                </div> */}
+                </div>
                 <div className="flex px-4 w-full rounded-lg">
                   <div className="text-sm flex bg-[#343434] shadow-md w-full rounded-lg p-2">
                     <p className="text-[#e8af00]">Daily combo</p>
