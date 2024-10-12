@@ -2,6 +2,7 @@ import { Toaster } from "react-hot-toast";
 import BottomTab from "../components/BottomTab";
 import {
   calendar,
+  coupon,
   dollarCoin,
   // gift
 } from "../images";
@@ -106,14 +107,14 @@ const EarnPage = () => {
           />
           <div className="text-4xl font-bold text-white">Daily reward</div>
           <div className="text-md text-center font-light">
-            Accrue points for logging into the game daily without skipping
+            Accrue points & coupons for logging into the game daily without skipping
           </div>
           <div className="grid grid-cols-4 grid-rows-4 w-full gap-2">
             {dailyReward?.rewards_by_day?.map((r, rIdx) => {
               return (
                 <div
                   key={r?.day_count}
-                  className={`flex flex-col justify-start items-center gap-1 border ${claimedStyle(
+                  className={`flex flex-col justify-start items-center gap-2 border ${claimedStyle(
                     rIdx,
                     dailyReward?.days,
                     dailyReward?.is_completed
@@ -122,9 +123,25 @@ const EarnPage = () => {
                   <div className="text-xs flex items-center gap-2">
                     Day {r?.day_count}
                   </div>
-                  <img src={dollarCoin} alt="Dollar Coin" className="w-4 h-4" />
-                  <div className="text-xs font-bold flex items-center gap-2">
-                    {kFormatter(r?.reward_coins)}
+                  <div className="flex flex-row items-center gap-2">
+                    <div className="flex flex-col items-center gap-2">
+                      <img src={dollarCoin} alt="Dollar Coin" className="w-4 h-4" />
+                      <div className="text-xs font-bold flex items-center gap-2">
+                        {kFormatter(r?.reward_coins)}
+                      </div>
+                    </div>
+                    {r?.reward_coupons !== 0 && (
+                      <div className="flex flex-col items-center gap-1">
+                        <img
+                          src={coupon}
+                          alt="Coupon"
+                          className="w-[20px] h-[20px]"
+                        />
+                        <div className="text-xs font-bold flex items-center">
+                          {kFormatter(r?.reward_coupons / 100)}
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               );
@@ -134,8 +151,8 @@ const EarnPage = () => {
         <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 w-[calc(100%-2rem)] max-w-xl  flex justify-around items-center z-50 rounded-3xl text-3xl gap-1">
           <div
             className={`text-center w-full ${dailyReward?.is_completed
-                ? "bg-neutral-200/20"
-                : "bg-green-500/80"
+              ? "bg-neutral-200/20"
+              : "bg-green-500/80"
               } text-white py-4 rounded-md`}
             onClick={() => {
               playSound();
@@ -288,8 +305,8 @@ const EarnPage = () => {
       <Toast ref={toast}></Toast>
       <div className="flex flex-col justify-center items-center text-white py-8 gap-4">
         <img src={dollarCoin} alt="Dollar Coin" className="w-20 h-20" />
-        <div className="text-4xl font-bold text-[#e8af00]">
-          Earn more points
+        <div className="text-2xl font-bold text-[#e8af00]">
+          Earn more points & coupons
         </div>
         <div className="text-md font-light">
           Complete tasks to receive bonuses
@@ -323,6 +340,19 @@ const EarnPage = () => {
                 <p className="text-yellow-400 font-semibold">
                   +{kFormatter(dailyReward?.reward_coins as number)}
                 </p>
+                {dailyReward?.rewards_by_day?.[dailyReward.days - 1]?.reward_coupons !== 0 && (
+                  <>
+                    <p className="text-white font-semibold">&</p>
+                    <img
+                      src={coupon}
+                      alt="Coupon"
+                      className="w-[20px] h-[20px]"
+                    />
+                    <p className="text-yellow-400 font-semibold">
+                      +{kFormatter(dailyReward?.rewards_by_day?.[dailyReward.days - 1]?.reward_coupons as number / 100)}
+                    </p>
+                  </>
+                )}
                 {dailyReward?.is_completed && (
                   <div className="flex-1 text-right mr-2">
                     <p className="text-[#c4ff55] font-semibold">Completed</p>

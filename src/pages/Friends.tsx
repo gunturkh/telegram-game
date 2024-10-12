@@ -1,7 +1,7 @@
 import { Toaster } from "react-hot-toast";
 import BottomTab from "../components/BottomTab";
 import Share from "../components/Share";
-import { dollarCoin, giftboxnew, telegram1 } from "../images";
+import { coupon, dollarCoin, giftboxnew, telegram1 } from "../images";
 import usePlayer from "../_hooks/usePlayer";
 import { balanceFormatter, kFormatter } from "../lib/utils";
 import { __DEV__ } from "../utils/constants";
@@ -64,6 +64,13 @@ const FriendsPage = () => {
                     className="w-[12px] h-[12px]"
                   />
                   <p className="text-yellow-400 font-semibold">+10,000</p>
+                  <p className="text-white font-semibold">&</p>
+                  <img
+                    src={coupon}
+                    alt="Coupon"
+                    className="w-[20px] h-[20px]"
+                  />
+                  <p className="text-yellow-400 font-semibold">+0.2</p>
                   for you
                 </div>
                 <div className="text-xs flex items-center gap-2">

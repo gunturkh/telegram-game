@@ -40,6 +40,7 @@ import telegram1 from "./telegram-1.png";
 import loadingnewdesign from "./loadingnewdesign.png";
 import rightarrow from "./rightarrow.png";
 import leftarrow from "./leftarrow.png";
+import coupon from "./coupon.png";
 
 export {
   hamsterExchange,
@@ -84,4 +85,5 @@ export {
   loadingnewdesign,
   rightarrow,
   leftarrow,
+  coupon,
 };

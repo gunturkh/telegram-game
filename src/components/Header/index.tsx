@@ -1,6 +1,6 @@
 import WebApp from "@twa-dev/sdk";
 import usePlayer from "../../_hooks/usePlayer";
-import { coin, dollarCoin } from "../../images";
+import { coin, coupon, dollarCoin } from "../../images";
 import { useState } from "react";
 import { usePlayerStore } from "../../store/player";
 import { formatProfitPerHour, numberWithDots } from "../../lib/utils";
@@ -90,7 +90,7 @@ function Header() {
             </div>
           </div>
         </div>
-        <div className="flex items-center w-1/2 border-2 border-white rounded-full px-4 py-[2px] bg-[#fff]/[0.2] max-w-64">
+        <div className="flex items-center w-2/3 border-2 border-white rounded-full px-4 py-[2px] bg-[#fff]/[0.2] max-w-64">
           <img
             onClick={() => {
               playSound();
@@ -122,18 +122,15 @@ function Header() {
             </div>
           </div>
           <Tooltip id="profit-per-hour" />
-          {/* <div className="h-[32px] w-[2px] bg-[#451e0f] mx-2"></div>
-          <div
-            onClick={() => {
-              if (__DEV__) resetDailyCombo();
-            }}
-          >
+          <div className="h-[32px] w-[2px] bg-white mx-2"></div>
+          <div className="flex flex-col items-center">
             <img
-              src={playerData?.level?.current_level_image_url || ""}
-              alt={playerData?.level?.current_level_name || "Chipmunk"}
+              src={coupon}
+              alt={"Coupon"}
               className="w-8 h-8"
             />
-          </div> */}
+            <p className="text-sm">{formatProfitPerHour(playerData?.coupons_balance)}</p>
+          </div>
         </div>
       </div>
     </div>

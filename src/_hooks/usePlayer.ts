@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 type TaskRewardByDay = {
   day_count: number;
   reward_coins: number;
+  reward_coupons: number;
 };
 export type Task = {
   id: string;
