@@ -138,7 +138,7 @@ const EarnPage = () => {
                           className="w-[20px] h-[20px]"
                         />
                         <div className="text-xs font-bold flex items-center">
-                          {kFormatter(r?.reward_coupons / 100)}
+                          ${kFormatter(r?.reward_coupons / 100)}
                         </div>
                       </div>
                     )}

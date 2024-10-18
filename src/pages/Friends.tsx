@@ -70,7 +70,7 @@ const FriendsPage = () => {
                     alt="Coupon"
                     className="w-[20px] h-[20px]"
                   />
-                  <p className="text-yellow-400 font-semibold">+0.2</p>
+                  <p className="text-yellow-400 font-semibold">+ $0.2</p>
                   for you
                 </div>
                 <div className="text-xs flex items-center gap-2">

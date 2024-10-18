@@ -3,6 +3,7 @@ import "../App.css";
 import {
   boosternew,
   chipmunklogolabel,
+  coupon,
   dailycombonew,
   dailyrewardnew,
   dollarCoin,
@@ -122,9 +123,8 @@ const Home: React.FC = () => {
         // console.log('pageX, pageY', pageX, pageY)
         const x = clientX - rect.left - rect.width / 2;
         const y = clientY - rect.top - rect.height / 2;
-        card.style.transform = `perspective(1000px) rotateX(${
-          -y / 10
-        }deg) rotateY(${x / 10}deg)`;
+        card.style.transform = `perspective(1000px) rotateX(${-y / 10
+          }deg) rotateY(${x / 10}deg)`;
         setTimeout(() => {
           card.style.transform = "";
         }, 100);
@@ -152,7 +152,7 @@ const Home: React.FC = () => {
           }
           if (
             prevEnergy +
-              (playerData?.tap_earnings?.recovery_per_seconds || 3) >=
+            (playerData?.tap_earnings?.recovery_per_seconds || 3) >=
             playerData?.tap_earnings?.max_taps
           ) {
             return (
@@ -182,7 +182,7 @@ const Home: React.FC = () => {
           }
           if (
             prevEnergy +
-              (playerData?.tap_earnings?.recovery_per_seconds || 3) >=
+            (playerData?.tap_earnings?.recovery_per_seconds || 3) >=
             playerData?.tap_earnings?.max_taps
           ) {
             return (
@@ -212,7 +212,7 @@ const Home: React.FC = () => {
 
           <div className="flex-grow mt-4 bg-[#e8af00] rounded-t-[48px] relative top-glow z-0">
             <div className="absolute top-[2px] left-0 right-0 bottom-0 bg-[#212121] rounded-t-[46px]">
-              <div className="px-6 mt-6 flex justify-around gap-6">
+              <div className="px-6 mt-6 flex justify-around gap-2">
                 <div
                   onClick={() => {
                     playSound();
@@ -239,20 +239,26 @@ const Home: React.FC = () => {
                     {dailyRewardTimeLeft}
                   </p>
                 </div>
-                {/* <div className="bg-[#272a2f] rounded-lg px-4 py-2 w-full relative">
-                  <div className="dot"></div>
+                <div
+                  onClick={() => {
+                    playSound();
+                    navigate("/earn");
+                  }}
+                  className="bg-[#303030] rounded-2xl px-4 py-2 w-full relative shadow-xl overflow-hidden"
+                >
+                  <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-gradient-to-bl from-[rgba(255,255,255,0.4)] via-transparent to-transparent opacity-30"></div>
                   <img
-                  src={dailyCipher}
-                  alt="Daily Cipher"
-                  className="mx-auto w-12 h-12"
-                />
-                <p className="text-[10px] text-center text-white mt-1">
-                  Daily cipher
-                </p>
-                <p className="text-[10px] font-medium text-center text-gray-400 mt-2">
-                  {dailyCipherTimeLeft}
-                </p>
-                </div> */}
+                    src={coupon}
+                    alt="Coupon"
+                    className="mx-auto w-14 h-14"
+                  />
+                  <p className="text-[10px] text-center text-[#E8AF00] mt-1">
+                    Coupon
+                  </p>
+                  <p className="text-[10px] font-medium text-center text-white mt-1">
+                    ${playerData?.coupons_balance}
+                  </p>
+                </div>
                 <div
                   onClick={() => {
                     playSound();
@@ -309,9 +315,10 @@ const Home: React.FC = () => {
                         {energy} / {playerData?.tap_earnings?.max_taps}
                       </span>
                     </div>
-                    <div className="flex items-center font-medium" onClick={()=> {
+                    <div className="flex items-center font-medium" onClick={() => {
                       playSound();
-                      navigate("/boost")}}>
+                      navigate("/boost")
+                    }}>
                       <img src={boosternew} alt={"Boost Icon"} className="w-10 h-10" />
                       <span>Boost</span>
                     </div>
