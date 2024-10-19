@@ -130,7 +130,7 @@ const EarnPage = () => {
                         {kFormatter(r?.reward_coins)}
                       </div>
                     </div>
-                    {r?.reward_coupons !== 0 && (
+                    {(rIdx === 4 || rIdx === 9) && (
                       <div className="flex flex-col items-center gap-1">
                         <img
                           src={coupon}
@@ -138,7 +138,7 @@ const EarnPage = () => {
                           className="w-[20px] h-[20px]"
                         />
                         <div className="text-xs font-bold flex items-center">
-                          ${kFormatter(r?.reward_coupons / 100)}
+                          ${kFormatter((rIdx === 4 ? 50 : 100) / 100)}
                         </div>
                       </div>
                     )}
@@ -340,7 +340,7 @@ const EarnPage = () => {
                 <p className="text-yellow-400 font-semibold">
                   +{kFormatter(dailyReward?.reward_coins as number)}
                 </p>
-                {dailyReward?.rewards_by_day?.[dailyReward.days - 1]?.reward_coupons !== 0 && (
+                {(dailyReward?.days === 5 || dailyReward?.days === 10) && dailyReward?.rewards_by_day?.[dailyReward.days - 1]?.reward_coupons !== 0 && (
                   <>
                     <p className="text-white font-semibold">&</p>
                     <img
@@ -349,7 +349,7 @@ const EarnPage = () => {
                       className="w-[20px] h-[20px]"
                     />
                     <p className="text-yellow-400 font-semibold">
-                      +{kFormatter(dailyReward?.rewards_by_day?.[dailyReward.days - 1]?.reward_coupons as number / 100)}
+                      +{kFormatter((dailyReward?.days === 5 ? 50 : 100) / 100)}
                     </p>
                   </>
                 )}
